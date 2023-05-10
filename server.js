@@ -41,3 +41,4 @@ app.get('/:page', function (req, res) {
 //    /X  > public/pages/x.html
 console.log('Starting server');
 app.listen(8000)
+console.log('Server started');

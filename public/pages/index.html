@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{name}</title>
-  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="/public/styles/style.css">
 </head>
 
 <!-- create a join game id screen -->
@@ -13,7 +13,9 @@
     <h1>Join Game</h1>
   </div>
   <form action="/join" method="post">
-    <input type="text" name="gameId" placeholder="Game ID">
+    <label>
+      <input type="text" name="gameId" placeholder="Game ID">
+    </label>
     <input type="submit" value="Join">
   </form>
 
