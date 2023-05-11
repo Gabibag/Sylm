@@ -3,21 +3,26 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{name}</title>
+  <title>Sylm</title>
   <link rel="stylesheet" href="/public/styles/style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+  </style>
+  <script src="/public/javascript/index.js"></script>
 </head>
 
-<!-- create a join game id screen -->
+<!--create a login screen that talks to google accounts-->
 <body>
-  <div class ="mainTitle">
-    <h1>Join Game</h1>
+<div class="mainItems">
+  <div class="mainTitle">
+    <span>Sylm!</span>
   </div>
-  <form action="/join" method="post">
-    <label>
-      <input type="text" name="gameId" placeholder="Game ID">
-    </label>
-    <input type="submit" value="Join">
-  </form>
+  <div class="buttons">
+    <button onclick="window.location.href='/public/pages/login.html'" class="loginButton" id ="swapToSignin">Login</button>
+    <button onclick="window.location.href='/public/pages/signin.html'" class="swapToSignIn" id = "loginButton"> <img src="/images/signin.svg" alt="sign in"
+                                                                                                 width="60" height="60"></button>
+  </div>
+</div>
 
 </body>
 

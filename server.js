@@ -41,6 +41,9 @@ app.get('javascript/:f', function(req, res){
   res.sendFile(__dirname + '/public/javascript/' + f);
 
 });
+app.get('images/:f', function(req, res){ //idk why this no work
+    res.sendFile(__dirname + '/public/images/' + f);
+});
 app.get('/:page', function (req, res) {
    let p = req.params.page
    console.log('Page request: '+  (__dirname + '/public/pages/' + p + '.html'))

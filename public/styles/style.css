@@ -1,8 +1,57 @@
 .mainTitle{
-    font-size: 50px;
-    font-weight: bold;
-    color: #98eef1;
+    position: relative;
+    font-family: 'Titan One', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(2rem, -0.875rem + 20vw, 7rem);
+    color: #FFFAFA;
+
+}
+body{
+    background-color: #4DA1A7;
+}
+.buttons{
+    display: inline-block;
+    position: relative;
+    align-content: center;
+
+}
+.loginButton{
+    position: relative;
+    font-family: 'Titan One', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(1rem, -0.875rem + 4.5vw, 5rem);
+    color: #FFFAFA;
+    background-color: #397377;
+    /*border: 2px solid #FFFAFA;*/
+    border: none;
+    border-radius: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+
+    margin-top: 20vh;
+    /*margin-left: 10vw;*/
+    margin-right: 1vw;
+    width: 20vw;
+    height: auto;
+}
+
+.swapToSignIn{
+    position: relative;
+    background-color: #397377;
+    border: none;
+    border-radius: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    /*width: ;*/
+    height: auto;
+}
+
+.mainItems{
+    position: relative;
+    top: 18vh;
+    margin-left: 20vw;
+    margin-right: 20vw;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
