@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+</head>
+<body>
+    <input type="text" id = 'Username' placeholder="Username"></input>
+    <input type="password" id = "Password" placeholder="Password"></input>
+    <input type="password" id = "RepeatPassword" placeholder="Repeat Password"></input>
+    <button type="submit" id = "CreateUser">Create User</button>
+    <script>
+        document.getElementById("CreateUser").addEventListener("click", function(){
+            if(document.getElementById("Password").value != document.getElementById("RepeatPassword").value){
+             //TODO error
+             alert("Passwords do not match TODO Make better error")
+                return
+            }
+            let data = {
+                username: document.getElementById("Username").value,
+                password: document.getElementById("Password").value,
+             }
+            fetch(window.location, {
+                method:"POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify(data)
+            });
+            alert("User Created")
+        })
+    </script>
+</body>
+</html>

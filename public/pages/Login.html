@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <input type="text" name="username" id="username" placeholder="Username">
     <input type="password" name="password" id="password" placeholder="Password">
     <button type="submit" name="login" id="login">Login</button>
+    <script>
+        document.getElementById("login").addEventListener("click", function () {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let data = {
+                username: username,
+                password: password
+            }
+            fetch(window.location, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    );
+    </script>
 </body>
+
 </html>
