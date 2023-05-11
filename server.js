@@ -1,56 +1,68 @@
 let app = require('express')()
 const fs = require('fs')
 const db = require('./db.js')
-
+const util = require('./Util.js')
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.post('/Register', function (req, res) {
-  console.log('Register attempt')
   let username = req.body.username
   let password = req.body.password
-  //prevent sql injection
-  username = username.replace(/[^a-zA-Z0-9]/g, '')
-  password = password.replace(/[^a-zA-Z0-9]/g, '')
+  console.log('Register: ' + username + ' ' + password)
+
+  if (!util.acceptablePassword(password)) {
+    res.send("Password not acceptable")
+    return;
+  }
+  if (!util.acceptableUserName(username)) {
+    res.send("Username not acceptable")
+    return;
+  }
   db.addUser(username, password)
-  console.log('Register attempt: ' + username + ' ' + password)
+  res.send("Register success")
 });
 app.post('/Login', function (req, res) {
-  console.log('Login attempt') 
   let username = req.body.username
   let password = req.body.password
-  if(db.vaildUser(username, password)){
+  console.log('Login attempt via ' + username + ' ' + password)
+  if (db.vaildUser(username, password)) {
     console.log('Login success')
     res.cookie('token', db.getToken(username, password))
     res.send("Login success")
-  }else{
-    console.log('Login failed')
+  } else {
+    if (db.getUser(username)) {
+      res.send("Password incorrect")
+    } else {
+      res.send("Username not found")
+    }
     res.send("Login failed")
-    //todo errors
   }
-  console.log('Login attempt: ' + username + ' ' + password)
 });
 app.get('/', function (req, res) {
-    res.sendFile( __dirname + '/public/pages/index.html')
+  res.sendFile(__dirname + '/public/pages/index.html')
 });
-app.get('styles/:f', function(req, res){
+app.get('styles/:f', function (req, res) {
   res.setHeader('content-type', "text/css")
   res.sendfile(__dirname + '/public/styles/' + f);
 
 });
-app.get('javascript/:f', function(req, res){
+app.get('javascript/:f', function (req, res) {
   res.sendFile(__dirname + '/public/javascript/' + f);
 
 });
 app.get('/:page', function (req, res) {
-   let p = req.params.page
-   console.log('Page request: '+  (__dirname + '/public/pages/' + p + '.html'))
-  try {
-    res.sendFile(__dirname + '/public/pages/' + p + '.html'); 
-  } catch (error) {
-    console.log(error)
-    //res.sendFile(__dirname + 'public/pages/404.html');
-}
-  //res.sendFile(__dirname + 'public/pages/404.html');
+  let p = req.params.page
+  if (fs.existsSync(__dirname + '/public/pages/' + p + '.html')) {
+    res.sendFile(__dirname + '/public/pages/' + p + '.html');
+  } else if (fs.existsSync(__dirname + '/public/pages/loggedin/' + p + '.html')) {
+    console.log('loggedin/' + p + '.html')
+    if (db.loggedIn(req)) {
+      console.log('vaild user')
+      res.sendFile(__dirname + '/public/pages/loggedin/' + p + '.html');
+    }
+  }
+  else {
+    res.sendFile(__dirname + '/public/pages/404.html');
+  }
 });
 //    /X  > public/pages/x.html
 console.log('Starting server');

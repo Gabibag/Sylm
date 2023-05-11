@@ -14,7 +14,6 @@
     <script>
         document.getElementById("CreateUser").addEventListener("click", function(){
             if(document.getElementById("Password").value != document.getElementById("RepeatPassword").value){
-             //TODO error
              alert("Passwords do not match TODO Make better error")
                 return
             }
@@ -29,7 +28,9 @@
                     'Content-Type': 'application/json'
                 },
                 body:JSON.stringify(data)
-            });
+            }).then(response => response.text()).then(function(d){
+                //TODO display the error/created d somewhere, Ill let whoever styles this do that
+            })
             alert("User Created")
         })
     </script>
