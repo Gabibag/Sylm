@@ -17,7 +17,10 @@ function redirectButton(redirect){
 //when mainTitle is hovered, randomize the random-rotate variable in root
 let mainTitle = document.getElementsByClassName('mainTitle')[0]
 function randomizeRotate(){
-    let randomRotate = Math.round((Math.random() * 3) - 1)
+    let randomRotate = (Math.random() * 6) - 3
+    if (randomRotate <= 1 && randomRotate >= -1 ){
+        randomRotate += 1
+    }
     let r = document.querySelector(':root');
     r.style.setProperty('--random-rotate', randomRotate + 'deg');
 }
