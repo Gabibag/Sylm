@@ -48,15 +48,21 @@ app.get('javascript/:f', function (req, res) {
   res.sendFile(__dirname + '/public/javascript/' + f);
 
 });
-app.get('/:page', function (req, res) {
+app.get('/:page', async function (req, res) {
   let p = req.params.page
   if (fs.existsSync(__dirname + '/public/pages/' + p + '.html')) {
+    console.log('unlogged page')
     res.sendFile(__dirname + '/public/pages/' + p + '.html');
+    return;
   } else if (fs.existsSync(__dirname + '/public/pages/loggedin/' + p + '.html')) {
-    console.log('loggedin/' + p + '.html')
-    if (db.loggedIn(req)) {
-      console.log('vaild user')
+    let b = await db.loggedIn(req)
+    console.log("Logged in ?" + b)
+    if (b) {
       res.sendFile(__dirname + '/public/pages/loggedin/' + p + '.html');
+    }
+    else {
+      //TODO mention the error within the url
+      res.redirect('/Login')
     }
   }
   else {

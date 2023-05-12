@@ -38,24 +38,29 @@ module.exports = {
         }
         );
     },
-    loggedIn: function(req){
+    loggedIn: async function(req){
         let cookies = util.getAllCookieDict(req);
-        console.log(cookies)
         if(cookies.token){
-            return this.vaildateToken(cookies.token)
+            let b = await this.vaildateToken(cookies.token)
+            return b;
         }
         return false;
     },
-    vaildateToken: function(token) {
-        db.all('SELECT * FROM users WHERE token = ?', [token], (err, rows) => {
-            if (err) {
-                console.log(err);
-            }
-            if (rows.length > 0) {
-                return true;
-            }
-            return false;
-        });
+    vaildateToken: async function(token) {
+        let b =  await new Promise((resolve) => {
+            db.all('SELECT * FROM users WHERE token = ?', [token], function(err, rows) {
+                if (err) {
+                    console.log(err);
+                }
+                if (rows.length > 0) {
+                    return resolve(true);
+                }
+                return resolve(false);
+    });
+});
+        console.log("B"  + b);
+
+        return b;
     },
     vaildUser : async function(username, password) {
        let r = await db.all("SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+password+"';")
