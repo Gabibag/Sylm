@@ -1,18 +1,42 @@
 const sqlite3 = require('sqlite3').verbose();
+let invaildChars = ["'", '"', '`', ' ', ";", ":", ",", ".", "/", "\\", "|", "[", "]", "{", "}", "(", ")", "="];
 const {createHash } = require('crypto');
 const db = new sqlite3.Database('./db.sqlite3', (err) => {
     console.log(err);
 });
 const util = require('./util.js');
 module.exports = {
+    acceptableUserName: function (username) {
+        if(db.getUser(username)){
+            return false;
+        }
+        for (let c of invaildChars) {   
+            if (username.includes(c)) {
+                return false;
+            }
+        }
+        return username.length > 3 && username.length < 20;
+    },
+    acceptablePassword : function (password) {
+        for (let c of invaildChars) {
+            if (password.includes(c)) {
+                return false;
+            }
+        }
+        return password.length > 3 && password.length < 20;
+    },
     db: db,
     getUser: function(username) {
-        db.all('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+       db.all('SELECT * FROM users WHERE username = ?', [username], function(err, rows) {
             if (err) {
                 console.log(err);
             }
-            return rows[0];
-        });
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            return false;
+        }
+        );
     },
     loggedIn: function(req){
         let cookies = util.getAllCookieDict(req);

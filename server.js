@@ -1,19 +1,18 @@
 let app = require('express')()
 const fs = require('fs')
 const db = require('./db.js')
-const util = require('./Util.js')
+const util = require('./util.js')
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.post('/Register', function (req, res) {
   let username = req.body.username
   let password = req.body.password
   console.log('Register: ' + username + ' ' + password)
-
-  if (!util.acceptablePassword(password)) {
+  if (!db.acceptablePassword(password)) {
     res.send("Password not acceptable")
     return;
   }
-  if (!util.acceptableUserName(username)) {
+  if (!db.acceptableUserName(username)) {
     res.send("Username not acceptable")
     return;
   }
