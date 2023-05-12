@@ -69,7 +69,9 @@ app.get('/:page', async function (req, res) {
     res.sendFile(__dirname + '/public/pages/404.html');
   }
 });
-//    /X  > public/pages/x.html
+app.get('images/:f', function(req, res){ //idk why this no work
+    res.sendFile(__dirname + '/public/images/' + f);
+});
 console.log('Starting server');
 app.listen(8000)
 console.log('Server started');

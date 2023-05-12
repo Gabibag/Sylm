@@ -1,8 +1,135 @@
-.mainTitle{
-    font-size: 50px;
-    font-weight: bold;
-    color: #98eef1;
+:root{
+/*    random rotate var*/
+    --random-rotate: 2deg;
+}
+
+.mainTitle {
+    position: relative;
+    font-family: 'Titan One', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(2rem, -0.875rem + 20vw, 7rem);
+    color: #FFFAFA;
+    transition: 0.5s;
+    transition-property: color, scale, letter-spacing, transform;
+    cursor: default;
+    letter-spacing: 0.1rem;
+    transition-timing-function: cubic-bezier(.93,.44,.22,.93);
+    /*transition-timing-function: cubic-bezier(1,.43,.1,.95);*/
+
+}
+.mainTitle::selection{
+    color: #397377;
+}
+body {
+    background-color: #4DA1A7;
+}
+
+.buttons {
+    display: inline-block;
+    position: relative;
+    align-content: center;
+
+}
+
+.loginButton {
+    position: relative;
+    font-family: 'Titan One', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(1rem, -0.875rem + 4.5vw, 5rem);
+    color: #FFFAFA;
+    background-color: #397377;
+    /*border: 2px solid #FFFAFA;*/
+    border: none;
+    border-radius: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    margin-top: 20vh;
+    /*margin-left: 10vw;*/
+    margin-right: 1vw;
+    width: 20vw;
+    height: auto;
+    transition: 0.4s;
+    transition-property: background-color, color, scale;
+    transition-timing-function: cubic-bezier(.93,.44,.22,.93);
+}
+
+.loginButton:hover {
+    background-color: #FFFAFA;
+    color: #397377;
+    scale: 1.05;
+
+}
+
+.loginButton:active {
+    scale: 0.9;
+    transition-timing-function: ease;
+}
+
+
+.mainTitle:hover {
+    scale: 1.15;
+    letter-spacing: 2vw;
+    font-weight: 300;
+    transform: rotate(var(--random-rotate));
+}
+
+/*<editor-fold desc="icons">*/
+.gradHat {
+    position: absolute;
+    left: -2.05vw;
+    top: -2.93vw;
+    bottom: 79.95vh;
+}
+
+.pencil {
+    position: absolute;
+    right: -8.29vw;
+    top: -10.11vh;
+    bottom: 69.85vh;
+    transform: rotate(353deg);
+}
+
+.calculator {
+    position: absolute;
+    left: -2.77%;
+    right: 76.75vw;
+    /* top: 79vh; */
+    bottom: -8.28vh;
+}
+
+.book {
+    position: absolute;
+    /* left: 64.32vw; */
+    right: -7.82vw;
+    /* top: 67.06vh; */
+    bottom: -10.6vh;
+}
+
+.bracketRight {
+    position: absolute;
+    /* left: 70.93%; */
+    right: 26vw;
+    top: 19vh;
+    bottom: 46.74%;
+}
+
+.bracketLeft {
+    position: absolute;
+    left: 25.98vw;
+    right: 68.79vw;
+    top: 19.6vh;
+    /* bottom: 46.74%; */
+    /*bottom: 46.74%;*/
+}
+
+/*</editor-fold>*/
+.mainItems {
+    position: relative;
+    top: 18vh;
+    margin-left: 20vw;
+    margin-right: 20vw;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
 }

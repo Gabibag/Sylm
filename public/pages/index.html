@@ -3,22 +3,33 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{name}</title>
+  <title>Sylm</title>
   <link rel="stylesheet" href="/public/styles/style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+  </style>
+  <script src="/public/javascript/index.js"></script>
 </head>
 
-<!-- create a join game id screen -->
+<!--create a login screen that talks to google accounts-->
 <body>
-  <div class ="mainTitle">
-    <h1>Join Game</h1>
+<div class="mainItems">
+  <div class="mainTitle">
+    <span onmouseover="randomizeRotate()">Sylm!</span>
   </div>
-  <form action="/join" method="post">
-    <label>
-      <input type="text" name="gameId" placeholder="Game ID">
-    </label>
-    <input type="submit" value="Join">
-  </form>
-
+  <div class="buttons">
+    <button onclick="redirectButton('/public/pages/login.html')" class="loginButton" >Login</button>
+    <button onclick="redirectButton('/public/pages/signin.html')" class="loginButton" >Sign up</button>
+  </div>
+</div>
+<div>
+  <img src="/public/images/gradHat.svg" alt="graduation cap" class="gradHat">
+  <img src="/public/images/pencil.svg" alt="pencil" class="pencil">
+  <img src="/public/images/calculator.svg" alt="calculator" class="calculator">
+  <img src="/public/images/book.svg" alt="book" class="book">
+  <img src="/public/images/bracketRight.svg" alt="bracket" class="bracketRight">
+  <img src="/public/images/bracketLeft.svg" alt="bracket" class="bracketLeft">
+</div>
 </body>
 
 
