@@ -13,10 +13,25 @@
     transition: 0.5s;
     transition-property: color, scale, letter-spacing, transform;
     cursor: default;
-    letter-spacing: 0.1rem;
+    /*margin-right: 0.1vh;*/
     /*transition-timing-function: cubic-bezier(.93,.44,.22,.93);*/
     /*transition-timing-function: cubic-bezier(1,.43,.1,.95);*/
     transition-timing-function: cubic-bezier(.73,.11,.48,1.04);
+
+}
+.titleLetter{
+    margin-left: 0.1vw;
+    transition-property : color, scale, letter-spacing, transform;
+    transition: 0.5s;
+    transition-timing-function: cubic-bezier(.73,.11,.48,1.04);
+}
+.titleLetter:hover{
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    font-weight: 300;
+    transform: rotate(var(--random-rotate));
+
+    /*font-size: clamp(3rem, -1.5rem + 30vw, 8rem);*/
 
 }
 .mainTitle::selection{
@@ -70,12 +85,12 @@ body {
 }
 
 
-.mainTitle:hover {
+/*.mainTitle:hover {
     scale: 1.15;
     letter-spacing: 2vw;
     font-weight: 300;
     transform: rotate(var(--random-rotate));
-}
+}*/
 
 /*<editor-fold desc="icons">*/
 .gradHat {
