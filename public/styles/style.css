@@ -14,8 +14,9 @@
     transition-property: color, scale, letter-spacing, transform;
     cursor: default;
     letter-spacing: 0.1rem;
-    transition-timing-function: cubic-bezier(.93,.44,.22,.93);
+    /*transition-timing-function: cubic-bezier(.93,.44,.22,.93);*/
     /*transition-timing-function: cubic-bezier(1,.43,.1,.95);*/
+    transition-timing-function: cubic-bezier(.73,.11,.48,1.04);
 
 }
 .mainTitle::selection{

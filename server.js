@@ -39,13 +39,14 @@ app.post('/Login', function (req, res) {
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/pages/index.html')
 });
-app.get('styles/:f', function (req, res) {
+app.get('/styles/:f', function (req, res) {
   res.setHeader('content-type', "text/css")
-  res.sendfile(__dirname + '/public/styles/' + f);
+  res.sendfile(__dirname + '/public/styles/' + req.params.f);
 
 });
-app.get('javascript/:f', function (req, res) {
-  res.sendFile(__dirname + '/public/javascript/' + f);
+app.get('/javascript/:f', function (req, res) {
+  console.log('/javascript sent')
+  res.sendFile(__dirname + '/public/javascript/' + req.params.f);
 
 });
 app.get('/:page', async function (req, res) {
@@ -69,8 +70,9 @@ app.get('/:page', async function (req, res) {
     res.sendFile(__dirname + '/public/pages/404.html');
   }
 });
-app.get('images/:f', function(req, res){ //idk why this no work
-    res.sendFile(__dirname + '/public/images/' + f);
+app.get('/images/:f', function(req, res){ //idk why this no work
+    console.log('image sent')
+    res.sendFile(__dirname + '/public/images/' + req.params.f);
 });
 console.log('Starting server');
 app.listen(8000)

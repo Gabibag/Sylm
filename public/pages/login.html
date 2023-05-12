@@ -6,14 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/public/styles/login.css">
-    <script src="/public/javascript/login.js"></script>
+    <link rel="stylesheet" href="styles/login.css">
+    <script src="javascript/login.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
 </head>
 
 <body>
-    <input type="text" name="username" id="username" placeholder="Username">
-    <input type="password" name="password" id="password" placeholder="Password">
-    <button type="submit" name="login" id="login">Login</button>
+<div class="mainItems">
+    <h1 class="title">Login</h1>
+    <input type="text" name="username" id="username" class="inputBox" placeholder="Username">
+    <input type="password" name="password" id="password" class="inputBox" placeholder="Password">
+    <button type="submit" name="login" id="login" class="loginButton" onclick="submitButton()" onmouseover="checkIfFilled()">Login</button>
+</div>
 
 </body>
 
