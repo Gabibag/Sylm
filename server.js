@@ -45,7 +45,6 @@ app.get('/styles/:f', function (req, res) {
 
 });
 app.get('/javascript/:f', function (req, res) {
-  console.log('/javascript sent')
   res.sendFile(__dirname + '/public/javascript/' + req.params.f);
 
 });
@@ -71,7 +70,6 @@ app.get('/:page', async function (req, res) {
   }
 });
 app.get('/images/:f', function(req, res){ //idk why this no work
-    console.log('image sent')
     res.sendFile(__dirname + '/public/images/' + req.params.f);
 });
 console.log('Starting server');
