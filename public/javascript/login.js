@@ -35,7 +35,7 @@ function checkIfFilled(){
 
     }else{
         document.getElementById('login').style.cursor = 'not-allowed'
-        document.getElementById('login').style.animation = 'shakeError 0.7s'
+        document.getElementById('login').style.animation = 'shakeError 0.5s'
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){

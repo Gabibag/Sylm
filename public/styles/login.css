@@ -17,7 +17,9 @@
     font: clamp(1rem, -0.875rem + 0.5vw, 2rem)'Titan One', cursive;
     transition: 0.3s filter;
 }
-
+.inputBox:hover{
+    filter: drop-shadow(0px 0px 5px #9cd6de);
+}
 .inputBox:focus{
     filter: drop-shadow(0px 0px 12px #9cd6de);
 }

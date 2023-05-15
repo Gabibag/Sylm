@@ -16,11 +16,15 @@ function redirectButton(redirect){
 
 //when mainTitle is hovered, randomize the random-rotate variable in root
 let mainTitle = document.getElementsByClassName('mainTitle')[0]
-function randomizeRotate(){
-    let randomRotate = (Math.random() * 180) - 90
+function hoverTitle(){
+    /*let randomRotate = (Math.random() * 180) - 90
     if (randomRotate <= 1 && randomRotate >= -1 ){
         randomRotate += 1
     }
     let r = document.querySelector(':root');
-    r.style.setProperty('--random-rotate', randomRotate + 'deg');
+    r.style.setProperty('--random-rotate', randomRotate + 'deg');*/
+    //when main title is hovered, hide the brackets
+    let brackets = document.getElementsByClassName('')[0]
+    brackets.style.transition = 'opacity 0.5s'
+    brackets.style.opacity = '0'
 }
