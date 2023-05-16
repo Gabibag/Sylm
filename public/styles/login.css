@@ -28,13 +28,13 @@
     left: 36vw;
     right: 38vw;
     text-align: center;
-    top: 22vh;
+    top: 12vh;
 }
 .title{
     font-weight: bold;
     color: #FFFAFA;
     font-family: 'Titan One', cursive;
-    font-size: clamp(1rem, -0.875rem + 6vw, 8rem);
+    font-size: clamp(2rem, -0.875rem + 14vw, 5rem);
     transition: 0.3s;
     transition-property: color, letter-spacing;
 }
@@ -86,3 +86,38 @@ body{
 
 
 }
+
+
+/*<editor-fold desc="icons">*/
+.gradHat {
+    position: absolute;
+    left: -2.05vw;
+    top: -2.93vw;
+    bottom: 79.95vh;
+}
+
+.pencil {
+    position: absolute;
+    right: -8.29vw;
+    top: -10.11vh;
+    bottom: 69.85vh;
+    transform: rotate(353deg);
+}
+
+.calculator {
+    position: absolute;
+    left: -2.77%;
+    right: 76.75vw;
+    /* top: 79vh; */
+    bottom: -8.28vh;
+}
+
+.book {
+    position: absolute;
+    /* left: 64.32vw; */
+    right: -7.82vw;
+    /* top: 67.06vh; */
+    bottom: -10.6vh;
+}
+
+/*</editor-fold>*/

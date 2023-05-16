@@ -28,7 +28,7 @@
 }
 .mainTitle:hover{
     letter-spacing: 5vw;
-    font-weight: 300;
+    transform: translateX(2.5vw);
 }
 .mainTitle::selection{
     color: #397377;
@@ -41,6 +41,7 @@ body {
     display: inline-block;
     position: relative;
     align-content: center;
+    transition-property: background-color, color, scale, transform;
 
 }
 
@@ -64,7 +65,7 @@ body {
     width: 20vw;
     height: auto;
     transition: 0.4s;
-    transition-property: background-color, color, scale;
+
     transition-timing-function: cubic-bezier(.93,.44,.22,.93);
 }
 
@@ -94,6 +95,8 @@ body {
     left: -2.05vw;
     top: -2.93vw;
     bottom: 79.95vh;
+    transition: 0.5s cubic-bezier(.73,.11,.48,1.04) transform;
+    opacity: 1;
 }
 
 .pencil {
@@ -101,7 +104,10 @@ body {
     right: -8.29vw;
     top: -10.11vh;
     bottom: 69.85vh;
-    transform: rotate(353deg);
+    transform: rotate(3deg);
+    transition: 0s cubic-bezier(.73,.11,.48,1.04) transform; /*will be set to this instantly*/
+
+    opacity: 1;
 }
 
 .calculator {
@@ -110,6 +116,8 @@ body {
     right: 76.75vw;
     /* top: 79vh; */
     bottom: -8.28vh;
+    transition: 0.5s cubic-bezier(.73,.11,.48,1.04) transform;
+    opacity: 1;
 }
 
 .book {
@@ -118,6 +126,8 @@ body {
     right: -7.82vw;
     /* top: 67.06vh; */
     bottom: -10.6vh;
+    transition: 0.5s cubic-bezier(.73,.11,.48,1.04) transform;
+    opacity: 1;
 }
 
 .bracketRight {
@@ -126,6 +136,9 @@ body {
     right: 26vw;
     top: 19vh;
     bottom: 46.74%;
+    transition: 0.5s cubic-bezier(.73,.11,.48,1.04);
+    transition-property: opacity, transform;
+    opacity: 1;
 }
 
 .bracketLeft {
@@ -135,7 +148,12 @@ body {
     top: 19.6vh;
     /* bottom: 46.74%; */
     /*bottom: 46.74%;*/
+    transition-property: opacity, transform;
+    transition: 0.5s;
+    transition-timing-function: cubic-bezier(.73,.11,.48,1.04);
+    opacity: 1;
 }
+
 
 /*</editor-fold>*/
 .mainItems {
