@@ -31,7 +31,7 @@ app.post('/api/getset/:id', async function(req, res){
   let set = await db.getSet(id);
   res.send(JSON.stringify(set));
 });
-app.post('/Register', function (req, res) {
+app.post('/Register', async function (req, res) {
   let username = req.body.username
   let password = req.body.password
   console.log('Register: ' + username + ' ' + password)
@@ -44,9 +44,11 @@ app.post('/Register', function (req, res) {
     return;
   }
   db.addUser(username, password)
+  let u = await db.getUser(username)
+  res.cookie('token', u.token);
   res.send("Register success")
 });
-app.post('/Login', async function (req, res) {
+app.post('/login', async function (req, res) {
   let username = req.body.username
   let password = req.body.password
   console.log('Login attempt via ' + username + ' ' + password)
@@ -55,7 +57,7 @@ app.post('/Login', async function (req, res) {
     res.send("Username not found")
     return;
   }
-  if (user.password != password) {
+  if (user.password !== password) {
     res.send("Password incorrect")
     return;
   }
