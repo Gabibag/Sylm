@@ -4,7 +4,6 @@ let invaildChars = ["'", '"', '`', ' ', ";", ":", ",", ".", "/", "\\", "|", "[",
 const { createHash } = require('crypto');
 const { AsyncDatabase } = require("promised-sqlite3");
 async function init () {
-    console.log("Database opened");
       module.exports.db = await AsyncDatabase.open("./db.sqlite");
       console.log("Database opened");
 }
@@ -26,6 +25,13 @@ module.exports = {
             }
         }
         return true;
+    },
+    loggedIn: async function(req){
+        let token = req.cookies['token'];
+        console.log(token)
+        let user = await this.db.get("SELECT * FROM users WHERE token = ?;", token)
+        console.log(user);
+        return user != null;
     },
     acceptableUserName: function (username) {
         if (username.length < 4) {
