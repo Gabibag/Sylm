@@ -62,7 +62,7 @@ module.exports = {
         let user = await this.db.get("SELECT * FROM users WHERE token = ?;", token)
         return user != null;
     },
-    acceptableUserName: function (username) {
+    acceptableUserName: async function (username) {
         if (username.length < 4) {
             return false;
         }
@@ -71,7 +71,8 @@ module.exports = {
                 return false;
             }
         }
-        if(this.getUser(username) != null){
+        console.log(this.getUser(username));
+        if(await this.getUser(username) != null){
             return false;
         }
         return true;

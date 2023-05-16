@@ -29,9 +29,8 @@
                 },
                 body:JSON.stringify(data)
             }).then(response => response.text()).then(function(d){
-                //TODO display the error/created d somewhere, Ill let whoever styles this do that
+                alert(d)
             })
-            alert("User Created")
         })
     </script>
 </body>
