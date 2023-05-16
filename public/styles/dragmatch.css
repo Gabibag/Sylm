@@ -1,0 +1,46 @@
+#terms{
+    user-select: none; 
+    background-color: gray;
+    width: 50%;
+    height: 100%;
+    list-style: none;
+    font-size: 45px;
+}
+#terms li{
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#terms li:active{
+    background-color: lightgray;
+}
+#definitions li{
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#definitions li:active{
+    background-color: gray;
+}
+#gamecont{
+    background-color: black;
+    width: 100vw;
+    height: 100vh   ;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+
+
+}
+#definitions{
+    user-select: none;
+    font-size: 45px;
+    background-color: lightgray;
+    width: 50%;
+    height: 100%;
+    list-style: none;
+}

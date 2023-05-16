@@ -8,31 +8,28 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //#region routes
-app.post('/api/createset',async function(req, res){
-  let user = await db.getUserFromReq(req);
-  let data = req.body
-  await db.createSet(user, data)
-});
-app.post('/api/getset/:id', async function(req, res){
-  let id = req.params.id;
-  let set = await db.db.get('SELECT * FROM sets WHERE id = ?', id);
-  res.send(JSON.stringify(set));
-});
-
-app.get('/sets/:setid', async function(req, res){
+//#region api
+app.get('/sets/:setid/play/:game', async function(req, res){
   let setid = req.params.setid;
-  let file = fs.readFileSync(__dirname + '/public/pages/set.html', 'utf8')
+  let game = req.params.game;
+  let file = fs.readFileSync(__dirname + '/public/pages/games/' +game + '.html', 'utf8')
   let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
   file = file.replace('<!--name-->', set.name);
   file = file.replace('<!--desc-->', set.desc);
   file = file.replace('<!--author-->', set.author);
   file = file.replace('<!--data-->', set.data);
-  res.setHeader('content-type', 'text/html')
   res.send(file);
 });
-app.get('/Logout', function (req, res) {
-  res.clearCookie('token')
-  res.redirect('/')
+
+app.post('/api/createset',async function(req, res){
+  let user = await db.getUserFromReq(req);
+  let data = req.body
+  await db.createSet(user, data);
+});
+app.post('/api/getset/:id', async function(req, res){
+  let id = req.params.id;
+  let set = await db.getSet(id);
+  res.send(JSON.stringify(set));
 });
 app.post('/Register', function (req, res) {
   let username = req.body.username
@@ -65,6 +62,22 @@ app.post('/Login', async function (req, res) {
   let token = db.getToken(username, password)
   res.cookie('token', token)
   res.send("Login success")
+});
+//#endregion
+app.get('/sets/:setid', async function(req, res){
+  let setid = req.params.setid;
+  let file = fs.readFileSync(__dirname + '/public/pages/set.html', 'utf8')
+  let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
+  file = file.replace('<!--name-->', set.name);
+  file = file.replace('<!--desc-->', set.desc);
+  file = file.replace('<!--author-->', set.author);
+  file = file.replace('<!--data-->', set.data);
+  res.setHeader('content-type', 'text/html')
+  res.send(file);
+});
+app.get('/Logout', function (req, res) {
+  res.clearCookie('token')
+  res.redirect('/')
 });
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/pages/index.html')

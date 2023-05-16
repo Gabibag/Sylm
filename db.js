@@ -12,6 +12,10 @@ const util = require('./util.js');
 module.exports = {
     init: init,
     db: null,
+    getSet: async function(id){
+        let set = await this.db.get("SELECT * FROM sets WHERE id = ?", id);
+        return set;
+    },
     getNewSetId: async function(){
         let id = "";
         for(let i = 0; i < 9; i++){
@@ -67,7 +71,9 @@ module.exports = {
                 return false;
             }
         }
-        //TODO check if username is taken
+        if(this.getUser(username) != null){
+            return false;
+        }
         return true;
     },
     addUser: function (username, password) {
