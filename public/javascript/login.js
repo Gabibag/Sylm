@@ -13,9 +13,12 @@ function submitButton() {
         },
         body: JSON.stringify(data),
     }).then((response) => {
-        return response.json();
+        return response.text();
     }).then((data) => {
-        // console.log( "data" + data); that would be bad
+        if(data == "Login success"){
+            window.location.href = "/home";
+        }
+        document.getElementById("error").innerHTML = data;
     }).catch((error) => {
         //make shake animation on login button and change text of the button to "Invalid Username or Password"
         document.getElementById('login').style.cursor = 'not-allowed'
