@@ -7,6 +7,7 @@
     <title>Create User</title>
 </head>
 <body>
+    <p id = "error" ></p>
     <input type="text" id = 'Username' placeholder="Username"></input>
     <input type="password" id = "Password" placeholder="Password"></input>
     <input type="password" id = "RepeatPassword" placeholder="Repeat Password"></input>
@@ -29,7 +30,12 @@
                 },
                 body:JSON.stringify(data)
             }).then(response => response.text()).then(function(d){
-                alert(d)
+                if(d == "Register success"){
+                    window.location = "/home"
+                }
+                else {
+                    document.getElementById("error").innerHTML = d
+                }
             })
         })
     </script>

@@ -13,9 +13,12 @@ function submitButton() {
         },
         body: JSON.stringify(data),
     }).then((response) => {
-        return response.json();
+        return response.text();
     }).then((data) => {
-        console.log(data);
+        if(data == "Login success"){
+            window.location.href = "/home";
+        }
+        document.getElementById("error").innerHTML = data;
     }).catch((error) => {
         console.log(error);
     });

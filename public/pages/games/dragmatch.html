@@ -7,32 +7,35 @@
     <title>Play Match!</title>
     <link rel="stylesheet" href="/styles/dragmatch.css" />
   </head>
+  <div id = "popup">
+    Get ready!
+    <button id = "start" onclick="start()">Start</button>
+  </div>
   <div id="gamecont">
     <ol id="terms"></ol>
     <ol id="definitions"></ol>
   </div>
   <body>
     <script>
+      let startTime = new Date().getTime();
+      function start(){
+        startTime = new Date().getTime();
+        document.getElementById("popup").style.display = "none";
+      }
       function shuffle(array) {
         let currentIndex = array.length,
           randomIndex;
-
-        // While there remain elements to shuffle.
         while (currentIndex != 0) {
-          // Pick a remaining element.
           randomIndex = Math.floor(Math.random() * currentIndex);
           currentIndex--;
-
-          // And swap it with the current element.
           [array[currentIndex], array[randomIndex]] = [
             array[randomIndex],
             array[currentIndex],
           ];
         }
-
         return array;
       }
-
+      let setId = "<!--id-->";
       let name = "<!--name-->";
       let description = "<!--desc-->";
       let terms = "<!--data-->";
@@ -98,12 +101,30 @@
                 if (termsList.contains(down)) {
                   definitionsList.removeChild(target);
                   termsList.removeChild(down);
-                } else {
+                } else if (definitionsList.contains(down)){
                   termsList.removeChild(target);
                   definitionsList.removeChild(down);
                 }
+                if(termsList.children.length <=0 ){
+                  alert("/api/submitscore/" + setId + "/dragmatch")
+                  let t = (new Date().getTime() - startTime)/1000
+                  let scaledt = Math.round(timeToPointScore(t));
+                  document.getElementById("popup").style.display = "block";
+                  document.getElementById("popup").innerHTML = "You won! It took you " + t + " seconds! for " + scaledt + " points!";
+                  document.getElementById("popup").innerHTML += "<br><button onclick='window.location.reload()'>Play again</button>";
+                  fetch("/api/submitscore/" + setId + "/dragmatch", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      score : scaledt,
+                    })
+                  });
+                  return;
               }
             }
+          }
             down = null;
           } else {
             down = null;
@@ -112,6 +133,9 @@
           return;
         }
       });
+      function timeToPointScore(t){
+        return (1/(0.1 * (t + 1))) * 1500;
+      }
     </script>
   </body>
 </html>
