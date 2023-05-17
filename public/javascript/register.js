@@ -4,36 +4,56 @@ function checkIfFilled(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     let checkPassword = document.getElementById("repeatPassword").value;
+
+    let login = document.getElementById('login');
     if(username.length > 0 && password.length > 0 && password === checkPassword ){
-        document.getElementById('login').style.cursor = 'pointer'
-        //     set var button background color to #FFFAFA
+        login.style.cursor = 'pointer'
         r.style.setProperty('--buttonbackground', '#FFFAFA');
         r.style.setProperty('--buttoncolor', '#397377');
-        document.getElementById('login').style.animation = 'none'
-        if(password !== checkPassword){
-            document.getElementById("password").style.border = "3px solid #d96363";
-            document.getElementById("repeatPassword").style.border = "3px solid #d96363";
-            setTimeout(function(){
-                document.getElementById("password").style.border = "3px solid transparent";
-                document.getElementById("repeatPassword").style.border = "3px solid transparent";
-            }, 3000);
-        }
+        login.style.animation = 'none'
+        console.log("passwords match")
 
 
-    }else{
-        document.getElementById('login').style.cursor = 'not-allowed'
-        document.getElementById('login').style.animation = 'shakeError 0.5s'
+
+    } else if(password !== checkPassword){
+        login.style.cursor = 'not-allowed'
+        login.style.animation = 'shakeError 0.5s'
+        login.innerText = 'Passwords do not match'
+
+        r.style.setProperty('--buttonbackground', '#d96363');
+        r.style.setProperty('--buttoncolor', '#FFFAFA');
+
+        setTimeout(function(){
+            login.style.animation = 'none'
+            login.innerText = 'Create User'
+        }, 3000);
+    }
+    else{
+        login.style.cursor = 'not-allowed'
+        login.style.animation = 'shakeError 0.5s'
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){
-            document.getElementById('login').style.animation = 'none'
+            login.style.animation = 'none'
         }, 700);
 
     }
 }
 function submitButton() {
-    if(document.getElementById("password").value !== document.getElementById("repeatPassword").value){
-        alert("Passwords do not match")
+    let password = document.getElementById("password").value;
+    let checkPassword = document.getElementById("repeatPassword").value;
+    if( password !== checkPassword){
+        console.log("passwords do not match")
+        document.getElementById('login').innerText = "Passwords do not match"
+        document.getElementById("password").style.border = "3px solid #d96363";
+        document.getElementById("repeatPassword").style.border = "3px solid #d96363";
+
+        setTimeout(function(){
+            document.getElementById("password").style.border = "3px solid transparent";
+            document.getElementById("repeatPassword").style.border = "3px solid transparent";
+            document.getElementById('login').innerText = "Create User"
+        }, 3000);
+
         return
     }
     let data = {
@@ -48,7 +68,11 @@ function submitButton() {
         },
         body:JSON.stringify(data)
     }).then(response => response.text()).then(function(d){
-        document.getElementById('login').style.cursor = 'not-allowed'
+        if(d === "Register success"){
+            window.location = "/home"
+        }
+        else {
+            document.getElementById('login').style.cursor = 'not-allowed'
         document.getElementById('login').style.animation = 'shakeError 0.5s'
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
@@ -59,5 +83,7 @@ function submitButton() {
         setTimeout(function(){
             document.getElementById("password").style.border = "3px solid transparent";
         }, 3000);
+        }
     })
+
 }

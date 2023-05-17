@@ -51,11 +51,22 @@
 .title::selection{
     color: #397377;
 }
+.buttonGrid {
+/*    make a grid where one button is 4/5 while the other is 1/5 and is inline*/
+    display: grid;
+    grid-template-columns: 85% 15%;
+    width: 27vw;
+    grid-template-rows: 1vw;
+    column-gap: 0.1vw;
+    grid-template-areas: "loginButton registerButton";
+    justify-content: center;
+    align-items: center;
+}
 
 .loginButton{
     margin-top: 3vh;
     width: 26.8vw;
-    height: 5vh;
+    height: 7vh;
     font-weight: bold;
     border-radius: 5px;
     background-color: #397377;
@@ -63,9 +74,10 @@
     cursor: pointer;
     transition: 0.4s;
     transition-property: background-color, color, scale;
-    font: clamp(1rem, -0.875rem + 1vw, 2rem)'Titan One', cursive;
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
     scale: 1;
     border: 3px solid transparent;
+
 }
 .loginButton:hover{
     background-color: var(--buttonbackground);
