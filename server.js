@@ -75,7 +75,7 @@ app.get('/sets/:setid', async function(req, res){
   let setid = req.params.setid;
   let file = fs.readFileSync(__dirname + '/public/pages/set.html', 'utf8')
   let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
-  file = file.replace('<!--id-->', set.id);
+  file = file.replace('<!--id-->', setid);
   file = file.replace('<!--name-->', set.name);
   file = file.replace('<!--desc-->', set.desc);
   file = file.replace('<!--author-->', set.author);

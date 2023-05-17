@@ -17,20 +17,21 @@ function submitButton() {
     }).then((data) => {
         if(data === "Login success"){
             window.location.href = "/home";
+        }else {
+            let login = document.getElementById('login');
+            login.style.cursor = 'not-allowed'
+            login.style.animation = 'shakeError 0.5s'
+            r.style.setProperty('--buttonbackground', '#d96363');
+            r.style.setProperty('--buttoncolor', '#FFFAFA');
+            login.innerText = "Invalid Username or Password"
+            setTimeout(function () {
+                login.style.animation = 'none'
+                switcher.animation = 'none'
+            }, 700);
+            setTimeout(function () {
+                login.innerText = "Login"
+            }, 3000);
         }
-        let login = document.getElementById('login');
-        login.style.cursor = 'not-allowed'
-        login.style.animation = 'shakeError 0.5s'
-        r.style.setProperty('--buttonbackground', '#d96363');
-        r.style.setProperty('--buttoncolor', '#FFFAFA');
-        login.innerText = "Invalid Username or Password"
-        setTimeout(function(){
-            login.style.animation = 'none'
-            switcher.animation = 'none'
-        }, 700);
-        setTimeout(function(){
-            login.innerText = "Login"
-        }, 3000);
     }).catch((error) => {
 
         alert(error);
