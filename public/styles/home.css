@@ -1,0 +1,36 @@
+body {
+    background-color: #4DA1A7;
+    margin:0;
+    padding: 0;
+}
+#HomeImgSmall {
+    bottom:300;
+    position: absolute;
+}
+#HomeImgBig{
+    bottom: 388;
+    position: absolute;
+    width: 50px;
+    height: 50px; 
+    transform: translate(-30%, 50% );
+}
+#home {
+    position: absolute;
+    padding: 20px;
+}
+#Topbar{
+    position: absolute;
+    width: 100%;
+    height: 20%;
+    left:0;
+    right: 0;
+    background-color: #397377;
+}
+#Rightbar{
+    position: absolute;
+    width: 15%;
+    height: 80%;
+    right: 85%;
+    top: 20%;
+    background-color: #31858B;
+}
