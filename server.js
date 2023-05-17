@@ -53,7 +53,7 @@ app.post('/login', async function (req, res) {
   let password = req.body.password
   console.log('Login attempt via ' + username + ' ' + password)
   let user = await db.getUser(username)
-  if (user == null) {
+  if (user === undefined) {
     res.send("Username not found")
     return;
   }

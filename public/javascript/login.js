@@ -15,9 +15,20 @@ function submitButton() {
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        console.log(data);
+        // console.log( "data" + data); that would be bad
     }).catch((error) => {
-        console.log(error);
+        //make shake animation on login button and change text of the button to "Invalid Username or Password"
+        document.getElementById('login').style.cursor = 'not-allowed'
+        document.getElementById('login').style.animation = 'shakeError 0.5s'
+        r.style.setProperty('--buttonbackground', '#d96363');
+        r.style.setProperty('--buttoncolor', '#FFFAFA');
+        document.getElementById('login').innerText = "Invalid Username or Password"
+        setTimeout(function(){
+            document.getElementById('login').style.animation = 'none'
+        }, 700);
+        setTimeout(function(){
+            document.getElementById('login').innerText = "Login"
+        }, 3000);
     });
 }
 let r = document.querySelector(':root');

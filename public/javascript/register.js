@@ -10,6 +10,14 @@ function checkIfFilled(){
         r.style.setProperty('--buttonbackground', '#FFFAFA');
         r.style.setProperty('--buttoncolor', '#397377');
         document.getElementById('login').style.animation = 'none'
+        if(password !== checkPassword){
+            document.getElementById("password").style.border = "3px solid #d96363";
+            document.getElementById("repeatPassword").style.border = "3px solid #d96363";
+            setTimeout(function(){
+                document.getElementById("password").style.border = "3px solid transparent";
+                document.getElementById("repeatPassword").style.border = "3px solid transparent";
+            }, 3000);
+        }
 
 
     }else{
@@ -45,7 +53,11 @@ function submitButton() {
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){
-            document.getElementById('login').style.animation = 'none'
+            document.getElementById('login').style.animation = '3px solid transparent'
         }, 700);
+        document.getElementById("password").style.border = "3px solid #d96363"
+        setTimeout(function(){
+            document.getElementById("password").style.border = "3px solid transparent";
+        }, 3000);
     })
 }

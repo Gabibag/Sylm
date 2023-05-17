@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create User</title>
     <link rel="stylesheet" href="styles/login.css">
-    <script src="javascript/signup.js"></script>
+    <script src="javascript/register.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
     </style>
@@ -17,7 +17,7 @@
     <input type="text" id="username" placeholder="Username" class="inputBox">
     <input type="password" id="password" placeholder="Password" class="inputBox">
     <input type="password" id="repeatPassword" placeholder="Repeat Password" class="inputBox">
-    <button type="submit" id="login" class="loginButton" onmouseenter="checkIfFilled()">Create User</button>
+    <button type="submit" id="login" class="loginButton" onmouseenter="checkIfFilled()" onclick="submitButton()">Create User</button>
 </div>
 </body>
 </html>
