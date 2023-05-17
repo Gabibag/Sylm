@@ -8,17 +8,39 @@
 </head>
 <body>
     <h1 id = "title"></h1>
-    <ol>
+    <ol id = "leaderboard">
 
     </ol>
     <script>
+        //swap 2 array indices
+        function swap(list, i1, i2){
+            let temp = list[i1];
+            list[i1] = list[i2];
+            list[i2] = temp;
+        }
+        //bubble sort
+        function bubble_sort(list){
+            for(let i = 0; i < list.length; i++){
+                for(let j = 0; j < list.length - i - 1; j++){
+                    if(list[j].score < list[j + 1].score){
+                        swap(list, j, j + 1);
+                    }
+                }
+            }
+        }
+        let leaderboard = document.getElementById("leaderboard");
         let setId = "<!--setid-->";
         let game = "<!--game-->";
         document.getElementById("title").innerHTML = game + "leaderboard for " + setId;
         fetch("/api/getleaderboard/" + setId + "/" + game, {
             method:"POST"
         }).then((d) => d.json()).then((d) => {
-            alert(Object.keys(d));
+            bubble_sort(d)
+            for(let v  of d){
+                let li = document.createElement("li");
+                li.innerHTML = v.user + " - " + v.score;
+                leaderboard.appendChild(li);
+            }
         })
     </script>
 </body>

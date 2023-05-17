@@ -13,7 +13,7 @@ module.exports = {
     init: init,
     db: null,
     getLeaderboard: async function(setid, gameid){
-        let board = await this.db.get("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
+        let board = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
         return board;
     },
     submitScore: async function(user, setid, gameid, score){
@@ -41,6 +41,9 @@ module.exports = {
         let name = data.name;
         let description = data.description;
         let cards = data.terms;
+        if(cards.endsWith(",")){
+            cards = cards.substring(0, cards.length - 1);
+        }
         let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?)", [id, name, description, author.username, cards]);
         return id;
     },

@@ -101,15 +101,16 @@
                 if (termsList.contains(down)) {
                   definitionsList.removeChild(target);
                   termsList.removeChild(down);
-                } else {
+                } else if (definitionsList.contains(down)){
                   termsList.removeChild(target);
                   definitionsList.removeChild(down);
                 }
                 if(termsList.children.length <=0 ){
                   alert("/api/submitscore/" + setId + "/dragmatch")
                   let t = (new Date().getTime() - startTime)/1000
+                  let scaledt = Math.round(timeToPointScore(t));
                   document.getElementById("popup").style.display = "block";
-                  document.getElementById("popup").innerHTML = "You won! It took you " + t + " seconds!";
+                  document.getElementById("popup").innerHTML = "You won! It took you " + t + " seconds! for " + scaledt + " points!";
                   document.getElementById("popup").innerHTML += "<br><button onclick='window.location.reload()'>Play again</button>";
                   fetch("/api/submitscore/" + setId + "/dragmatch", {
                     method: "POST",
@@ -117,9 +118,10 @@
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                      score : t,    
-                    })   
+                      score : scaledt,
+                    })
                   });
+                  return;
               }
             }
           }
@@ -130,8 +132,10 @@
         } else {
           return;
         }
-      
       });
+      function timeToPointScore(t){
+        return (1/(0.1 * (t + 1))) * 1500;
+      }
     </script>
   </body>
 </html>

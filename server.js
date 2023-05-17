@@ -10,14 +10,12 @@ app.use(cookieParser());
 //#region routes
 //#region api
 app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
-  console.log("ran")
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let leaderboard = await db.getLeaderboard(setid, gameid);
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
-  console.log("ran"); 
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let score = req.body.score;
@@ -28,14 +26,15 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
 app.post('/api/createset',async function(req, res){
   let user = await db.getUserFromReq(req);
   let data = req.body
-  await db.createSet(user, data);
+  res.send(await db.createSet(user, data));
+
 });
 app.post('/api/getset/:id', async function(req, res){
   let id = req.params.id;
   let set = await db.getSet(id);
   res.send(JSON.stringify(set));
 });
-app.post('/Register', function (req, res) {
+app.post('/Register', async function (req, res) {
   let username = req.body.username
   let password = req.body.password
   console.log('Register: ' + username + ' ' + password)
@@ -43,7 +42,8 @@ app.post('/Register', function (req, res) {
     res.send("Password not acceptable");
     return;
   }
-  if (!db.acceptableUserName(username)) {
+  console.log(db.acceptableUserName(username))
+  if (! await db.acceptableUserName(username)) {
     res.send("Username not acceptable");
     return;
   }
