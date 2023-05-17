@@ -12,6 +12,13 @@ const util = require('./util.js');
 module.exports = {
     init: init,
     db: null,
+    getLeaderboard: async function(setid, gameid){
+        let board = await this.db.get("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
+        return board;
+    },
+    submitScore: async function(user, setid, gameid, score){
+        await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
+    },
     getSet: async function(id){
         let set = await this.db.get("SELECT * FROM sets WHERE id = ?", id);
         return set;
