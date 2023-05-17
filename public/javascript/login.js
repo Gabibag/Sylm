@@ -15,12 +15,25 @@ function submitButton() {
     }).then((response) => {
         return response.text();
     }).then((data) => {
-        if(data == "Login success"){
+        if(data === "Login success"){
             window.location.href = "/home";
         }
-        document.getElementById("error").innerHTML = data;
+        let login = document.getElementById('login');
+        login.style.cursor = 'not-allowed'
+        login.style.animation = 'shakeError 0.5s'
+        r.style.setProperty('--buttonbackground', '#d96363');
+        r.style.setProperty('--buttoncolor', '#FFFAFA');
+        login.innerText = "Invalid Username or Password"
+        setTimeout(function(){
+            login.style.animation = 'none'
+            switcher.animation = 'none'
+        }, 700);
+        setTimeout(function(){
+            login.innerText = "Login"
+        }, 3000);
     }).catch((error) => {
-        console.log(error);
+
+        alert(error);
     });
 }
 let r = document.querySelector(':root');
@@ -28,21 +41,19 @@ let r = document.querySelector(':root');
 function checkIfFilled(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
+    let login = document.getElementById('login').style;
     if(username.length > 0 && password.length > 0){
-        document.getElementById('login').style.cursor = 'pointer'
-    //     set var button background color to #FFFAFA
+        login.cursor = 'pointer'
         r.style.setProperty('--buttonbackground', '#FFFAFA');
         r.style.setProperty('--buttoncolor', '#397377');
-        document.getElementById('login').style.animation = 'none'
-
-
+        login.animation = 'none'
     }else{
-        document.getElementById('login').style.cursor = 'not-allowed'
-        document.getElementById('login').style.animation = 'shakeError 0.5s'
+        login.cursor = 'not-allowed'
+        login.animation = 'shakeError 0.5s'
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){
-            document.getElementById('login').style.animation = 'none'
+            login.animation = 'none'
         }, 700);
 
     }

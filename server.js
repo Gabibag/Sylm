@@ -48,18 +48,20 @@ app.post('/Register', async function (req, res) {
     return;
   }
   db.addUser(username, password)
+  let u = await db.getUser(username)
+  res.cookie('token', u.token);
   res.send("Register success")
 });
-app.post('/Login', async function (req, res) {
+app.post('/login', async function (req, res) {
   let username = req.body.username
   let password = req.body.password
   console.log('Login attempt via ' + username + ' ' + password)
   let user = await db.getUser(username)
-  if (user == null) {
+  if (user === undefined) {
     res.send("Username not found")
     return;
   }
-  if (user.password != password) {
+  if (user.password !== password) {
     res.send("Password incorrect")
     return;
   }

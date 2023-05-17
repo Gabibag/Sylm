@@ -43,7 +43,7 @@ body {
     position: relative;
     align-content: center;
     transition-property: background-color, color, scale, transform;
-
+    border: 3px solid transparent;
 }
 
 .loginButton {
