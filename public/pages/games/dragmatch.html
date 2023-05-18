@@ -40,24 +40,21 @@
     let setId = "<!--id-->";
     let name = "<!--name-->";
     let description = "<!--desc-->";
-    let terms = "<!--data-->";
-    terms = terms.split(",");
-    for (let i = 0; i < terms.length; i++) {
-      terms[i] = terms[i].split("-");
-      if (terms[i][0] == "") {
-        terms.splice(i, 1);
-        i--;
-      }
+    let terms = "<!--terms-->";
+    let defs = "<!--defs-->";
+    let author = "<!--author-->";
+    console.log(defs);
+    terms = terms.split("");
+    defs = defs.split("");
+    console.log(defs);
+    if(terms.length != defs.length){
+     console.error("terms and defs are not the same length");
     }
-    let randTermsleft = [];
-    let randTermsright = [];
-    for (let v of terms) {
-      randTermsleft.push(v[0]);
-      randTermsright.push(v[1]);
-    }
+    let randTermsleft = [...terms];
+    let randTermsright = [...defs];
     shuffle(randTermsleft);
     shuffle(randTermsright);
-    let author = "<!--author-->";
+
     let termsList = document.getElementById("terms");
     let definitionsList = document.getElementById("definitions");
     for (let i = 0; i < randTermsleft.length; i++) {
@@ -88,15 +85,15 @@
           target.parentNode.id != down.parentNode.id
         ) {
           let temp = target.innerHTML;
-          for (let v of terms) {
+          for(let i = 0; i < terms.length; i++){
             if (
-              (v[0] == down.id && v[1] == target.id) ||
-              (v[0] == target.id && v[1] == down.id)
+              (terms[i] == down.id && defs[i] == target.id) ||
+              (terms[i] == target.id && defs[i] == down.id)
             ) {
               console.log("match");
-              let index = terms.indexOf(v);
+              let index = terms.indexOf(terms[i]);
               terms.splice(index, 1);
-              terms.push([down.id, target.id]);
+              defs.splice(index, 1);
               //remove the html elements
               let termsList = document.getElementById("terms");
               let definitionsList = document.getElementById("definitions");

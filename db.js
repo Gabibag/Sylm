@@ -35,16 +35,20 @@ module.exports = {
         }
     },
     createSet: async function(author, data){
-        console.log("Creating set");
         let id = await this.getNewSetId();
-        console.log(id)
         let name = data.name;
         let description = data.description;
         let cards = data.terms;
-        if(cards.endsWith(",")){
+        if(cards.endsWith(util.separator)){
             cards = cards.substring(0, cards.length - 1);
         }
-        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?)", [id, name, description, author.username, cards]);
+        let defs = data.defs;
+        console.log(util.separator);
+        if(defs.endsWith(util.separator)){
+            console.log("here");
+            defs = defs.substring(0, defs.length - 1);
+        }
+        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, name, description, author.username, cards, defs]);
         return id;
     },
     getUserFromReq: async function(req){

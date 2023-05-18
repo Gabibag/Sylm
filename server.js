@@ -101,7 +101,7 @@ app.get('/sets/:setid/:game/leaderboard', async function(req, res){
 });
 app.get('/styles/:f', function (req, res) {
   res.setHeader('content-type', "text/css")
-  res.sendfile(__dirname + '/public/styles/' + req.params.f);
+  res.sendFile(__dirname + '/public/styles/' + req.params.f);
 
 });
 app.get('/javascript/:f', function (req, res) {
@@ -116,7 +116,8 @@ app.get('/sets/:setid/play/:game', async function(req, res){
   file = file.replace('<!--name-->', set.name);
   file = file.replace('<!--desc-->', set.desc);
   file = file.replace('<!--author-->', set.author);
-  file = file.replace('<!--data-->', set.data);
+  file = file.replace('<!--terms-->', set.terms);
+  file = file.replace("<!--defs-->", set.defs);
   file = file.replace('<!--id-->', set.id);
   res.send(file);
 });

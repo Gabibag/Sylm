@@ -1,5 +1,6 @@
 let invaildChars = ["'", '"', '`', ' ', ";", ":", ",", ".", "/", "\\", "|", "[", "]", "{", "}", "(", ")", "="];
 module.exports = {
+    separator: "",
     getAllCookieDict : function(req){
         let cookies = this.getAllCookies(req);
         let cookieObj = {};

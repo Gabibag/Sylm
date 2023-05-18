@@ -9,6 +9,7 @@
   <body>
     <input type="text" id = "name" placeholder="Enter name"><input type="text" id = "desc" placeholder="describe it">
     <ol id="terms"></ol>
+    <ol id="defs"></ol>
     <input type="text" name="Term" id="setname" placeholder="Enter Term" />
     <input
       type="text"
@@ -19,14 +20,22 @@
     <button onclick="addTerm()">Add Term</button>
     <button onclick="submit()">Submit</button>
     <script>
+      const seprater = "";
       function submit() {
           var terms = document.getElementById("terms");
           var t = "";
           for (let v of terms.children) {
-            t += v.innerHTML + ",";
+            t += v.innerHTML + seprater;
           }
+          var defs = document.getElementById("defs");
+          var d = "";
+          for (let v of defs.children) {
+            d += v.innerHTML + seprater;
+          }
+
           var body = {
             terms: t,
+            defs: d,
             name: document.getElementById("name").value,
             description: document.getElementById("desc").value,
           };
@@ -46,9 +55,11 @@
         var term = document.getElementById("setname").value;
         var def = document.getElementById("setdef").value;
         var li = document.createElement("li");
-        var text = document.createTextNode(term + "-" + def);
-        li.appendChild(text);
+        li.innerHTML = term;
         document.getElementById("terms").appendChild(li);
+        li = document.createElement("li");
+        li.innerHTML = def;
+        document.getElementById("defs").appendChild(li);
       }
     </script>
   </body>
