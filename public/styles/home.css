@@ -87,3 +87,25 @@ body {
     top: 15%;
     background-color: #31858B;
 }
+#Center{
+    width: 85%;
+    height: 85%;
+    position: absolute;
+    left: 15%;
+    top: 15%;
+    background-color: #4DA1A7;
+    text-align: center;
+}
+#SetList{
+    padding: 0;
+    margin-left: 0px;
+    width: 100%;
+    list-style: none;
+ }
+.set{
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #397377;
+    width: 100%;
+}

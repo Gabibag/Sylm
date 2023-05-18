@@ -9,6 +9,11 @@ app.use(cookieParser());
 
 //#region routes
 //#region api
+app.get('/api/mysets', async function (req, res) {
+  let user = await db.getUserFromReq(req);
+  let sets = await db.getSets(user);
+  res.send(JSON.stringify(sets));
+});
 app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   let setid = req.params.setid;
   let gameid = req.params.gameid;
