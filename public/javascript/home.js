@@ -16,6 +16,9 @@ function LoadSets(){
             "content-type": "application/json",
         },
     }).then((response) => response.json()).then((data) => {
+        if(data.length == 0){
+            document.getElementById("Center").innerHTML = "You have no sets";
+        }
         loadedSets = data;
         let sets = document.getElementById("SetList");
         sets.innerHTML = "";

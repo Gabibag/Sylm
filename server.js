@@ -9,6 +9,11 @@ app.use(cookieParser());
 
 //#region routes
 //#region api
+app.get('/api/search/:query', async function (req, res) {
+  let query = req.params.query;
+  let sets = await db.searchSets(query, 10);
+  res.send(JSON.stringify(sets));
+});
 app.get('/api/mysets', async function (req, res) {
   let user = await db.getUserFromReq(req);
   let sets = await db.getSets(user);
@@ -76,6 +81,12 @@ app.post('/login', async function (req, res) {
 });
 //#endregion
 //#region pages
+app.get('/search/:query', async function(req, res){
+  let query = req.params.query;
+  let file = fs.readFileSync(__dirname + '/public/pages/search.html', 'utf8')
+  res.setHeader('content-type', 'text/html')
+  res.send(file);
+});
 app.get('/sets/:setid', async function(req, res){
   let setid = req.params.setid;
   let file = fs.readFileSync(__dirname + '/public/pages/set.html', 'utf8')

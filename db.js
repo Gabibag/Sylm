@@ -12,6 +12,11 @@ const util = require('./util.js');
 module.exports = {
     init: init,
     db: null,
+    searchSets: async function (query, maxResults) {
+        let sets = await this.db.all("SELECT * FROM sets WHERE name LIKE ? OR desc LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults]);
+        console.log(sets);
+        return sets;
+    },
     getLeaderboard: async function(setid, gameid){
         let board = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
         return board;
