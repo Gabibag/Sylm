@@ -1,8 +1,9 @@
 function setMaker(){
     window.location.href = "/setmaker";
 }
-document.getElementById("SearchBar").addEventListener("keypress", function(event) {
-    alert("hello");
-    if (event.keyCode === 13) {
+
+function SearchKey(event){
+    if(event.keyCode == 13){
+        window.location.href = "/search/" + event.target.value;
     }
-});
+}
