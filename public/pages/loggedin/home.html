@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src = "/javascript/home.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
     <title>Home</title>
 </head>
 <body>
@@ -13,11 +17,14 @@
             <img height="50" width=50" src="images/SmallHome.svg" alt="Home" id = "HomeImgBig">
             <img height="88" width = "88" src="images/home.svg" alt="SmallHome" id = "HomeImgSmall">
         </div>
+        <div id = "SearchContainer">
+            <input type="text" id = "SearchBar" placeholder="">
+        </input>
+        </div>
     </div>
     <div id = "Rightbar">
         <div id = "buttonHolder">
-            <button id = "createSet">Create Set</button>
-            
+            <button id = "createSet" onclick = "setMaker()">Create Set</button>
         </div>
     </div>
 </body>
