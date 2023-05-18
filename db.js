@@ -34,6 +34,10 @@ module.exports = {
             return this.getNewSetId();
         }
     },
+    getSets: async function(user){
+        let sets = await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
+        return sets;
+    },
     createSet: async function(author, data){
         let id = await this.getNewSetId();
         let name = data.name;

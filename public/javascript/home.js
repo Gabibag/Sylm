@@ -7,3 +7,29 @@ function SearchKey(event){
         window.location.href = "/search/" + event.target.value;
     }
 }
+var loadedSets = [];
+function LoadSets(){
+    fetch("/api/mysets", {
+        method: "GET",
+        headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+        },
+    }).then((response) => response.json()).then((data) => {
+        loadedSets = data;
+        let sets = document.getElementById("SetList");
+        sets.innerHTML = "";
+        for(let set of data){
+            let li = document.createElement("li");
+            li.className = "set";
+            li.innerHTML = set.name;
+            li.onclick = function(){
+                window.location.href = "/sets/" + set.id;
+            }
+            sets.appendChild(li);
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+LoadSets()
