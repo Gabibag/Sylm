@@ -1,14 +1,15 @@
-function setMaker(){
+function setMaker() {
     window.location.href = "/setmaker";
 }
 
-function SearchKey(event){
-    if(event.keyCode == 13){
+function SearchKey(event) {
+    if (event.keyCode == 13) {
         window.location.href = "/search/" + event.target.value;
     }
 }
+var selectedSet = null;
 var loadedSets = [];
-function LoadSets(){
+function LoadSets() {
     fetch("/api/mysets", {
         method: "GET",
         headers: {
@@ -16,23 +17,53 @@ function LoadSets(){
             "content-type": "application/json",
         },
     }).then((response) => response.json()).then((data) => {
-        if(data.length == 0){
+        if (data.length == 0) {
             document.getElementById("Center").innerHTML = "You have no sets";
         }
         loadedSets = data;
         let sets = document.getElementById("SetList");
         sets.innerHTML = "";
-        for(let set of data){
+        for (let set of data) {
             let li = document.createElement("li");
             li.className = "set";
             li.innerHTML = set.name;
-            li.onclick = function(){
-                window.location.href = "/sets/" + set.id;
+            li.id = set.id;
+            li.onclick = function () {
+                selectedSet = set;
+                UpdateToNewSet();
             }
             sets.appendChild(li);
         }
     }).catch((error) => {
         console.error(error);
     });
+}
+function UpdateToNewSet() {
+    document.getElementById("Center").innerHTML = "";
+    let name = document.createElement("h1");
+    name.innerHTML = selectedSet.name;
+    document.getElementById("Center").appendChild(name);
+    let desc = document.createElement("p");
+    desc.innerHTML = selectedSet.desc;
+    document.getElementById("Center").appendChild(desc);
+    let child = document.createElement("div");
+    child.id = "TermsDefs";
+    document.getElementById("Center").appendChild(child);
+    let termlist = document.createElement("ul");
+    let deflist = document.createElement("ul");
+    termlist.id = "TermList";
+    deflist.id = "DefList";
+    let termslistdata = selectedSet.terms.split("");
+    let defslistdata = selectedSet.defs.split("");
+    for(let i = 0; i < termslistdata.length; i++) {
+        let term = document.createElement("li");
+        term.innerHTML = termslistdata[i];
+        termlist.appendChild(term);
+        let def = document.createElement("li");
+        def.innerHTML = defslistdata[i];
+        deflist.appendChild(def);
+    }
+    document.getElementById("TermsDefs").appendChild(termlist);
+    document.getElementById("TermsDefs").appendChild(deflist);
 }
 LoadSets()

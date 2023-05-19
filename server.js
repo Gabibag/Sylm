@@ -159,7 +159,7 @@ app.get('/:page', async function (req, res) {
     res.sendFile(__dirname + '/public/pages/404.html');
   }
 });
-app.get('/images/:f', function (req, res) { //idk why this no work
+app.get('/images/:f', function (req, res) {
   res.sendFile(__dirname + '/public/images/' + req.params.f);
 });
 //#endregion

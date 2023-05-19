@@ -11,3 +11,8 @@ fetch('/api/search/' + query, {
         document.getElementById('searchResults').appendChild(set);
     }
 });
+function searchKey(e){
+    if(e.keyCode == 13){
+        window.location.href = '/search/' + e.target.value;
+    }
+}

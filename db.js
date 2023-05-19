@@ -14,7 +14,6 @@ module.exports = {
     db: null,
     searchSets: async function (query, maxResults) {
         let sets = await this.db.all("SELECT * FROM sets WHERE name LIKE ? OR desc LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults]);
-        console.log(sets);
         return sets;
     },
     getLeaderboard: async function(setid, gameid){
