@@ -1,0 +1,28 @@
+.mainItems{
+/*    content is centered on page*/
+    position: absolute;
+    left: 36vw;
+    right: 38vw;
+    text-align: center;
+    top: 12vh;
+}
+
+.buttonGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3vh;
+}
+.button {
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #397377;
+    color: #FFFAFA;
+    cursor: pointer;
+    transition: 0.4s;
+    transition-property: background-color, color, scale;
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
+    scale: 1;
+    border: 3px solid transparent;
+
+}

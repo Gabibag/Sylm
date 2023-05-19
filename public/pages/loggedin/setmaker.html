@@ -1,66 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Set Maker</title>
+    <script src="javascript/setMaker.js"></script>
+    <link rel="stylesheet" href="styles/setMaker.css"/>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
   </head>
   <body>
-    <input type="text" id = "name" placeholder="Enter name"><input type="text" id = "desc" placeholder="describe it">
+  <div class="mainItems">
+    <label for="name"></label><input type="text" id="name" placeholder="Enter name"><input type="text" id="desc"
+                                                                                           placeholder="describe it">
     <ol id="terms"></ol>
     <ol id="defs"></ol>
-    <input type="text" name="Term" id="setname" placeholder="Enter Term" />
-    <input
-      type="text"
-      name="Definition"
-      id="setdef"
-      placeholder="Enter Definition"
-    />
-    <button onclick="addTerm()">Add Term</button>
-    <button onclick="submit()">Submit</button>
-    <script>
-      const seprater = "";
-      function submit() {
-          var terms = document.getElementById("terms");
-          var t = "";
-          for (let v of terms.children) {
-            t += v.innerHTML + seprater;
-          }
-          var defs = document.getElementById("defs");
-          var d = "";
-          for (let v of defs.children) {
-            d += v.innerHTML + seprater;
-          }
+    <label for="setname"></label><input type="text" name="Term" id="setname" placeholder="Enter Term"/>
+    <label for="setdef"></label><input
+          type="text"
+          name="Definition"
+          id="setdef"
+          placeholder="Enter Definition"
+  />
+    <div class="buttonGroup">
+      <button onclick="addTerm()" class="button">Add Term</button>
+      <button onclick="submit()">Submit</button>
+    </div>
+  </div>
 
-          var body = {
-            terms: t,
-            defs: d,
-            name: document.getElementById("name").value,
-            description: document.getElementById("desc").value,
-          };
-          fetch("/api/createset", {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }).then(Response => {
-            return Response.text();
-          }).then(data => {
-            window.location.href = "/sets/" + data;
-          });
-      }
-      function addTerm() {
-        var term = document.getElementById("setname").value;
-        var def = document.getElementById("setdef").value;
-        var li = document.createElement("li");
-        li.innerHTML = term;
-        document.getElementById("terms").appendChild(li);
-        li = document.createElement("li");
-        li.innerHTML = def;
-        document.getElementById("defs").appendChild(li);
-      }
-    </script>
   </body>
 </html>

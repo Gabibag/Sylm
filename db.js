@@ -17,8 +17,7 @@ module.exports = {
         return sets;
     },
     getLeaderboard: async function(setid, gameid){
-        let board = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
-        return board;
+        return await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
     },
     submitScore: async function(user, setid, gameid, score){
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
@@ -60,13 +59,16 @@ module.exports = {
         return id;
     },
     getUserFromReq: async function(req){
-        let t = req.cookies['token'];
-        let user = await this.db.get('SELECT * FROM users WHERE token = ?', t);
-        return user
+        return await this.db.get('SELECT * FROM users WHERE token = ?', req.cookies['token'])
     },
     getUser: async function (username) {
-        let user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
-        return user;
+        console.log("Getting user");
+        user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
+        console.log(user);
+        /*if (user == null || user instanceof Promise) {
+            return null;
+        }*/
+        return await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
     },
     acceptablePassword: function (password) {
         if (password.length < 8) {
@@ -93,11 +95,10 @@ module.exports = {
                 return false;
             }
         }
-        console.log(this.getUser(username));
-        if(await this.getUser(username) != null){
-            return false;
-        }
-        return true;
+        let user = await this.getUser(username);
+        console.log(user);
+        return user == null;
+
     },
     addUser: function (username, password) {
         let token = Hash(username + password);
@@ -105,8 +106,7 @@ module.exports = {
         this.db.run('INSERT INTO users VALUES (?, ?, ?)', [username, password, token]);
     },
     getToken: function (username, password) {
-        let token = Hash(username + password);
-        return token;
+        return Hash(username + password);
     }
 };
 function Hash(input) {
