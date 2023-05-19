@@ -12,12 +12,16 @@
   </head>
   <body>
     <div id = "endscreen">
+        <div id = "endcard">
       <h1 id = "title">Match!</h1>
-      <div id = "endscreenmid">
-        <h2 id = "endscreentext">You finished in <span id = "time">0</span> seconds!</h2>
+        <h2 id = "endscreentext">You finished in <span id = "time">0</span> seconds! &#10;&#13;</h2>
+        <div id = "endbuttons">
+        <button id = "leaderboard" onclick="window.location = '/sets/'+ setId+ '/dragmatch/leaderboard'">Leaderboard</button>
+        <button id = "set" onclick="window.location = '/sets/' + setId">Back to Set</button>
         <button id = "retry" onclick = "location.reload()">Retry</button>
+        </div>
       </div>
-    </div>
+      </div>
     <div id="Start">
       <div id="midstart">
         <h1 id="title">Match!</h1>
