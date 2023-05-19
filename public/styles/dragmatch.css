@@ -1,58 +1,80 @@
-#terms{
-    user-select: none; 
-    background-color: gray;
-    width: 50%;
+#Start{
+    width: 100%;
     height: 100%;
-    list-style: none;
-    font-size: 45px;
-}
-#terms li{
-    background-color: white;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-#terms li:active{
-    background-color: lightgray;
-}
-#definitions li{
-    background-color: white;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-#definitions li:active{
-    background-color: gray;
-}
-#gamecont{
-    background-color: black;
-    width: 100vw;
-    height: 100vh   ;
+    background-color: #397377;
+    position: absolute;
+    display: grid;
     display: flex;
-    flex-direction: row;
-    text-align: center;
-
-
-}
-#popup{
-    width: 100vw;
-    height: 100vh;
-    background-color: wheat;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
     top: 0;
+    color: white;
+    font-size: 50px;
+    text-align: center;
     left: 0;
+
 }
-#definitions{
-    user-select: none;
-    font-size: 45px;
-    background-color: lightgray;
-    width: 50%;
+#Start h1{
+    font-family: 'Roboto', sans-serif;
+}
+#Start p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #4da1a7;
+}
+#game{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+#game h1{
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+    color: white;
+}
+#endscreen{
+    display: none;
+    width: 100%;
     height: 100%;
+    position: absolute;
+    background-color: #397377;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    left: 0;
+    top: 0;
+}
+.itemlist{
     list-style: none;
+}
+.selected{
+    background-color:red!important;
+}
+.itemlist li{
+    background-color: #397377;
+    width: 40vw;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    user-select: none;
+    color: white;
+}
+#termcont{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    margin-top: 10%;
 }

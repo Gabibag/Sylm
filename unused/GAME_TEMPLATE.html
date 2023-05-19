@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAME_NAME</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
+</head>
+<body>
+    <script>
+        //very likely need.
+        let setId = "<!--id-->";
+        let name = "<!--name-->";
+        let description = "<!--desc-->";
+        let terms = "<!--terms-->".split("");
+        let defs = "<!--defs-->".split("");
+        let author = "<!--author-->";
+        function vaildMatch(one, two){
+            for(let i = 0; i < terms.length; i++){
+                if(terms[i] == one && defs[i] == two || terms[i] == two && defs[i] == one){
+                    return true;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

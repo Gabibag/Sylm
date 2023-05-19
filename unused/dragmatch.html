@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play Match!</title>
+  <link rel="stylesheet" href="/styles/dragmatch.css" />
+</head>
+<div id="popup">
+  Get ready!
+  <button id="start" onclick="start()">Start</button>
+</div>
+<div id="gamecont">
+  <ol id="terms"></ol>
+  <ol id="definitions"></ol>
+</div>
+
+<body>
+  <script>
+    let startTime = new Date().getTime();
+    function start() {
+      startTime = new Date().getTime();
+      document.getElementById("popup").style.display = "none";
+    }
+    function shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex],
+        ];
+      }
+      return array;
+    }
+    let setId = "<!--id-->";
+    let name = "<!--name-->";
+    let description = "<!--desc-->";
+    let terms = "<!--terms-->";
+    let defs = "<!--defs-->";
+    let author = "<!--author-->";
+    console.log(defs);
+    terms = terms.split("");
+    defs = defs.split("");
+    console.log(defs);
+    if(terms.length != defs.length){
+     console.error("terms and defs are not the same length");
+    }
+    let randTermsleft = [...terms];
+    let randTermsright = [...defs];
+    shuffle(randTermsleft);
+    shuffle(randTermsright);
+
+    let termsList = document.getElementById("terms");
+    let definitionsList = document.getElementById("definitions");
+    for (let i = 0; i < randTermsleft.length; i++) {
+      let li = document.createElement("li");
+      li.innerHTML = randTermsleft[i];
+      li.id = randTermsleft[i];
+      termsList.appendChild(li);
+      let li2 = document.createElement("li");
+      li2.innerHTML = randTermsright[i];
+      li2.id = randTermsright[i];
+      definitionsList.appendChild(li2);
+    }
+    var down = null;
+    let gamecont = document.getElementById("gamecont");
+    gamecont.addEventListener("mousedown", function (e) {
+      let target = e.target;
+      if (target.tagName == "LI") {
+        down = target;
+      } else {
+        return;
+      }
+    });
+    gamecont.addEventListener("mouseup", function (e) {
+      let target = e.target;
+      if (down) {
+        if (
+          target.tagName == "LI" &&
+          target.parentNode.id != down.parentNode.id
+        ) {
+          let temp = target.innerHTML;
+          for(let i = 0; i < terms.length; i++){
+            if (
+              (terms[i] == down.id && defs[i] == target.id) ||
+              (terms[i] == target.id && defs[i] == down.id)
+            ) {
+              console.log("match");
+              let index = terms.indexOf(terms[i]);
+              terms.splice(index, 1);
+              defs.splice(index, 1);
+              //remove the html elements
+              let termsList = document.getElementById("terms");
+              let definitionsList = document.getElementById("definitions");
+              if (termsList.contains(down)) {
+                definitionsList.removeChild(target);
+                termsList.removeChild(down);
+              } else if (definitionsList.contains(down)) {
+                termsList.removeChild(target);
+                definitionsList.removeChild(down);
+              }
+              if (termsList.children.length <= 0) {
+                alert("/api/submitscore/" + setId + "/dragmatch")
+                let t = (new Date().getTime() - startTime) / 1000
+                let scaledt = Math.round(timeToPointScore(t));
+                document.getElementById("popup").style.display = "block";
+                document.getElementById("popup").innerHTML = "You won! It took you " + t + " seconds! for " + scaledt + " points!";
+                document.getElementById("popup").innerHTML += "<br><button onclick='window.location.reload()'>Play again</button>";
+                fetch("/api/submitscore/" + setId + "/dragmatch", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    score: scaledt,
+                  })
+                });
+                return;
+              }
+            }
+          }
+          down = null;
+        } else {
+          down = null;
+        }
+      } else {
+        return;
+      }
+    });
+    function timeToPointScore(t) {
+      return (1 / (0.1 * (t + 1))) * 1500;
+    }
+  </script>
+</body>
+
+</html>
