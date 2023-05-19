@@ -9,9 +9,12 @@ app.use(cookieParser());
 
 //#region routes
 //#region api
-app.get('/api/search/:query', async function (req, res) {
+app.post('/api/search/:query', async function (req, res) {
+  console.log("Searching for " + req.params.query);
   let query = req.params.query;
-  let sets = await db.searchSets(query, 10);
+  let body = req.body;
+
+  let sets = await db.searchSets(query, body.amount, body.start);
   res.send(JSON.stringify(sets));
 });
 app.get('/api/mysets', async function (req, res) {
