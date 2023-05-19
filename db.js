@@ -12,8 +12,15 @@ const util = require('./util.js');
 module.exports = {
     init: init,
     db: null,
-    searchSets: async function (query, maxResults) {
+    searchSets: async function (query, maxResults, start) {
         let sets = await this.db.all("SELECT * FROM sets WHERE name LIKE ? OR desc LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults]);
+        if(sets.length - start > maxResults){
+            return sets.slice(start, start + maxResults);
+        }
+        console.log(sets.length - start);
+        if(sets.length - start < maxResults){
+            sets.push(...(await this.db.all("SELECT * FROM sets WHERE terms LIKE ? OR defs LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults - sets.length])));
+        }
         return sets;
     },
     getLeaderboard: async function(setid, gameid){
@@ -40,6 +47,11 @@ module.exports = {
     getSets: async function(user){
         let sets = await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
         return sets;
+    },
+    createSetManual: async function(name, desc, author, terms, defs){
+        let id = await this.getNewSetId();
+        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, name, desc, author, terms, defs]);
+        return id;
     },
     createSet: async function(author, data){
         let id = await this.getNewSetId();
