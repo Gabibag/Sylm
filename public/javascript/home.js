@@ -40,9 +40,20 @@ function LoadSets() {
 }
 function UpdateToNewSet() {
     document.getElementById("Center").innerHTML = "";
+    let div = document.createElement("div");
+    div.id = "SetInfo";
     let name = document.createElement("h1");
     name.innerHTML = selectedSet.name;
-    document.getElementById("Center").appendChild(name);
+    div.appendChild(name);
+    let img = document.createElement("img");
+    img.src = "/images/openin.svg";
+    img.id = "OpenIn";
+    img.width = img.height = 50;
+    img.onclick = function () {
+        window.location.href = "/sets/" + selectedSet.id;
+    }
+    div.appendChild(img);
+    document.getElementById("Center").appendChild(div);
     let desc = document.createElement("p");
     desc.innerHTML = selectedSet.desc;
     document.getElementById("Center").appendChild(desc);
