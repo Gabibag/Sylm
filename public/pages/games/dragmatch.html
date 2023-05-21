@@ -107,12 +107,21 @@
             document.getElementById(lastHit.id).remove();
             document.getElementById(this.id).remove();
             if(GameOver()){
-              console.log("Game Over");
               let time = new Date().getTime() - stime;
               document.getElementById("endscreen").style.display = "flex";
               document.getElementById("time").innerHTML = time/1000;
-            }
+              let score =  (1 / 0.1 * (time + 3));
+              fetch('/api/submitscore/' + setId + '/dragmatch', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  score: score,
+              })
+            })
           }
+        }
           lastHit = null;
         }
       }

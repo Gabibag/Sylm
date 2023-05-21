@@ -29,6 +29,7 @@ app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
+  console.log("score")
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let score = req.body.score;
