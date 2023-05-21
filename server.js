@@ -94,6 +94,9 @@ app.get('/sets/:setid', async function(req, res){
   let setid = req.params.setid;
   let file = fs.readFileSync(__dirname + '/public/pages/set.html', 'utf8')
   let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
+  if(set === undefined){
+    return res.sendFile("public/pages/404.html", {root: __dirname})
+  }
   file = file.replace('<!--id-->', setid);
   file = file.replace('<!--name-->', set.name);
   file = file.replace('<!--desc-->', set.desc);
@@ -132,6 +135,9 @@ app.get('/sets/:setid/play/:game', async function(req, res){
   let game = req.params.game;
   let file = fs.readFileSync(__dirname + '/public/pages/games/' +game + '.html', 'utf8')
   let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
+  if(set === undefined){
+    return res.sendFile("public/pages/404.html", {root: __dirname})
+  }
   file = file.replace('<!--name-->', set.name);
   file = file.replace('<!--desc-->', set.desc);
   file = file.replace('<!--author-->', set.author);
