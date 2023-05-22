@@ -5,7 +5,6 @@ async function run() {
     let file = fs.readFileSync('./setData.txt', 'utf8');
     let sets = file.split('\n');
     for (let set of sets) {
-
         let name = set.split(',')[0];
         let desc = set.split(',')[1];
         let author = set.split(',')[2];
