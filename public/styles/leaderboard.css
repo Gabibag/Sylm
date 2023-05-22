@@ -11,3 +11,49 @@ body {
     margin-top: 0;
     margin-bottom: 0;
 }
+#boardContainer{
+    padding-top: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+.leaderboardItem div {
+    padding: 20px;
+}
+.first{
+    background-color: gold;
+}
+.second{
+    background-color: silver;
+}
+.third{
+    background-color: #cd7f32;
+}
+.even{
+    background-color: #2f5d5d;
+}
+.odd{
+
+    background-color: #397377;
+}
+.leaderboardItem{
+    float: left;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+#leaderboard{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 80%;
+    background-color: #397377;
+}

@@ -34,18 +34,54 @@
                 }
             }
         }
+        function UpperCaseWordStarts(str){
+            let words = str.split(" ");
+            let newStr = "";
+            for(let word of words){
+                newStr += word[0].toUpperCase() + word.slice(1) + " ";
+            }
+            return newStr;
+        }
         let leaderboard = document.getElementById("leaderboard");
         let setId = "<!--setid-->";
         let game = "<!--game-->";
-        document.getElementById("title").innerHTML = game + "leaderboard for " + setId;
+        document.getElementById("title").innerHTML = UpperCaseWordStarts(game) + "leaderboard for " + setId;
         fetch("/api/getleaderboard/" + setId + "/" + game, {
             method:"POST"
         }).then((d) => d.json()).then((d) => {
-            alert(JSON.stringify(d));
             bubble_sort(d)
+            var i= 0;
             for(let v  of d){
-                let li = document.createElement("li");
-                li.innerHTML = v.user + " - " + v.score;
+                i++;
+                let li = document.createElement("div");
+                let child = document.createElement("div");
+                child.innerHTML = i;
+                li.appendChild(child);
+                child = document.createElement("div");
+                child.innerHTML =  v.user;
+                li.appendChild(child);
+                child = document.createElement("div");
+                child.innerHTML = v.score;
+                li.appendChild(child);
+                li.classList.add("leaderboardItem");
+                switch (i){
+                    case 1:
+                        li.classList.add("first");
+                        break;
+                    case 2:
+                        li.classList.add("second");
+                        break;
+                    case 3:
+                        li.classList.add("third");
+                        break;
+                    default:
+                        if(i % 2 == 0)
+                            li.classList.add("even");
+                        else
+                            li.classList.add("odd");
+                        break;
+                }
+                
                 leaderboard.appendChild(li);
             }
         })

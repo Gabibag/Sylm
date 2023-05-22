@@ -116,11 +116,17 @@ app.get('/', function (req, res) {
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
   let setid = req.params.setid;
   let game = req.params.game;
+  try {
+    
   let file = fs.readFileSync(__dirname + '/public/pages/leaderboard.html', 'utf8')
   file = file.replace('<!--setid-->', setid);
   file = file.replace('<!--game-->', game);
   res.setHeader('content-type', 'text/html');
   res.send(file);
+
+} catch (error) {
+ res.sendFile(__dirname + '/public/pages/404.html')   
+}
 });
 app.get('/styles/:f', function (req, res) {
   res.setHeader('content-type', "text/css")
@@ -134,6 +140,8 @@ app.get('/javascript/:f', function (req, res) {
 app.get('/sets/:setid/play/:game', async function(req, res){
   let setid = req.params.setid;
   let game = req.params.game;
+  try {
+    
   let file = fs.readFileSync(__dirname + '/public/pages/games/' +game + '.html', 'utf8')
   let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
   if(set === undefined){
@@ -146,6 +154,10 @@ app.get('/sets/:setid/play/:game', async function(req, res){
   file = file.replace("<!--defs-->", set.defs);
   file = file.replace('<!--id-->', set.id);
   res.send(file);
+
+} catch (error) {
+ res.sendFile(__dirname + '/public/pages/404.html')   
+}
 });
 
 app.get('/:page', async function (req, res) {
