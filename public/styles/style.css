@@ -34,6 +34,7 @@
     color: #397377;
 }
 body {
+    overflow: hidden;
     background-color: #4DA1A7;
 }
 
@@ -42,7 +43,7 @@ body {
     position: relative;
     align-content: center;
     transition-property: background-color, color, scale, transform;
-
+    border: 3px solid transparent;
 }
 
 .loginButton {

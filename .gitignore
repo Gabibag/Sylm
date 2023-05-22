@@ -9,3 +9,5 @@
 .idea
 db.sqlite3
 db.sqlite
+.vscode
+

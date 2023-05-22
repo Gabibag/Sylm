@@ -12,6 +12,23 @@ const util = require('./util.js');
 module.exports = {
     init: init,
     db: null,
+    searchSets: async function (query, maxResults, start) {
+        let sets = await this.db.all("SELECT * FROM sets WHERE name LIKE ? OR desc LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults]);
+        if(sets.length - start > maxResults){
+            return sets.slice(start, start + maxResults);
+        }
+        console.log(sets.length - start);
+        if(sets.length - start < maxResults){
+            sets.push(...(await this.db.all("SELECT * FROM sets WHERE terms LIKE ? OR defs LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults - sets.length])));
+        }
+        return sets;
+    },
+    getLeaderboard: async function(setid, gameid){
+        return await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
+    },
+    submitScore: async function(user, setid, gameid, score){
+        await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
+    },
     getSet: async function(id){
         let set = await this.db.get("SELECT * FROM sets WHERE id = ?", id);
         return set;
@@ -27,24 +44,42 @@ module.exports = {
             return this.getNewSetId();
         }
     },
-    createSet: async function(author, data){
-        console.log("Creating set");
+    getSets: async function(user){
+        let sets = await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
+        return sets;
+    },
+    createSetManual: async function(name, desc, author, terms, defs){
         let id = await this.getNewSetId();
-        console.log(id)
-        let name = data.name;
-        let description = data.description;
-        let cards = data.terms;
-        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?)", [id, name, description, author.username, cards]);
+        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, util.espace(name), util.espace(desc), util.espace(author), util.espace(terms), util.espace(defs)]);
+        return id;
+    },
+    createSet: async function(author, data){
+        let id = await this.getNewSetId();
+        let name = util.espace(data.name);
+        let description = util.espace(data.description);
+        let cards = util.espace(data.terms);
+        if(cards.endsWith(util.separator)){
+            cards = cards.substring(0, cards.length - 1);
+        }
+        let defs = util.espace(data.defs);
+        console.log(util.separator);
+        if(defs.endsWith(util.separator)){
+            defs = defs.substring(0, defs.length - 1);
+        }
+        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, name, description, author.username, cards, defs]);
         return id;
     },
     getUserFromReq: async function(req){
-        let t = req.cookies['token'];
-        let user = await this.db.get('SELECT * FROM users WHERE token = ?', t);
-        return user
+        return await this.db.get('SELECT * FROM users WHERE token = ?', req.cookies['token'])
     },
     getUser: async function (username) {
-        let user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
-        return user;
+        console.log("Getting user");
+        user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
+        console.log(user);
+        /*if (user == null || user instanceof Promise) {
+            return null;
+        }*/
+        return await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
     },
     acceptablePassword: function (password) {
         if (password.length < 8) {
@@ -71,11 +106,10 @@ module.exports = {
                 return false;
             }
         }
-        console.log(this.getUser(username));
-        if(await this.getUser(username) != null){
-            return false;
-        }
-        return true;
+        let user = await this.getUser(username);
+        console.log(user);
+        return user == null;
+
     },
     addUser: function (username, password) {
         let token = Hash(username + password);
@@ -83,8 +117,7 @@ module.exports = {
         this.db.run('INSERT INTO users VALUES (?, ?, ?)', [username, password, token]);
     },
     getToken: function (username, password) {
-        let token = Hash(username + password);
-        return token;
+        return Hash(username + password);
     }
 };
 function Hash(input) {

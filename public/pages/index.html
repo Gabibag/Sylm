@@ -12,14 +12,19 @@
   <div class ="mainTitle">
     <h1>Join Game</h1>
   </div>
-  <form action="/join" method="post">
-    <label>
-      <input type="text" name="gameId" placeholder="Game ID">
-    </label>
-    <input type="submit" value="Join">
-  </form>
-  
-
+  <div class="buttons">
+    <button onclick="redirectButton('/login')" class="loginButton" >Login</button>
+    <button onclick="redirectButton('/register')" class="loginButton" >Sign up</button>
+  </div>
+</div>
+<div>
+  <img src="images/gradHat.svg" alt="graduation cap" class="gradHat">
+  <img src="images/pencil.svg" alt="pencil" class="pencil">
+  <img src="images/calculator.svg" alt="calculator" class="calculator">
+  <img src="images/book.svg" alt="book" class="book">
+  <img src="images/bracketRight.svg" alt="bracket" class="bracketRight">
+  <img src="images/bracketLeft.svg" alt="bracket" class="bracketLeft">
+</div>
 </body>
 
 
