@@ -1,5 +1,31 @@
 let r = document.querySelector(':root');
+document.addEventListener("DOMContentLoaded", function () {
+    username = document.getElementById("username");
+    password = document.getElementById("password");
+    let rPassword = document.getElementById("repeatPassword");
+    rPassword.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitButton();
+        }
+    });
 
+    password.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            rPassword.focus();
+        }
+    });
+
+//if the user press enter on the username field it will focus on the password field
+
+    username.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            password.focus();
+        }
+    });
+});
 function checkIfFilled(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -42,16 +68,17 @@ function checkIfFilled(){
 function submitButton() {
     let password = document.getElementById("password").value;
     let checkPassword = document.getElementById("repeatPassword").value;
+    let login = document.getElementById('login');
     if( password !== checkPassword){
         console.log("passwords do not match")
-        document.getElementById('login').innerText = "Passwords do not match"
+        login.innerText = "Passwords do not match"
         document.getElementById("password").style.border = "3px solid #d96363";
         document.getElementById("repeatPassword").style.border = "3px solid #d96363";
 
         setTimeout(function(){
             document.getElementById("password").style.border = "3px solid transparent";
             document.getElementById("repeatPassword").style.border = "3px solid transparent";
-            document.getElementById('login').innerText = "Create User"
+            login.innerText = "Create User"
         }, 3000);
 
         return
@@ -72,16 +99,25 @@ function submitButton() {
             window.location = "/home"
         }
         else {
-            document.getElementById('login').style.cursor = 'not-allowed'
-        document.getElementById('login').style.animation = 'shakeError 0.5s'
+            login.style.cursor = 'not-allowed'
+        login.style.animation = 'shakeError 0.5s'
         r.style.setProperty('--buttonbackground', '#d96363');
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){
-            document.getElementById('login').style.animation = '3px solid transparent'
+            login.style.animation = '3px solid transparent'
         }, 700);
-        document.getElementById("password").style.border = "3px solid #d96363"
+        if (d.includes( "Username")){
+            document.getElementById("username").style.border = "3px solid #d96363";
+        }else if (d.includes("Password")){
+            document.getElementById("password").style.border = "3px solid #d96363";
+            document.getElementById("repeatPassword").style.border = "3px solid #d96363";
+        }
+        login.innerText = d
         setTimeout(function(){
             document.getElementById("password").style.border = "3px solid transparent";
+            document.getElementById("repeatPassword").style.border = "3px solid transparent";
+            document.getElementById("username").style.border = "3px solid transparent";
+            login.innerText = "Create User"
         }, 3000);
         }
     })

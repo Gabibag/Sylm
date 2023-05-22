@@ -1,9 +1,12 @@
+let username = "";
+let password = "";
+
 function submitButton() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let u = username.value;
+    let p = password.value;
     let data = {
-        username: username,
-        password: password
+        username: u,
+        password: p
     }
     fetch(window.location, {
         method: "POST",
@@ -26,7 +29,7 @@ function submitButton() {
             login.innerText = "Invalid Username or Password"
             setTimeout(function () {
                 login.style.animation = 'none'
-                switcher.animation = 'none'
+                // switcher.animation = 'none'
             }, 700);
             setTimeout(function () {
                 login.innerText = "Login"
@@ -39,9 +42,33 @@ function submitButton() {
 }
 let r = document.querySelector(':root');
 
+
+//when the user press enter on the password field it will submit the form
+
+document.addEventListener("DOMContentLoaded", function () {
+    username = document.getElementById("username");
+    password = document.getElementById("password");
+
+    password.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitButton();
+        }
+    });
+
+//if the user press enter on the username field it will focus on the password field
+
+    username.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            password.focus();
+        }
+    });
+});
 function checkIfFilled(){
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+
     let login = document.getElementById('login').style;
     if(username.length > 0 && password.length > 0){
         login.cursor = 'pointer'
@@ -55,6 +82,8 @@ function checkIfFilled(){
         r.style.setProperty('--buttoncolor', '#FFFAFA');
         setTimeout(function(){
             login.animation = 'none'
+            r.style.setProperty('--buttonbackground', '#FFFAFA');
+            r.style.setProperty('--buttoncolor', '#397377');
         }, 700);
 
     }

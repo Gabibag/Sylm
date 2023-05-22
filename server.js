@@ -56,11 +56,12 @@ app.post('/Register', async function (req, res) {
     res.send("Password not acceptable");
     return;
   }
-  console.log(db.acceptableUserName(username))
-  if (! await db.acceptableUserName(username)) {
+  // console.log(db.acceptableUserName(username))
+  if (!await db.acceptableUserName(username)) {
     res.send("Username not acceptable");
     return;
   }
+  console.log("Registering user")
   db.addUser(username, password)
   let u = await db.getUser(username)
   res.cookie('token', u.token);
