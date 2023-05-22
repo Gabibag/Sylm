@@ -90,7 +90,7 @@ body {
 #TermsDefs{
     overflow-y: scroll;
     padding-top: 20%;
-    width: 100%;  
+    width: 100%;
     height: 30%;
     display: flex;
     justify-content: space-evenly;

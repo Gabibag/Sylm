@@ -3,14 +3,19 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{name}</title>
-  <link rel="stylesheet" href="/public/styles/style.css">
+  <title>Sylm</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+  </style>
+  <script src="javascript/index.js"></script>
 </head>
 
-<!-- create a join game id screen -->
+<!--create a login screen that talks to google accounts-->
 <body>
-  <div class ="mainTitle">
-    <h1>Join Game</h1>
+<div class="mainItems">
+  <div class="mainTitle" onmouseenter="mouseOverTittle()" onmouseleave="mouseExitTittle()">
+    Sylm!
   </div>
   <div class="buttons">
     <button onclick="redirectButton('/login')" class="loginButton" >Login</button>
