@@ -1,5 +1,31 @@
 let r = document.querySelector(':root');
+document.addEventListener("DOMContentLoaded", function () {
+    username = document.getElementById("username");
+    password = document.getElementById("password");
+    let rPassword = document.getElementById("repeatPassword");
+    rPassword.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitButton();
+        }
+    });
 
+    password.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            rPassword.focus();
+        }
+    });
+
+//if the user press enter on the username field it will focus on the password field
+
+    username.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            password.focus();
+        }
+    });
+});
 function checkIfFilled(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;

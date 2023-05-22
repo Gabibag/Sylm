@@ -1,10 +1,18 @@
+body{
+    background-color: #4DA1A7;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 .mainItems{
-/*    content is centered on page*/
-    position: absolute;
-    left: 36vw;
-    right: 38vw;
-    text-align: center;
-    top: 12vh;
+/*    content is centered horizontally on page*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
 }
 
 .buttonGroup{
@@ -13,6 +21,31 @@
     justify-content: space-between;
     margin-top: 3vh;
 }
+.headInputBox{
+/*    invisible except for an underline and text*/
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
+    border-radius: 0;
+    border: none;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: 20vw;
+    height: 1.5vh;
+    font-size: 1.5rem;
+    text-align: center;
+    transition: 0.4s;
+    transition-property: background-color, color, scale;
+    scale: 1;
+    background-color: transparent;
+    color: #FFFAFA;
+    border-bottom: 3px solid #1c373a;
+    outline: none;
+
+}
+.headInputBox:focus{
+    border-bottom: 3px solid #397377;
+}
+
+
 .button {
     font-weight: bold;
     border-radius: 5px;
@@ -23,6 +56,32 @@
     transition-property: background-color, color, scale;
     font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
     scale: 1;
+    width: 12vw;
     border: 3px solid transparent;
 
+}
+
+.inputBox{
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
+    border-radius: 5px;
+    border: 3px solid #397377;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: 20vw;
+    height: 5vh;
+    font-size: 1.5rem;
+    text-align: center;
+    transition: 0.4s;
+    scale: 1;
+}
+.inputBox:focus{
+    outline: none;
+    border: 3px solid #1c373a;
+}
+
+.setInfoGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3vh;
 }

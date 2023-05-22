@@ -13,20 +13,32 @@
   </head>
   <body>
   <div class="mainItems">
-    <label for="name"></label><input type="text" id="name" placeholder="Enter name"><input type="text" id="desc"
-                                                                                           placeholder="describe it">
-    <ol id="terms"></ol>
-    <ol id="defs"></ol>
-    <label for="setname"></label><input type="text" name="Term" id="setname" placeholder="Enter Term"/>
-    <label for="setdef"></label><input
-          type="text"
-          name="Definition"
-          id="setdef"
-          placeholder="Enter Definition"
-  />
+    <div class="setInfoGroup">
+      <label for="name"></label><input class="headInputBox" id="name" placeholder="Enter name"
+                                                               type="text">
+      <label for="desc"></label><input class="headInputBox"
+                                       id="desc"
+                                       placeholder="Description"
+                                       type="text"
+      >
+    </div>
+    <div class="buttonGroup">
+      <ol id="terms"></ol>
+      <ol id="defs"></ol>
+    </div>
+    <div class="setInfoGroup">
+      <label for="setname"></label><input class="inputBox" id="setname" name="Term" placeholder="Enter Term"
+                                          type="text"/>
+      <label for="setdef"></label><input
+            class="inputBox"
+            id="setdef"
+            name="Definition"
+            placeholder="Enter Definition"
+            type="text"
+    /></div>
     <div class="buttonGroup">
       <button onclick="addTerm()" class="button">Add Term</button>
-      <button onclick="submit()">Submit</button>
+      <button class="button" onclick="submit()">Submit</button>
     </div>
   </div>
 

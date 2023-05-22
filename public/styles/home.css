@@ -4,11 +4,11 @@ body {
     padding: 0;
 }
 #HomeImgSmall {
-    bottom:300;
+    bottom: 300px;
     position: absolute;
 }
 #HomeImgBig{
-    bottom: 388;
+    bottom: 388px;
     position: absolute;
     width: 50px;
     height: 50px;
@@ -23,23 +23,26 @@ body {
     padding: 20px;
 }
 #createSet{
-    inherits: none;
-    margin-left: 5%;
     margin-top: 8%;
     width: 90%;
     border: none;
     background-color: #4DA1A7;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 10px 15px;
     color: white;
     text-align: center;
     text-decoration: none;
     font-size: 25px;
-    border-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
     font-family: 'Titan One', cursive;
+    transition: 0.3s;
 }
+#createSet:hover{
+    background-color: white;
+    scale: 1.1;
+    color: #4DA1A7;
+}
+
 #SearchContainer{
 
     position: relative;
@@ -51,6 +54,7 @@ body {
     align-items: center;
     flex-direction: column;
 }
+
 #SearchImg{
     height:40%;
     position: absolute;
@@ -58,21 +62,30 @@ body {
     left: 8%;
 }
 #SearchBar{
-    text-indent: 10%;
+    text-indent: 12%;
     background-color: #31858B;
     position: relative;
     float: right;
     width: 80%;
     height:40%;
-    padding: 20px;
     margin-top: 2%;
     margin-bottom: 2%;
     margin-right: 2%;
     border-radius: 10px;
-    border: none;
-    padding-left: 10px;
+    padding: 20px 20px 20px 10px;
     font-size: 20px;
     font-family: 'Titan One', cursive;
+    color: white;
+    transition: 0.1s;
+    border: 0 solid #4DA1A7;
+}
+#SearchBar:hover{
+    border: 1px solid #4DA1A7;
+}
+#SearchBar:focus{
+    outline: none;
+    border: 3px solid #4DA1A7;
+
 }
 #TermsDefs{
     overflow-y: scroll;
@@ -108,7 +121,7 @@ body {
     background-color: #397377;
     padding: 20px;
 }
-#Topbar{
+#topBar{
     position: absolute;
     width: 100%;
     height: 15%;
@@ -120,7 +133,7 @@ body {
 #OpenIn{
     cursor: pointer;
 }
-#Rightbar{
+#rightBar{
     position: absolute;
     width: 15%;
     height: 85%;
@@ -154,22 +167,28 @@ body {
 }
 #SetList{
     padding: 0;
-    margin-left: 0px;
+    margin-right: 1vw;
     width: 100%;
     list-style: none;
+    overflow-y: scroll;
+
  }
  .set:hover{
     background-color: #397377;
     color: white;
     cursor: pointer;
+     scale: 1.1;
  }
 .set{
     font-family: 'Titan One', cursive;
     text-align: center;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 0.5vh;
     background-color: #4DA1A7;
     user-select: none;
-    width: 100%;
+    width: 75%;
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+    transition: 0.3s;
     border-radius: 10px;
 }

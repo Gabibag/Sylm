@@ -94,18 +94,25 @@
       function GameOver(){
         return document.getElementById("terms").children.length == 0 && document.getElementById("definitions").children.length == 0;
       }
-      var lastHit = null;
-      function clickTermOrDef(e){
+
+      let lastHit = null;
+
+      function clickTermOrDef(){
         if(lastHit == null){
           lastHit = this;
           this.classList.add("selected");
-          return;
         }
         else{
-          lastHit.classList.remove("selected");
+          // lastHit.classList.remove("selected");
           if(vaildMatch(lastHit.id, this.id)){
-            document.getElementById(lastHit.id).remove();
-            document.getElementById(this.id).remove();
+            let s = this.id;
+            let t = lastHit.id;
+            // document.getElementById(t).style.scale = "0";
+            document.getElementById(s).style.scale = "0";
+            setTimeout(function(){
+                document.getElementById(t).remove();
+                document.getElementById(s).remove();
+            }, 700);
             if(GameOver()){
               let time = new Date().getTime() - stime;
               document.getElementById("endscreen").style.display = "flex";
