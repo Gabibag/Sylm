@@ -50,21 +50,20 @@ module.exports = {
     },
     createSetManual: async function(name, desc, author, terms, defs){
         let id = await this.getNewSetId();
-        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, name, desc, author, terms, defs]);
+        let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, util.espace(name), util.espace(desc), util.espace(author), util.espace(terms), util.espace(defs)]);
         return id;
     },
     createSet: async function(author, data){
         let id = await this.getNewSetId();
-        let name = data.name;
-        let description = data.description;
-        let cards = data.terms;
+        let name = util.espace(data.name);
+        let description = util.espace(data.description);
+        let cards = util.espace(data.terms);
         if(cards.endsWith(util.separator)){
             cards = cards.substring(0, cards.length - 1);
         }
-        let defs = data.defs;
+        let defs = util.espace(data.defs);
         console.log(util.separator);
         if(defs.endsWith(util.separator)){
-            console.log("here");
             defs = defs.substring(0, defs.length - 1);
         }
         let b = await this.db.run("INSERT INTO sets VALUES (?, ?, ?, ?, ?, ?)", [id, name, description, author.username, cards, defs]);

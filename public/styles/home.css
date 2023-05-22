@@ -171,4 +171,5 @@ body {
     background-color: #4DA1A7;
     user-select: none;
     width: 100%;
+    border-radius: 10px;
 }
