@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Astronomer Rush</title>
+    <link rel="stylesheet" href="/styles/astronomerrush.css">
+</head>
+
+<body>
+    <div id="topbar">
+        <h1 id="title">Astronomer Rush</h1>
+    </div>
+    <div id="homebutton" onclick="window.location.href = '/home'">
+        <img src="/images/duohome.svg" width="40px" height="40px" alt="Home" id="home">
+    </div>
+    <div id="game">
+
+        <canvas id='gamedraw'>
+        </canvas>
+        <input type="text" id="guess">
+    </div>
+    <script>
+        let dpi = window.devicePixelRatio;
+        
+        let setId = "<!--id-->";
+        let name = "<!--name-->";
+        let description = `<!--desc-->`;
+        let terms = `<!--terms-->`.split("");
+        let defs = "<!--defs-->".split("");
+        let author = "<!--author-->";
+        function vaildMatch(one, two) {
+            for (let i = 0; i < terms.length; i++) {
+                if (terms[i] == one && defs[i] == two || terms[i] == two && defs[i] == one) {
+                    return true;
+                }
+            }
+        }
+        function shuffle(array) {
+            var copy = [...array];
+            var currentIndex = copy.length, randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [copy[currentIndex], copy[randomIndex]] = [copy[randomIndex], copy[currentIndex]];
+            }
+            return copy;
+        }
+        let canvas = document.getElementById("gamedraw");
+        let ctx = canvas.getContext("2d");
+        let guess = document.getElementById("guess");
+        let terms2 = shuffle(terms);
+        let defs2 = shuffle(defs);
+        function fix_dpi() {
+            //get CSS height
+            //the + prefix casts it to an integer
+            //the slice method gets rid of "px"
+            let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+            //get CSS width
+            let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+            //scale the canvas
+            canvas.setAttribute('height', style_height * dpi);
+            canvas.setAttribute('width', style_width * dpi);
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+
+            fix_dpi();
+        StartGame();
+        })
+        function StartGame() {
+            ctx.font = "48px 'Titan One'";
+            ctx.textAlign = "center"
+            ctx.fillText("Click to start", canvas.width/2, canvas.height/2);
+            canvas.addEventListener("click", addEvents, { once: true })
+        }
+        function draw(t){
+            var textToDraw = t.text;
+            var textWidth = ctx.measureText(textToDraw).width;
+            ctx.beginPath();
+            ctx.arc(t.pos[0], t.pos[1], textWidth + 20, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.font = "10px 'Titan One'";
+            ctx.textAlign = "center"
+            ctx.fillText(t.text, t.pos[0], t.pos[1]);
+        }
+        let toUpdate = [];
+        var tick = 0;
+        var time_between = 60;
+        function CreateNew(){
+            var newguess = {
+                    text: terms2[Math.floor(Math.random() * terms2.length)],
+                    pos: [Math.random() * (canvas.width - 20) + 20, 0],
+                    vel: [0, 5],
+                }
+                toUpdate.push(newguess);
+        }
+        function GameTick(){
+            tick++;
+            if(tick % time_between == 0){
+                CreateNew();
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            for(let v of toUpdate){
+                v.pos[1] += v.vel[1];
+                v.pos[0] += v.vel[0];
+                v.rot += v.rotvel;
+                draw(v);
+            }
+        }
+        function Typed(event){
+            if(event.key == "Enter"){
+                let guess = this.value;
+                for(let v of toUpdate){
+                    if(vaildMatch(guess, v.text)){
+                        toUpdate.splice(toUpdate.indexOf(v), 1);
+                        //todo score
+                    }
+                }
+                this.value = "";
+            }
+        }
+        function addEvents(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            guess.addEventListener("keydown", Typed)
+            setInterval(() => {
+                    GameTick()
+            }, 1000/60);
+        }
+    </script>
+</body>
+
+</html>
