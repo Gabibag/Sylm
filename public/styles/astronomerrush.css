@@ -3,9 +3,31 @@ body{
     padding: 0;
     margin: 0;
 }
-
+#swaper{
+    border: none;
+    background-color: #2B5E62;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+#swap{
+    font-weight: 100;
+    font-style: normal;
+    font-family: 'Titan One';
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#secondbar{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 #topbar{
-    
     color: white;
     font-family: 'Titan One';
     margin-top: 25px;
@@ -25,12 +47,17 @@ body{
     width: 80%;
 }
 #gamedraw{
+    border-radius: 30px;
     background-color: #2B5E62;
     height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
 }
 #game{
     height: 100%;
