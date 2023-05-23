@@ -7,21 +7,30 @@
     <title>Play Drag Match!</title>
     <link rel="stylesheet" href="/styles/dragmatch.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
     </style>
   </head>
   <body>
-    <div id = "endscreen">
-        <div id = "endcard">
-      <h1 id = "title">Match!</h1>
-        <h2 id = "endscreentext">You finished in <span id = "time">0</span> seconds! &#10;&#13;</h2>
-        <div id = "endbuttons">
-        <button id = "leaderboard" onclick="window.location = '/sets/'+ setId+ '/dragmatch/leaderboard'">Leaderboard</button>
-        <button id = "set" onclick="window.location = '/sets/' + setId">Back to Set</button>
-        <button id = "retry" onclick = "location.reload()">Retry</button>
+    <div id="endscreen">
+      <div id="endcard">
+        <h1 id="title">Match!</h1>
+        <h2 id="endscreentext">
+          You finished in <span id="time">0</span> seconds! &#10;&#13;
+        </h2>
+        <div id="endbuttons">
+          <button
+            id="leaderboard"
+            onclick="window.location = '/sets/'+ setId+ '/dragmatch/leaderboard'"
+          >
+            Leaderboard
+          </button>
+          <button id="set" onclick="window.location = '/sets/' + setId">
+            Back to Set
+          </button>
+          <button id="retry" onclick="location.reload()">Retry</button>
         </div>
       </div>
-      </div>
+    </div>
     <div id="Start">
       <div id="midstart">
         <h1 id="title">Match!</h1>
@@ -31,10 +40,10 @@
     </div>
     <div id="game">
       <h1 id="title">Match!</h1>
-      <div id = "termcont">
-      <li id="terms" class = "itemlist"></li>
-      <li id="definitions" class = "itemlist"></li>
-    </div>
+      <div id="termcont">
+        <li id="terms" class="itemlist"></li>
+        <li id="definitions" class="itemlist"></li>
+      </div>
     </div>
 
     <script>
@@ -68,7 +77,7 @@
       }
       let stime = null;
       function BeginGame() {
-        if(stime){
+        if (stime) {
           return;
         }
         stime = new Date().getTime();
@@ -91,46 +100,47 @@
           dlist.appendChild(li);
         }
       }
-      function GameOver(){
-        return document.getElementById("terms").children.length == 0 && document.getElementById("definitions").children.length == 0;
+      function GameOver() {
+        console.log(document.getElementById("terms").children);
+        return (
+          document.getElementById("terms").children.length == 0 &&
+          document.getElementById("definitions").children.length == 0
+        );
       }
 
       let lastHit = null;
 
-      function clickTermOrDef(){
-        if(lastHit == null){
+      function clickTermOrDef() {
+        if (lastHit == null) {
           lastHit = this;
           this.classList.add("selected");
-        }
-        else{
+        } else {
           // lastHit.classList.remove("selected");
-          if(vaildMatch(lastHit.id, this.id)){
+          if (vaildMatch(lastHit.id, this.id)) {
             let s = this.id;
             let t = lastHit.id;
             // document.getElementById(t).style.scale = "0";
             document.getElementById(s).style.scale = "0";
-            setTimeout(function(){
-                document.getElementById(t).remove();
-                document.getElementById(s).remove();
+            setTimeout(function () {
+              document.getElementById(t).remove();
+              document.getElementById(s).remove();
+              if (GameOver()) {
+                let time = new Date().getTime() - stime;
+                document.getElementById("endscreen").style.display = "flex";
+                document.getElementById("time").innerHTML = time / 1000;
+                let score = Math.round(1000 * (1 / (0.01 * (time / 1000 + 3))));
+                fetch("/api/submitscore/" + setId + "/dragmatch", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    score: score,
+                  }),
+                });
+              }
             }, 700);
-            if(GameOver()){
-              let time = new Date().getTime() - stime;
-              document.getElementById("endscreen").style.display = "flex";
-              document.getElementById("time").innerHTML = time/1000;
-              alert(time)
-              let score =  Math.round(1000* (  1 / (0.01 * ((time/1000) + 3))));
-              alert(score);
-              fetch('/api/submitscore/' + setId + '/dragmatch', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  score: score,
-              })
-            })
           }
-        }
           lastHit = null;
         }
       }
