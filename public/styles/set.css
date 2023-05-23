@@ -1,0 +1,118 @@
+#name{
+    color: #004054;
+    font-size: 6vh;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+}
+
+#name:hover{
+    color: #008080;
+}
+
+#description{
+    color: #004054;
+    font-size: 3vh;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+}
+#description:hover{
+    color: #008080;
+}
+
+.gamesGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 1vw;
+    margin: 5vh 5vw;
+}
+
+.game{
+/*    rectangle card longer in length than width contains Title and Description. Play button is a circle in bottom right*/
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 0.5fr;
+    background-color: #008080;
+    border-radius: 10px;
+    padding: 1vw 2.5vw;
+    transition: 0.3s;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
+}
+
+.game:hover{
+    /*background-color: #004054;*/
+    transform: scale(1.01);
+}
+
+.gameName{
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    color: #FFFAFA;
+    font-size: 3vh;
+    /*font-weight: bold;*/
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+}
+
+.gameDescription{
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    color: #FFFAFA;
+    font-size: 1.5vh;
+    /*font-weight: bold;*/
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+}
+
+.gameButton{
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    color: #FFFAFA;
+    font-size: 1.5vh;
+    /*font-weight: bold;*/
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+    background-color: #004054;
+    border-radius: 10px;
+    padding: 1vw 2.5vw;
+    transition: 0.3s;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+.gameButton:hover{
+    background-color: #FFFAFA;
+    color: #004054;
+    transform: scaleX(1.05);
+}
+
+body{
+    background-color: #4DA1A7;
+}

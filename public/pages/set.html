@@ -4,19 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/javascript/set.js"></script>
     <title>Set</title>
+    <link rel="stylesheet" href="/styles/set.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+    </style>
 </head>
 <body>
     <h1 id="name"></h1>
     <p id="description"></p>
-    <script>
-        let name = "<!--name-->"
-        let description = "<!--desc-->"
-        let terms = "<!--data-->"
-        terms = terms.split(",")
-        let author = "<!--author-->"
-        document.getElementById("name").innerHTML = name
-        document.getElementById("description").innerHTML = description
-    </script>
+
+    <div class="gamesGrid"> <!-- IMPORTANT: USE IDS AS GAME URL-->
+        <div class="game" id="match">
+            <div class="gameName">Match</div>
+            <div class="gameDescription">Match terms and definitions together!</div>
+            <div class="gameButton" id ="dragmatch">Play</div>
+        </div>
+        <div class="game" id="astroRush">
+            <div class="gameName">Astro Rush</div>
+            <div class="gameDescription">Type the terms out quickly before you get shot!</div>
+            <div class="gameButton" id ="astronomerrush">Play</div>
+        </div>
+    </div>
+
 </body>
+<script>
+    let name = "<!--name-->"
+    let description = "<!--desc-->"
+    let terms = "<!--data-->"
+    terms = terms.split(",")
+    let author = "<!--author-->"
+
+    document.getElementById("name").innerHTML = name
+    document.getElementById("description").innerHTML = description
+    for (let game of document.getElementsByClassName("gameButton")) { //add event listeners to all game buttons
+        game.addEventListener("click", () =>{
+            window.location.href = window.location.href + "/play/" + game.id
+        })
+    }
+
+
+
+</script>
 </html>

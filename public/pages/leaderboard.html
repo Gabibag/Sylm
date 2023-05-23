@@ -45,6 +45,7 @@
         let leaderboard = document.getElementById("leaderboard");
         let setId = "<!--setid-->";
         let game = "<!--game-->";
+        let name = "<!--name-->";
         document.getElementById("title").innerHTML = UpperCaseWordStarts(game) + "leaderboard for " + setId;
         fetch("/api/getleaderboard/" + setId + "/" + game, {
             method:"POST"

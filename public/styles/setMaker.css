@@ -20,6 +20,7 @@ body{
     flex-direction: row;
     justify-content: space-between;
     margin-top: 3vh;
+    /*row-gap: 10vw;*/
 }
 .headInputBox{
 /*    invisible except for an underline and text*/
@@ -58,6 +59,8 @@ body{
     scale: 1;
     width: 12vw;
     border: 3px solid transparent;
+    margin-right: 1vw;
+    margin-left: 1vw;
 
 }
 
