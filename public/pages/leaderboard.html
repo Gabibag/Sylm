@@ -45,8 +45,8 @@
         let leaderboard = document.getElementById("leaderboard");
         let setId = "<!--setid-->";
         let game = "<!--game-->";
-        let name = "<!--name-->";
-        document.getElementById("title").innerHTML = UpperCaseWordStarts(game) + "leaderboard for " + setId;
+        let setname = "<!--setname-->";
+        document.getElementById("title").innerHTML = UpperCaseWordStarts(game) + "leaderboard for " + setname;
         fetch("/api/getleaderboard/" + setId + "/" + game, {
             method:"POST"
         }).then((d) => d.json()).then((d) => {
@@ -82,7 +82,7 @@
                             li.classList.add("odd");
                         break;
                 }
-                
+
                 leaderboard.appendChild(li);
             }
         })

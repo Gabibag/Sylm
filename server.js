@@ -115,18 +115,21 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/pages/index.html')
 });
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
+  console.log("leaderboard")
   let setid = req.params.setid;
   let game = req.params.game;
   try {
-    
+    let set = await db.getSet(setid);
   let file = fs.readFileSync(__dirname + '/public/pages/leaderboard.html', 'utf8')
   file = file.replace('<!--setid-->', setid);
   file = file.replace('<!--game-->', game);
+  file = file.replace("<!--setname-->", set.name)
   res.setHeader('content-type', 'text/html');
   res.send(file);
 
 } catch (error) {
- res.sendFile(__dirname + '/public/pages/404.html')   
+  console.log(error)
+ res.sendFile(__dirname + '/public/pages/404.html') 
 }
 });
 app.get('/styles/:f', function (req, res) {
