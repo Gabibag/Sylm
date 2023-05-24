@@ -8,3 +8,39 @@
 #searchResults{
     width: 80%;
 }
+
+#searchInput{
+/*    make this centered, larger, have titan one font, add a hover and focus effect as well*/
+    width: 80%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    font-family: 'Titan One', cursive;
+    color: #4DA1A7;
+    padding-left: 10px;
+    transition: all 0.3s ease-in-out;
+/*    centered*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#searchInput:focus{
+
+    outline: none;
+    box-shadow: 0 0 5px rgb(0, 64, 84);
+}
+
+#searchInput::placeholder{
+    color: #4DA1A7;
+    font-family: 'Titan One', cursive;
+    text-align: center;
+}
+#searchInput:hover{
+    box-shadow: 0 0 2px rgb(0, 64, 84);
+}
+
+body{
+    background-color: #4DA1A7;
+}

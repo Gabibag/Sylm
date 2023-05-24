@@ -25,3 +25,8 @@ function searchKey(e){
         window.location.href = '/search/' + e.target.value;
     }
 }
+
+//set the value of the search bar to the query after page loads
+document.addEventListener('DOMContentLoaded', function(){
+    document.getElementById('searchInput').value = query;
+});
