@@ -14,10 +14,10 @@
 
 }
 #Start h1{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titan One', cursive;
 }
 #Start p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titan One', cursive;
     font-size: 20px;
 }
 body{
@@ -32,9 +32,10 @@ body{
     flex-direction: column;
 }
 #game h1{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titan One', cursive;
     font-size: 50px;
     color: white;
+
 }
 #endscreen{
     display: none;
@@ -81,7 +82,7 @@ body{
 }
 .selected{
     background-color: #004054 !important;
-    transition: ease-out 0.2s;
+    transition: ease-out 0.3s;
 }
 .itemlist li:hover{
     background-color: #FFFAFA;
@@ -101,7 +102,7 @@ body{
     font-size: 20px;
     user-select: none;
     color: #FFFAFA;
-    transition: ease-out 0.2s;
+    transition: 0.5s;
 }
 #termcont{
     display: flex;
@@ -112,6 +113,30 @@ body{
     height: 100%;
     margin-top: 10%;
 }
+
+@keyframes shakeError {
+    0% {
+        transform: translateX(0);
+        background-color: #d96363;
+        color: white;
+    }
+    25% {
+        transform: translateX(10px);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0);
+        background-color: #d96363;
+        color: white;
+    }
+
+}
+
 /*
 @keyframes bounceScaleOut {
     0% {

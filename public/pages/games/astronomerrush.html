@@ -1,180 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
     </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Play Astronomer Rush</title>
     <link rel="stylesheet" href="/styles/astronomerrush.css" />
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="topbar">
-      <h1 id="title">Astronomer Rush</h1>
+        <h1 id="title">Astronomer Rush</h1>
     </div>
     <div id="secondbar">
-      <div id = "swap">
+        <div id="swap">
 
-        <button id = "swaper" onclick="Swap()">
-            swap terms and definitions
-        </button>
-      </div>
+            <button id="swaper" onclick="Swap()">
+                swap terms and definitions
+            </button>
+        </div>
     </div>
     <div id="homebutton" onclick="window.location.href = '/home'">
-      <img
-        src="/images/duohome.svg"
-        width="40px"
-        height="40px"
-        alt="Home"
-        id="home"
-      />
+        <img src="/images/duohome.svg" width="40px" height="40px" alt="Home" id="home" />
     </div>
     <div id="game">
-      <canvas id="gamedraw"> </canvas>
-      <input type="text" id="guess" />
+        <canvas id="gamedraw"> </canvas>
+        <input type="text" id="guess" />
     </div>
     <script>
-      let dpi = window.devicePixelRatio;
-      let setId = "<!--id-->";
-      let name = "<!--name-->";
-      let description = `<!--desc-->`;
-      let terms = `<!--terms-->`.split("");
-      let defs = `<!--defs-->`.split("");
-      let author = "<!--author-->";
-      function vaildMatch(one, two) {
-        for (let i = 0; i < terms.length; i++) {
-          if (
-            (terms[i].toLocaleLowerCase() == one.toLocaleLowerCase() && defs[i].toLocaleLowerCase() == two.toLocaleLowerCase()) ||
-            (terms[i].toLocaleLowerCase() == two.toLocaleLowerCase() && defs[i].toLocaleLowerCase() == one.toLocaleLowerCase())
-          ) {
-            return true;
-          }
-        }
-      }
-      function Swap() {
-        let swap = document.getElementById("swaper");
-        if(swap.style.backgroundColor == "rgb(49, 133, 139)"){
-            swap.style.backgroundColor = "#2B5E62";
-        }
-        else{
-            swap.style.backgroundColor = "#31858B";
-        }
-        let temp = terms2;
-        terms2 = defs2;
-        defs2 = temp;
-      }
-      function shuffle(array) {
-        var copy = [...array];
-        var currentIndex = copy.length,
-          randomIndex;
-        while (0 !== currentIndex) {
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-          [copy[currentIndex], copy[randomIndex]] = [
-            copy[randomIndex],
-            copy[currentIndex],
-          ];
-        }
-        return copy;
-      }
-      let canvas = document.getElementById("gamedraw");
-      let ctx = canvas.getContext("2d");
-      let guess = document.getElementById("guess");
-      let terms2 = shuffle(terms);
-      let defs2 = shuffle(defs);
-      function fix_dpi() {
-        //get CSS height
-        //the + prefix casts it to an integer
-        //the slice method gets rid of "px"
-        //taken from the lost altos hacks repo, first added by duck
-        let style_height = +getComputedStyle(canvas)
-          .getPropertyValue("height")
-          .slice(0, -2);
-        let style_width = +getComputedStyle(canvas)
-          .getPropertyValue("width")
-          .slice(0, -2);
-        canvas.setAttribute("height", style_height * dpi);
-        canvas.setAttribute("width", style_width * dpi);
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-        fix_dpi();
-        StartGame();
-      });
-      function StartGame() {
-        ctx.font = "48px 'Titan One'";
-        ctx.textAlign = "center";
-        ctx.fillText("Click to start", canvas.width / 2, canvas.height / 2);
-        canvas.addEventListener("click", addEvents, { once: true });
-      }
-      const online = 15;
-      function draw(t) {
-        var textToDraw = t.text;
-        if(t.text.length > online){
-            textToDraw = textToDraw.substring(0, online) + "\n" + textToDraw.substring(textToDraw.length - online, textToDraw.length);
-        }
-        var textWidth = ctx.measureText(textToDraw).width / 2;
-        ctx.beginPath();
-        ctx.arc(t.pos[0], t.pos[1], textWidth, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.font = "10px 'arial'";
-        ctx.textAlign = "center";
-        DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
-      }
-      function DrawMultiline(ctx, t, x, y){
-        var lines = t.split("\n");
-        for(var i = 0; i < lines.length; i++){
-            ctx.fillText(lines[i], x, y + (i * 10));
-        }
-      }
-      let toUpdate = [];
-      var tick = 0;
-      var time_between = 60;
-      function CreateNew() {
-        var newguess = {
-          text: terms2[Math.floor(Math.random() * terms2.length)],
-          pos: [Math.random() * (canvas.width - 20) + 20, 0],
-          vel: [0, 1],
-        };
-        toUpdate.push(newguess);
-      }
-      function GameTick() {
-        tick++;
-        if (tick % time_between == 0) {
-          CreateNew();
-        }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        for (let v of toUpdate) {
-          v.pos[1] += v.vel[1];
-          v.pos[0] += v.vel[0];
-          v.rot += v.rotvel;
-          draw(v);
-        }
-      }
-      function Typed(event) {
-        if (event.key == "Enter") {
-          let guess = this.value;
-          for (let v of toUpdate) {
-            if (vaildMatch(guess, v.text)) {
-              toUpdate.splice(toUpdate.indexOf(v), 1);
-              //todo score
+        let dpi = window.devicePixelRatio;
+        let setId = "<!--id-->";
+        let name = "<!--name-->";
+        let description = `<!--desc-->`;
+        let terms = `<!--terms-->`.split("");
+        let defs = `<!--defs-->`.split("");
+        let author = "<!--author-->";
+        function vaildMatch(one, two) {
+            for (let i = 0; i < terms.length; i++) {
+                if (
+                    (terms[i].toLocaleLowerCase() == one.toLocaleLowerCase() && defs[i].toLocaleLowerCase() == two.toLocaleLowerCase()) ||
+                    (terms[i].toLocaleLowerCase() == two.toLocaleLowerCase() && defs[i].toLocaleLowerCase() == one.toLocaleLowerCase())
+                ) {
+                    return true;
+                }
             }
-          }
-          this.value = "";
         }
-      }
-      function addEvents() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        guess.addEventListener("keydown", Typed);
-        beginInterval()
-      }
-      function beginInterval(){
-        GameTick();
-        requestAnimationFrame(beginInterval);
-      }
+        function Swap() {
+            let swap = document.getElementById("swaper");
+            if (swap.style.backgroundColor == "rgb(49, 133, 139)") {
+                swap.style.backgroundColor = "#2B5E62";
+            }
+            else {
+                swap.style.backgroundColor = "#31858B";
+            }
+            let temp = terms2;
+            terms2 = defs2;
+            defs2 = temp;
+        }
+        function shuffle(array) {
+            var copy = [...array];
+            var currentIndex = copy.length,
+                randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [copy[currentIndex], copy[randomIndex]] = [
+                    copy[randomIndex],
+                    copy[currentIndex],
+                ];
+            }
+            return copy;
+        }
+        let canvas = document.getElementById("gamedraw");
+        let ctx = canvas.getContext("2d");
+        let guess = document.getElementById("guess");
+        let terms2 = shuffle(terms);
+        let defs2 = shuffle(defs);
+        function fix_dpi() {
+            //get CSS height
+            //the + prefix casts it to an integer
+            //the slice method gets rid of "px"
+            //taken from the lost altos hacks repo, first added by duck
+            let style_height = +getComputedStyle(canvas)
+                .getPropertyValue("height")
+                .slice(0, -2);
+            let style_width = +getComputedStyle(canvas)
+                .getPropertyValue("width")
+                .slice(0, -2);
+            canvas.setAttribute("height", style_height * dpi);
+            canvas.setAttribute("width", style_width * dpi);
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            fix_dpi();
+            StartGame();
+        });
+        function StartGame() {
+            ctx.font = "48px 'Titan One'";
+            ctx.textAlign = "center";
+            ctx.fillText("Click to start", canvas.width / 2, canvas.height / 2);
+            canvas.addEventListener("click", addEvents, { once: true });
+        }
+        const online = 15;
+        function draw(t) {
+            var textToDraw = "";
+            for (let i = 0; i < t.text.length; i += 15) {
+                try {
+                    textToDraw += t.text.substring(i, i + 15) + "\n";
+                } catch (e) {
+                    textToDraw += t.text.substring(i, t.text.length) + "\n";
+                }
+            }
+            ctx.textAlign = "center";
+            ctx.font = "10px 'arial'";
+            ctx.beginPath();
+            var textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
+            ctx.arc(t.pos[0], t.pos[1], textWidth + 10, 0, 2 * Math.PI);
+            DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
+            ctx.stroke();
+        }
+        function DrawMultiline(ctx, t, x, y) {
+            var lines = t.split("\n");
+            for (var i = 0; i < lines.length; i++) {
+                ctx.fillText(lines[i], x, y + (i * 10));
+            }
+        }
+        let toUpdate = [];
+        var tick = 0;
+        var time_between = 300;
+        var himage = new Image();
+        himage.src = "/images/astro-heart.svg";
+
+        function CreateNew() {
+            var newguess = {
+                text: terms2[Math.floor(Math.random() * terms2.length)],
+                pos: [Math.random() * (canvas.width - 20) + 20, 0],
+                vel: [0, 1],
+            };
+            toUpdate.push(newguess);
+        }
+        function GameOver() {
+            alert("Game Over");
+            fetch('/api/submitscore/' + setId + '/astronomerrush', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    score: score
+                }
+                )
+            })
+        }
+        function drawui() {
+            for (var i = 0; i < lives; i++) {
+                ctx.drawImage(himage, 10 + (i * 40), 10, 30, 30);
+            }
+            ctx.textAlign = "left";
+            ctx.font = "20px 'arial'";
+            ctx.beginPath();
+            ctx.fillText("Score: " + score, 25, 80);
+        }
+        function GameTick() {
+            tick++;
+            if (tick % time_between == 0) {
+                CreateNew();
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            for (let v of toUpdate) {
+                v.pos[1] += v.vel[1];
+                v.pos[0] += v.vel[0];
+                if (v.pos[1] > canvas.height) {
+                    toUpdate.splice(toUpdate.indexOf(v), 1);
+                    lives--;
+                }
+                v.rot += v.rotvel;
+                draw(v);
+            }
+            ctx.restore();
+            drawui()
+
+            if (lives <= 0) {
+                GameOver();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "48px 'Titan One'";
+                ctx.textAlign = "center";
+                ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+                ctx.fillText('Score:' + score, canvas.width / 2, canvas.height / 2 + 50);
+
+                return;
+            }
+
+        }
+        let score = 0;
+        let lives = 3;
+        function Typed(event) {
+            if (event.key == "Enter") {
+                let guess = this.value;
+                for (let v of toUpdate) {
+                    if (vaildMatch(guess, v.text)) {
+                        score += 100;
+                        if (score % 500 == 0) {
+                            time_between -= 10;
+                        }
+                        toUpdate.splice(toUpdate.indexOf(v), 1);
+                        //todo score
+                    }
+                }
+                this.value = "";
+            }
+        }
+        function addEvents() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            guess.addEventListener("keydown", Typed);
+            beginInterval()
+        }
+        function beginInterval() {
+            GameTick();            
+            if (lives > 0) {
+
+                requestAnimationFrame(beginInterval);
+            }
+        }
     </script>
-  </body>
+</body>
+
 </html>
