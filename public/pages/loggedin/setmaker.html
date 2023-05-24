@@ -22,10 +22,7 @@
                                        type="text"
       >
     </div>
-    <div class="buttonGroup">
-      <ol id="terms"></ol>
-      <ol id="defs"></ol>
-    </div>
+
     <div class="setInfoGroup">
       <label for="setname"></label><input class="inputBox" id="setname" name="Term" placeholder="Enter Term"
                                           type="text"/>
@@ -37,10 +34,36 @@
             type="text"
     /></div>
     <div class="buttonGroup">
-      <button onclick="addTerm()" class="button">Add Term</button>
-      <button class="button" onclick="submit()">Submit</button>
+      <button onclick="addTerm()" class="button" id="term">Add Term</button>
+      <button class="button" onclick="submit()" id="def">Submit</button>
+    </div>
+    <div class="listGroup">
+      <ol id="terms"></ol>
+      <ol id="defs"></ol>
     </div>
   </div>
 
   </body>
+<script>
+
+  //when the user presses enter on term input, switch to def input
+  document.getElementById("term").addEventListener("keypress", function (event) {
+    console.log(event);
+    if (event.key === "enter") {
+      event.preventDefault();
+      document.getElementById("def").focus();
+
+    }
+  })
+  //when the user presses enter on def input, add the term and def to the list
+  document.getElementById("def").addEventListener("keypress", function (event) {
+    if (event.key === "enter") {
+      event.preventDefault();
+      addTerm();
+      document.getElementById("term").focus();
+      document.getElementById("term").value = "";
+      document.getElementById("def").value = "";
+    }
+  })
+</script>
 </html>

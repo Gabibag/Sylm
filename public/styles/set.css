@@ -54,7 +54,7 @@
 
 .game:hover{
     /*background-color: #004054;*/
-    transform: scale(1.01);
+    transform: translateY(-3px);
 }
 
 .gameName{
@@ -115,4 +115,24 @@
 
 body{
     background-color: #4DA1A7;
+}
+
+#backButton{
+/*    bottom left, small circle*/
+    position: fixed;
+    bottom: 3vh;
+    left: 3vw;
+    background-color: #EFBEAA;
+    border-radius: 50%;
+    /*padding: 1vw 2.5vw;*/
+    width: 3vw;
+    height: 3vw;
+    border: none;
+    transition: 0.3s;
+    filter: drop-shadow( 0 0 10px rgba(0,0,0,0.25));
+    fill: white;
+}
+
+#backButton:hover{
+    transform: translateY(-10px);
 }

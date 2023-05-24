@@ -19,7 +19,16 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    /*margin-top: 3vh;*/
+    /*row-gap: 10vw;*/
     margin-top: 3vh;
+}
+.listGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3vh;
+    overflow-y: scroll;
     /*row-gap: 10vw;*/
 }
 .headInputBox{
@@ -38,40 +47,53 @@ body{
     scale: 1;
     background-color: transparent;
     color: #FFFAFA;
-    border-bottom: 3px solid #1c373a;
+    border-bottom: 3px solid #4DA1A7;
     outline: none;
+
+
+}
+.headInputBox::placeholder{
+    color: #FFFAFA;
+}
+.headInputBox:placeholder-shown{
+    border-bottom: 3px solid #1c373a;
 
 }
 .headInputBox:focus{
-    border-bottom: 3px solid #397377;
+    border-bottom: 3px solid #1c373a;
 }
 
 
 .button {
     font-weight: bold;
-    border-radius: 5px;
     background-color: #397377;
     color: #FFFAFA;
     cursor: pointer;
-    transition: 0.4s;
+    transition: 0.2s;
     transition-property: background-color, color, scale;
     font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
     scale: 1;
     width: 12vw;
     border: 3px solid transparent;
+    border-radius: 5px;
     margin-right: 1vw;
     margin-left: 1vw;
 
 }
+.button:hover{
+    scale: 1.05;
+    background-color: #FFFAFA;
+    color: #397377;
+}
 
 .inputBox{
     font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Titan One', cursive;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 3px solid #397377;
     padding: 0.5rem;
     margin: 0.5rem;
     width: 20vw;
-    height: 5vh;
+    height: 4vh;
     font-size: 1.5rem;
     text-align: center;
     transition: 0.4s;
@@ -81,10 +103,40 @@ body{
     outline: none;
     border: 3px solid #1c373a;
 }
-
+.inputBox::placeholder{
+    color: #397377;
+}
 .setInfoGroup{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 3vh;
+
+}
+ol{
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem)'Roboto', sans-serif;
+}
+
+@keyframes shakeError {
+    0% {
+        transform: translateX(0);
+        background-color: #d96363;
+        color: white;
+
+    }
+    25% {
+        transform: translateX(10px);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0);
+        background-color: #d96363;
+        color: white;
+    }
+
 }
