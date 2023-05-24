@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME_NAME</title>
+    <title>Study</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
     </style>
@@ -14,7 +14,7 @@
         //very likely need.
         let setId = "<!--id-->";
         let name = "<!--name-->";
-        let description = "<!--desc-->";
+        let description = `<!--desc-->`;
         let terms = `<!--terms-->`.split("");
         let defs = `<!--defs-->`.split("");
         let author = "<!--author-->";
@@ -25,6 +25,11 @@
                 }
             }
         }
+        let termsdefs = [];
+        for(let i = 0; i < terms.length; i++){
+            termsdefs.push([terms[i], defs[i]]);
+        }
+        
     </script>
 </body>
 </html>
