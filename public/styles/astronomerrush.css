@@ -44,7 +44,8 @@ body{
 
 }
 #guess{
-    height: 5%;
+    padding: 0px;
+    height: 5vw;
     width: 80%;
 }
 #gamecont{
@@ -53,6 +54,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
 }
 .endbuttons{
     
@@ -66,9 +68,10 @@ body{
 #gamedraw{
     border-radius: 30px;
     background-color: #2B5E62;
-    height: 100vh;
+    height: 85vh;
     width: 100%;
     display: flex;
+    padding-bottom: 0px;
     justify-content: center;
     align-items: center;
     -webkit-border-radius: 30px;

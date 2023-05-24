@@ -33,7 +33,7 @@
         </canvas>
         <div id = "endbuttoncont">
             <button id="leaderboard" class = "endbuttons hidden" onclick="window.location.href = '/sets/' + setId + '/astronomerrush/leaderboard'">Leaderboard </button>
-            <button id="restart" class = "endbuttons hidden" onclick="window.location.reload">Restart</button>
+            <button id="restart" class = "endbuttons hidden" onclick="window.location.reload()">Restart</button>
         </div>
         </div>
         <input type="text" id="guess" />
@@ -112,41 +112,49 @@
             ctx.fillText("Click to start", canvas.width / 2, canvas.height / 2);
             canvas.addEventListener("click", addEvents, { once: true });
         }
-        const online = 15;
+        const oneline = 15;
+        const FONT_SIZE = 15;
         function draw(t) {
             var textToDraw = "";
-            for (let i = 0; i < t.text.length; i += 15) {
-                try {
-                    textToDraw += t.text.substring(i, i + 15) + "\n";
-                } catch (e) {
-                    textToDraw += t.text.substring(i, t.text.length) + "\n";
+            //split by word 
+            var words = t.text.split(" ");
+
+            var line = "";
+            for (let v  of words) {
+                line += v + " ";
+                if(line.length > oneline) {
+                    textToDraw += line + "\n";
+                    line = "";
                 }
             }
+            textToDraw += line;
+            var numlines = textToDraw.split("\n").length - 1;
+            var height = numlines * FONT_SIZE; 
             ctx.textAlign = "center";
-            ctx.font = "10px 'arial'";
+            ctx.font = FONT_SIZE + "px 'arial'";
             ctx.beginPath();
             var textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
-            ctx.arc(t.pos[0], t.pos[1], textWidth + 10, 0, 2 * Math.PI);
+            ctx.arc(t.pos[0], t.pos[1] + height/2, textWidth + 10, 0, 2 * Math.PI);
             DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
             ctx.stroke();
         }
         function DrawMultiline(ctx, t, x, y) {
             var lines = t.split("\n");
             for (var i = 0; i < lines.length; i++) {
-                ctx.fillText(lines[i], x, y + (i * 10));
+                ctx.fillText(lines[i], x, y + (i * FONT_SIZE + 5));
             }
         }
         let toUpdate = [];
         var tick = 0;
-        var time_between = 10;
+        var time_between = 180;
         var himage = new Image();
         himage.src = "/images/astro-heart.svg";
-
+        var vel = 3;
         function CreateNew() {
             var newguess = {
                 text: terms2[Math.floor(Math.random() * terms2.length)],
                 pos: [Math.random() * (canvas.width - 20) + 20, 0],
-                vel: [0, 900],
+                vel: [Math.random() * 8 - 4, vel],
             };
             toUpdate.push(newguess);
         }
@@ -188,6 +196,9 @@
                     toUpdate.splice(toUpdate.indexOf(v), 1);
                     lives--;
                 }
+                if(v.pos[0] > canvas.width || v.pos[0] < 0) {
+                    v.vel[0] *= -1;
+                }
                 v.rot += v.rotvel;
                 draw(v);
             }
@@ -215,6 +226,7 @@
                         score += 100;
                         if (score % 500 == 0) {
                             time_between -= 10;
+                            vel += 0.2;
                         }
                         toUpdate.splice(toUpdate.indexOf(v), 1);
                         //todo score
