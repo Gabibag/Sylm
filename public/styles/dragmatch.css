@@ -103,6 +103,7 @@ body{
     user-select: none;
     color: #FFFAFA;
     transition: 0.5s;
+    overflow-wrap: break-word;
 }
 #termcont{
     display: flex;

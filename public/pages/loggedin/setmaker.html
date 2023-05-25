@@ -22,25 +22,107 @@
                                        type="text"
       >
     </div>
-    <div class="buttonGroup">
-      <ol id="terms"></ol>
-      <ol id="defs"></ol>
-    </div>
+
     <div class="setInfoGroup">
-      <label for="setname"></label><input class="inputBox" id="setname" name="Term" placeholder="Enter Term"
-                                          type="text"/>
+<!--      focus on setdef after press enter-->
+        <label for="setname"></label><input class="inputBox" id="setname" name="Term" placeholder="Enter Term"
+                                            type="text"
+    />
       <label for="setdef"></label><input
             class="inputBox"
             id="setdef"
             name="Definition"
             placeholder="Enter Definition"
             type="text"
-    /></div>
-    <div class="buttonGroup">
-      <button onclick="addTerm()" class="button">Add Term</button>
-      <button class="button" onclick="submit()">Submit</button>
+    />
     </div>
+    <div class="listGroup">
+      <ol id="terms"></ol>
+      <ol id="defs"></ol>
+    </div>
+    <button class="button" onclick="submit()" id="def"><img src="images/rightArrow.svg" id="faceUp" alt="submit" width="100%" height="100%"></button>
   </div>
 
   </body>
+<script>
+    let entered = true;
+    //onload focus on name
+    window.onload = function () {
+        document.getElementById("name").focus();
+    }
+    //when the user presses enter on name input, switch to desc input
+    document.getElementById("name").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("desc").focus();
+
+        }
+
+    })
+    //when the user presses enter on desc input, switch to term input
+    document.getElementById("desc").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("setname").focus();
+
+        }
+    })
+
+    //when the user presses enter on term input, switch to def input
+    document.getElementById("setname").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            document.getElementById("setname").style.animation = "bounceUp 0.5";
+            setTimeout(function () {
+                document.getElementById("setname").style.animation = "";
+            }, 500);
+            event.preventDefault();
+            document.getElementById("setdef").focus();
+
+        } else if (event.key === " ") {
+            //make the inputbox bounce up once using css animation
+            document.getElementById("setname").style.animation = "bounceUp 0.3s";
+            setTimeout(function () {
+                document.getElementById("setname").style.animation = "";
+            }, 300);
+        } else {
+            document.getElementById("setname").style.animation = "bounceLittleUp 0.1s";
+            setTimeout(function () {
+                document.getElementById("setname").style.animation = "";
+            }, 100);
+        }
+    })
+    //when the user presses enter on def input, add the term and def to the list
+    document.getElementById("setdef").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addTerm();
+            document.getElementById("setname").focus();
+            if (entered){
+                document.getElementById("def").style.animation = "bringAttention 0.6s 8";
+                document.getElementById("def").style.animationTimingFunction = "ease-out";
+                setTimeout(function () {
+                    document.getElementById("def").style.animation = "";
+                }, 500);
+                entered = false;
+            }
+        } else if (event.key === " ") {
+            //make the inputbox bounce up once using css animation
+            document.getElementById("setdef").style.animation = "bounceUp 0.3s";
+            setTimeout(function () {
+                document.getElementById("setdef").style.animation = "";
+            }, 300);
+        } else {
+            document.getElementById("setdef").style.animation = "bounceLittleUp 0.1s";
+            setTimeout(function () {
+                document.getElementById("setdef").style.animation = "";
+            }, 100);
+        }
+        //     rise it up 5pxs, and then run bringAttention animation
+
+
+
+
+
+    })
+</script>
 </html>

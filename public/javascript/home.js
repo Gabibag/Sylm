@@ -77,4 +77,5 @@ function UpdateToNewSet() {
     document.getElementById("TermsDefs").appendChild(termlist);
     document.getElementById("TermsDefs").appendChild(deflist);
 }
+
 LoadSets()
