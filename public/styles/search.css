@@ -7,6 +7,7 @@
 }
 #searchResults{
     width: 80%;
+    margin-top: 30px;
 }
 
 #searchInput{
@@ -43,4 +44,42 @@
 
 body{
     background-color: #4DA1A7;
+}
+
+li{
+/*    rounded border, centered, span across the entire page, background color #1c373a, text white*/
+    text-align: center;
+    width: 100%;
+    background-color: #1c373a;
+    color: white;
+    font-family: 'Titan One', cursive;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: all 0.2s ease-out;
+    list-style: none;
+    border-radius: 17px;
+    margin-bottom: 10px;
+    height: 20vh;
+
+}
+li:nth-child(odd){
+    background-color: #285053;
+}
+
+li:hover{
+    background-color: white;
+    color: #1c373a;
+    scale: 1.01;
+}
+ol{
+/*    display list in rows of 3*/
+    display: grid;
+    grid-template-columns: repeat(3, 32.5vw);
+    grid-gap: 10px;
+    padding: 0;
+    width: 100%;
+    margin: 30px 0;
+/*    center self*/
+
 }

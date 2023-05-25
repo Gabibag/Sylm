@@ -13,7 +13,10 @@ fetch('/api/search/' + query, {
 }).then(res => res.json()).then(data => {
     for(let v of data){
         let set = document.createElement('li');
+        let desc = document.createElement('p');
+        desc.innerHTML = v.description;
         set.innerHTML = v.name;
+        set.appendChild(desc);
         set.onclick = function(){
             window.location.href = '/sets/' + v.id;
         }
