@@ -29,12 +29,11 @@ app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
-  console.log("score")
+  console.log("score submitted")
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let score = req.body.score;
   let user = await db.getUserFromReq(req);
-  console.log("Submitting score" + user + " " + setid + " " + gameid + " " + score)
   await db.submitScore(user, setid, gameid, score);
 });
 app.post('/api/createset',async function(req, res){
