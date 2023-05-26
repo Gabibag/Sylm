@@ -176,7 +176,7 @@ app.get('/:page', async function (req, res) {
   if (fs.existsSync(__dirname + '/public/pages/' + p + '.html')) {
     console.log('unlogged page')
     res.sendFile(__dirname + '/public/pages/' + p + '.html');
-    return;
+
   } else if (fs.existsSync(__dirname + '/public/pages/loggedin/' + p + '.html')) {
     let b = await db.loggedIn(req)
     if (b) {

@@ -10,7 +10,7 @@ async function run() {
         let author = set.split(',')[2];
         let terms = set.split(',')[3].replaceAll('%', '');
         let defs = set.split(',')[4].replaceAll('%', '');
-        db.createSetManual(name, desc, author, terms, defs);
+        await db.createSetManual(name, desc, author, terms, defs);
     }
 }
 run()

@@ -30,8 +30,7 @@ module.exports = {
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
     },
     getSet: async function(id){
-        let set = await this.db.get("SELECT * FROM sets WHERE id = ?", id);
-        return set;
+        return await this.db.get("SELECT * FROM sets WHERE id = ?", id);
     },
     getNewSetId: async function(){
         let id = "";
@@ -45,8 +44,7 @@ module.exports = {
         }
     },
     getSets: async function(user){
-        let sets = await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
-        return sets;
+        return await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
     },
     createSetManual: async function(name, desc, author, terms, defs){
         let id = await this.getNewSetId();
@@ -74,7 +72,7 @@ module.exports = {
     },
     getUser: async function (username) {
         console.log("Getting user");
-        user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
+        let user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
         console.log(user);
         /*if (user == null || user instanceof Promise) {
             return null;

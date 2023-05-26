@@ -58,6 +58,7 @@
       let defs = `<!--defs-->`.split("");
       let author = "<!--author-->";
       function vaildMatch(one, two) {
+        if(one === two){ return false;}
         for (let i = 0; i < terms.length; i++) {
           if (
             (terms[i] == one && defs[i] == two) ||
