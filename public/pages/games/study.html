@@ -110,25 +110,20 @@
             question.innerHTML = t;
             let answers = [d];
             let pool = []
-            for(let i = 0; i < terms.length; i++){
+            for (let i = 0; i < terms.length; i++) {
                 pool.push([terms[i], defs[i]]);
             }
-            for (let v of pool) {
-                if (v[1] == d) {
-                    continue;
-                }
-                else {
-                    answers.push(v[1]);
-                }
-            }
+            alert(pool);
             while (answers.length < 4) {
                 let choice = pool[Math.floor(Math.random() * pool.length)][1];
-                answers.push(choice);
+                if (choice != d) {
+                    answers.push(choice);
+                }
             }
             answers.sort(() => Math.random() - 0.5);
             let choices = document.createElement("div");
             choices.id = "choices";
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < answers.length; i++) {
                 let choice = document.createElement("div");
                 choice.className = "choice";
                 choice.innerHTML = answers[i];
@@ -161,7 +156,7 @@
         }
         let score = 0;
         function pointScore(inverted) {
-            return (1/(0.5(inverted + 3)))* 1000;
+            return (1 / (0.5(inverted + 3))) * 1000;
         }
         function finish() {
             score = pointScore(score);
