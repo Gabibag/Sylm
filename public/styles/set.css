@@ -137,17 +137,20 @@ body{
 
 ol{
 /*    centered*/
-    display: grid;
-    grid-template-columns: repeat(7, 13.5%);
-    /*display: flex;*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(7, 13.5%);*/
+    display: flex;
     /*inline*/
     justify-content: center;
     align-items: center;
-    /*flex: max-content 10;*/
+    flex: max-content 7;
 
     margin: 0;
     padding: 0;
     gap: 1vh;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
 }
 li{
     list-style-type: none;
