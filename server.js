@@ -111,7 +111,14 @@ app.get('/Logout', function (req, res) {
   res.redirect('/')
 });
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/pages/index.html')
+  // check if logged in
+  let token = req.cookies.token
+  if (token === undefined) {
+    res.sendFile(__dirname + '/public/pages/index.html')
+  } else {
+    res.redirect('/home')
+  }
+
 });
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
   console.log("leaderboard")

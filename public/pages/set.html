@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/javascript/set.js"></script>
-    <title>Set</title>
+    <title>Slym - Learning Set</title>
     <link rel="stylesheet" href="/styles/set.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
@@ -18,19 +18,25 @@
         <div class="game" id="match">
             <div class="gameName">Match</div>
             <div class="gameDescription">Match terms and definitions together!</div>
-            <div class="gameButton" id ="dragmatch">Play</div>
+            <div class="gameButton" id="dragmatch">Play</div>
         </div>
         <div class="game" id="astroRush">
             <div class="gameName">Astro Rush</div>
             <div class="gameDescription">Type the terms out quickly before you get shot!</div>
-            <div class="gameButton" id ="astronomerrush">Play</div>
+            <div class="gameButton" id="astronomerrush">Play</div>
         </div>
         <div class="game" id="study">
             <div class="gameName">Study</div>
             <div class="gameDescription">The classic studying experience!</div>
             <div class="gameButton" id ="study">Play</div>
     </div>
-    <button id="backButton" onclick="window.location.href = '/home'"><img src="/images/backArrow.svg" width="100%" height="100%" alt="back"></button>
+    <div id="termList">
+        <h2>Terms</h2>
+        <ol id="termsAndDefs">
+        </ol>
+    </div>
+    <button id="backButton" onclick="window.location.href = '/home'"><img alt="back" height="100%"
+                                                                          src="/images/backArrow.svg" width="100%"></button>
 
 </body>
 <script>
@@ -42,13 +48,71 @@
 
     document.getElementById("name").innerHTML = name
     document.getElementById("description").innerHTML = description
+
     for (let game of document.getElementsByClassName("gameButton")) { //add event listeners to all game buttons
-        game.addEventListener("click", () =>{
+        game.addEventListener("click", () => {
             window.location.href = window.location.href + "/play/" + game.id
         })
     }
+    let termDefDict = {}
+    //   in termsAndDefs, add all the terms and defentitions of the set
+    console.log(window.location.pathname.split('/')[2])
+    fetch('/api/getset/' + window.location.pathname.split('/')[2], {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            amount: 10,
+            start: 0,
+        })
+    }).then(res => res.json()).then(data => {
+        console.log(data)
+        for (let j = 0; j < data.terms.split("").length; j++) {
+            let li = document.createElement("li")
+            let formattedTerms = data.terms.split("")[j]
+            // make a dictionary of terms and defs
+            termDefDict[formattedTerms] = data.defs.split("")[j]
 
+            li.innerHTML = formattedTerms
+            // add the class "termItem" to li
+            li.classList.add("termItem")
+            document.getElementById("termsAndDefs").appendChild(li)
+        }
+        for (let li of document.getElementsByClassName("termItem")) {
+            // console.log(li)
+            li.addEventListener("click", flipTerm)
+        }
+    })
 
+    function flipTerm(event) {
+//         show a flip animation and replace the text with corresponding def. runs when an li is clicked
+        let term = event.target.innerHTML
+        event.target.style.animation = "flipTerm 0.2s ease-out forwards"
+        // add class defItem to li
+        event.target.classList.add("defItem")
+        event.target.innerHTML = termDefDict[term]
+        event.target.addEventListener("click", flipDef)
+        event.target.removeEventListener("click", flipTerm)
+        setTimeout(() => {
+            event.target.style.animation = ""
+        }, 200)
+    }
 
+    function flipDef(event) {
+//         show a flip animation and replace the text with corresponding term. runs when an li is clicked
+        let def = event.target.innerHTML
+        event.target.style.animation = "flipTerm 0.2s ease-out forwards"
+        // remove class defItem from li
+        event.target.classList.remove("defItem")
+        event.target.innerHTML = Object.keys(termDefDict).find(key => termDefDict[key] === def)
+        event.target.addEventListener("click", flipTerm)
+        event.target.removeEventListener("click", flipDef)
+        setTimeout(() => {
+            event.target.style.animation = ""
+        }, 200)
+
+    }
 </script>
 </html>

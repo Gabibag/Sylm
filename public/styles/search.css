@@ -53,7 +53,7 @@ li{
     background-color: #1c373a;
     color: white;
     font-family: 'Titan One', cursive;
-    font-size: 20px;
+    font-size: 30px;
     padding-top: 10px;
     padding-bottom: 10px;
     transition: all 0.2s ease-out;
@@ -61,6 +61,7 @@ li{
     border-radius: 17px;
     margin-bottom: 10px;
     height: 20vh;
+    cursor: pointer;
 
 }
 li:nth-child(odd){
@@ -82,4 +83,8 @@ ol{
     margin: 30px 0;
 /*    center self*/
 
+}
+
+p{
+    font-size: 18px;
 }

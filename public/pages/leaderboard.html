@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leader Board</title>
+    <title>Slym - Leaderboard</title>
     <link rel="stylesheet" href="/styles/leaderboard.css">
 </head>
 <body>
@@ -17,6 +17,7 @@
 
     </ol>
     </div>
+<!--    go back to game by removing the text "leaderboard" and removing -->
     <script>
         //swap 2 array indices
         function swap(list, i1, i2){
@@ -76,13 +77,12 @@
                         li.classList.add("third");
                         break;
                     default:
-                        if(i % 2 == 0)
+                        if(i % 2 === 0)
                             li.classList.add("even");
                         else
                             li.classList.add("odd");
                         break;
                 }
-
                 leaderboard.appendChild(li);
             }
         })

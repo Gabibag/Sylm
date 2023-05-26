@@ -94,11 +94,9 @@
     font-size: 1.5vh;
     /*font-weight: bold;*/
     margin: 0;
-    padding: 0;
     text-align: center;
     text-transform: uppercase;
     font-family: "Titan One", cursive;
-    transition: 0.3s;
     text-overflow: ellipsis;
     background-color: #004054;
     border-radius: 10px;
@@ -129,10 +127,92 @@ body{
     height: 3vw;
     border: none;
     transition: 0.3s;
-    filter: drop-shadow( 0 0 10px rgba(0,0,0,0.25));
+    filter: drop-shadow( 0 0 10px rgba(0,0,0,0.25)) invert(100%);
     fill: white;
 }
 
 #backButton:hover{
     transform: translateY(-10px);
+}
+
+ol{
+/*    centered*/
+    display: grid;
+    grid-template-columns: repeat(7, 13.5%);
+    /*display: flex;*/
+    /*inline*/
+    justify-content: center;
+    align-items: center;
+    /*flex: max-content 10;*/
+
+    margin: 0;
+    padding: 0;
+    gap: 1vh;
+}
+li{
+    list-style-type: none;
+    margin: 0;
+
+    border-radius: 10px;
+    padding: 1vw 2.5vw;
+    transition: 0.3s;
+
+    font-size: 2vh;
+    font-family: Inter, sans-serif;
+    /*    capitalize first char*/
+    text-transform: capitalize;
+    text-align: center;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
+    cursor: pointer;
+    overflow-x: scroll ;
+/*    hide scrollbar*/
+    scrollbar-width: none;
+}
+li::-webkit-scrollbar {
+    display: none;
+}
+.termItem{
+    background-color: #1c373a;
+    color: white;
+
+}
+
+li:hover{
+    background-color: white;
+    color: #1c373a;
+    transform: translateY(-3px);
+}
+
+.defItem{
+    background-color: #83d2f1;
+    color: #0c1719;
+
+}
+
+h2{
+/*    centered and titan one font with white color*/
+    color: #FFFAFA;
+    font-size: 6vh;
+    font-weight: bold;
+    margin-bottom: 5vh;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Titan One", cursive;
+    transition: 0.3s;
+    text-overflow: ellipsis;
+}
+
+@keyframes flipTerm {
+/*    make a flip animation by scaling down the X axis and scaling it back up*/
+    0% {
+        transform: scaleX(1) translateY(-3px);
+    }
+    50% {
+        transform: scaleX(0) translateY(-3px)
+    }
+    100% {
+        transform: scaleX(1) translateY(-3px);
+    }
+
 }
