@@ -191,3 +191,27 @@ body {
     border-top-right-radius: 12px;
     transition: 0.3s;
 }
+
+#logoutButton{
+/*    bottom right, absolute, circular*/
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    background-color: #397377;
+    border: none;
+    color: white;
+    font-family: 'Titan One', cursive;
+    /*font-size: clamp(1.5rem, 2vw, 2rem);*/
+    transition: 0.3s;
+    z-index: 3;
+    padding: 10px 8px 10px 12px;
+}
+
+#logoutButton:hover{
+    background-color: #004054;
+    transform: translateY(-3px);
+    cursor: pointer;
+}

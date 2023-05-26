@@ -1,22 +1,30 @@
 let buttons = document.getElementsByClassName('buttons')
 
-
+let pencil;
 window.onload = function(){
     let mainTitle = document.getElementsByClassName('mainTitle')[0]
-    let pencil = document.getElementsByClassName('pencil')[0]
+    pencil = document.getElementsByClassName('pencil')[0]
     //set pencil's transition speed to 0
     pencil.style.transform = 'rotate(' + (Math.atan(mainTitle.offsetHeight/mainTitle.offsetWidth) * 180 / Math.PI) + 'deg)'
     //set pencil's transition speed back to 0.5s
     setTimeout(function() {
         pencil.style.transition = '0.5s cubic-bezier(.73,.11,.48,1.04) transform'
     }, 10)
+    pencil = document.getElementsByClassName('pencil')[0]
 }
 
 function redirectButton(redirect){
+
     setTimeout(function(){
         window.location.href=redirect
     }, 175)
 }
+
+
+
+
+
+
 
 //when mainTitle is hovered, randomize the random-rotate variable in root
 let mainTitle = document.getElementsByClassName('mainTitle')[0]
