@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study</title>
+    <link rel="stylesheet" href="/styles/study.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
     </style>
 </head>
+
 <body>
+    <div id='topcontent'>
+        <img src="/images/duohome.svg" width="40px" height="40px" alt="Home" id="home"
+            onclick="window.location.href = '/home'" />
+
+        <h1 id="title">Study</h1>
+
+    </div>
+    <div id="content">
+        <h2>Click to start</h2>
+        <button onclick="swap()" id='swapbutton'>Swap terms and defintions</button>
+    </div>
     <script>
+        function swap() {
+            for (let v of mc) {
+                let temp = v[0];
+                v[0] = v[1]
+                v[1] = temp;
+            }
+            let b = document.getElementById("swapbutton");
+            b.textContent = b.textContent == "Swap terms and defintions" ? "Swap defintions and terms" : "Swap terms and defintions";
+        }
+
         //very likely need.
         let setId = "<!--id-->";
         let name = "<!--name-->";
@@ -18,18 +42,181 @@
         let terms = `<!--terms-->`.split("");
         let defs = `<!--defs-->`.split("");
         let author = "<!--author-->";
-        function vaildMatch(one, two){
-            for(let i = 0; i < terms.length; i++){
-                if(terms[i] == one && defs[i] == two || terms[i] == two && defs[i] == one){
+        function vaildMatch(one, two) {
+            for (let i = 0; i < terms.length; i++) {
+                if (terms[i] == one && defs[i] == two || terms[i] == two && defs[i] == one) {
                     return true;
                 }
             }
         }
-        let termsdefs = [];
-        for(let i = 0; i < terms.length; i++){
-            termsdefs.push([terms[i], defs[i]]);
+        let mc = [];
+        for (let i = 0; i < terms.length; i++) {
+            mc.push([terms[i], defs[i]]);
         }
-        
+        let frq = [];
+        let content = document.getElementById("content");
+        content.addEventListener("click", v = function (e) {
+            if (e.target.id != "content") {
+                return;
+            }
+            else {
+                content.removeEventListener("click", v);
+                newQuestion();
+            }
+        });
+        var firstAttempt
+        function createFRQ(term, def) {
+            content.innerHTML = "";
+            let question = document.createElement("h2");
+            question.style.textAlign = "center";
+            question.id = "question";
+            question.innerHTML = term;
+            let input = document.createElement("input");
+            input.type = "text";
+            input.id = "answer";
+            input.addEventListener("keydown", function (e) {
+                if (e.key == 'Enter') {
+                    if (input.value.toLocaleLowerCase() == def.toLocaleLowerCase()) {
+                        if (firstAttempt) {
+                            for (let i = 0; i < frq.length; i++) {
+                                if (frq[i][0] == term && frq[i][1] == def) {
+                                    frq.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                        if (!firstAttempt) {
+                            score--;
+
+                        }
+                        firstAttempt = true;
+                        newQuestion();
+                    }
+                    else {
+                        question.innerHTML = "Incorrect, type the term <br> " + def;
+                        firstAttempt = false;
+                        input.value = "";
+                        score -= 0.5;
+
+                    }
+                }
+            })
+            content.appendChild(question);
+            content.appendChild(input);
+        }
+        function createMC(t, d) {
+            content.innerHTML = "";
+            let question = document.createElement("h2");
+            question.innerHTML = t;
+            let answers = [d];
+            let pool = []
+            for(let i = 0; i < terms.length; i++){
+                pool.push([terms[i], defs[i]]);
+            }
+            for (let v of pool) {
+                if (v[1] == d) {
+                    continue;
+                }
+                else {
+                    answers.push(v[1]);
+                }
+            }
+            while (answers.length < 4) {
+                let choice = pool[Math.floor(Math.random() * pool.length)][1];
+                answers.push(choice);
+            }
+            answers.sort(() => Math.random() - 0.5);
+            let choices = document.createElement("div");
+            choices.id = "choices";
+            for (let i = 0; i < 4; i++) {
+                let choice = document.createElement("div");
+                choice.className = "choice";
+                choice.innerHTML = answers[i];
+                choice.addEventListener("click", function () {
+                    if (choice.innerHTML == d) {
+                        for (let i = 0; i < mc.length; i++) {
+                            if (mc[i][0] == t && mc[i][1] == d) {
+                                mc.splice(i, 1);
+                                break;
+                            }
+                        }
+                        frq.push([t, d]);
+                        newQuestion();
+                    }
+                    else {
+                        score--;
+                        choice.style.color = "red";
+                        //shake animation
+                        choice.style.animation = "shake 0.5s";
+                        setTimeout(function () {
+                            choice.style.color = "black";
+                            choice.style.animation = "";
+                        }, 1000);
+                    }
+                })
+                choices.appendChild(choice);
+            }
+            content.appendChild(question);
+            content.appendChild(choices);
+        }
+        let score = 0;
+        function pointScore(inverted) {
+            return (1/(0.5(inverted + 3)))* 1000;
+        }
+        function finish() {
+            score = pointScore(score);
+            let content = document.getElementById("content");
+            content.innerHTML = "";
+            let h2 = document.createElement("h2");
+            h2.innerHTML = "You finished the set!";
+            let button = document.createElement("button");
+            fetch('/api/submitscore/' + setId + '/study', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    score: score,
+                })
+            })
+            button.innerHTML = "Return to home";
+            button.addEventListener("click", function () {
+                window.location.href = "/home";
+            })
+            let reset = document.createElement("button");
+            reset.innerHTML = "Reset";
+            reset.addEventListener("click", function () {
+                window.location.reload();
+            })
+            let leaderbaord = document.createElement("button");
+            leaderbaord.innerHTML = "Leaderboard";
+            leaderbaord.addEventListener("click", function () {
+                window.location.href = "/leaderboard/" + setId;
+            })
+            content.appendChild(h2);
+            content.appendChild(button);
+            content.appendChild(leaderbaord);
+            content.appendChild(reset);
+        }
+        function newQuestion() {
+            let choice = Math.floor(Math.random() * terms.length);
+            let termAndDef = []
+            if (frq.length == 0 && mc.length == 0) {
+                finish()
+            }
+            if (mc.length < choice) {
+                choice = Math.floor(Math.random() * frq.length);
+                termAndDef = frq[choice];
+                createFRQ(termAndDef[0], termAndDef[1]);
+            }
+            else {
+                termAndDef = mc[choice];
+                createMC(termAndDef[0], termAndDef[1]);
+            }
+
+        }
+
     </script>
 </body>
+
 </html>
