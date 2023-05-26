@@ -29,33 +29,44 @@
         window.location.href = "/sets/" + data;
     });
     }
+
+    function shakeError(element) {
+        element.style.borderColor = "#d96363";
+        element.style.backgroundColor = "#d96363";
+        element.style.animation = "shakeError 0.5s";
+        setTimeout(function () {
+            element.style.animation = "none";
+            element.style.borderColor = "3px solid #397377";
+            element.style.backgroundColor = "#FFFAFA";
+        }, 500);
+    }
+
     function addTerm() {
         if (document.getElementById("setname").value === "") {
             //highlight the input box
-            document.getElementById("setname").style.borderColor = "#d96363";
-            document.getElementById("setname").style.backgroundColor = "#d96363";
-            document.getElementById("setname").style.animation = "shakeError 0.5s";
-            setTimeout(function () {
-                document.getElementById("setname").style.animation = "none";
-                document.getElementById("setname").style.borderColor = "3px solid #397377";
-                document.getElementById("setname").style.backgroundColor = "#FFFAFA";
-            }, 500);
-            if(document.getElementById("setdef").value !== ""){
-                return
-            }
+            shakeError(document.getElementById("setname"));
 
         }
         if (document.getElementById("setdef").value === "") {
             //highlight the input box
-            document.getElementById("setdef").style.borderColor = "#d96363";
-            document.getElementById("setdef").style.backgroundColor = "#d96363";
-            document.getElementById("setdef").style.animation = "shakeError 0.5s";
-            setTimeout(function () {
-                document.getElementById("setdef").style.animation = "none";
-                document.getElementById("setdef").style.borderColor = "3px solid #397377";
-                document.getElementById("setdef").style.backgroundColor = "#FFFAFA";
-            }, 500);
+            shakeError(document.getElementById("setdef"));
             return
+        }
+
+        // loop through the terms and defs and see if the term or def is already in the set
+        var terms = document.getElementById("terms");
+        var defs = document.getElementById("defs");
+        for (let v of terms.children) {
+            if (v.innerHTML === document.getElementById("setname").value || v.innerHTML === document.getElementById("setdef").value) {
+                //highlight the input box
+                if (v.innerHTML === document.getElementById("setname").value){
+                    shakeError(document.getElementById("setname"));
+                }
+                if (v.innerHTML === document.getElementById("setdef").value){
+                    shakeError(document.getElementById("setdef"));
+                }
+                return;
+            }
         }
 
         var term = document.getElementById("setname").value;

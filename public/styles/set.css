@@ -137,13 +137,13 @@ body{
 
 ol{
 /*    centered*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(7, 13.5%);*/
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(7, 13.5%);
+    /*display: flex;*/
     /*inline*/
     justify-content: center;
     align-items: center;
-    flex: max-content 7;
+    /*flex: max-content 7;*/
 
     margin: 0;
     padding: 0;
@@ -159,7 +159,7 @@ li{
     border-radius: 10px;
     padding: 1vw 2.5vw;
     transition: 0.3s;
-
+    /*height: 50%;*/
     font-size: 2vh;
     font-family: Inter, sans-serif;
     /*    capitalize first char*/
@@ -167,9 +167,14 @@ li{
     text-align: center;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
     cursor: pointer;
-    overflow-x: scroll ;
+
 /*    hide scrollbar*/
     scrollbar-width: none;
+}
+
+li::selection{
+    background-color: transparent;
+    color: white;
 }
 li::-webkit-scrollbar {
     display: none;
@@ -181,14 +186,14 @@ li::-webkit-scrollbar {
 }
 
 li:hover{
-    background-color: white;
-    color: #1c373a;
+    /*background-color: white;*/
+    /*color: #1c373a;*/
     transform: translateY(-3px);
 }
 
 .defItem{
-    background-color: #83d2f1;
-    color: #0c1719;
+    background-color: #009000;
+    /*color: #0c1719;*/
 
 }
 

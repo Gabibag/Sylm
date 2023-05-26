@@ -28,8 +28,9 @@ body{
     flex-direction: row;
     justify-content: center;
     margin-top: 3vh;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     /*row-gap: 10vw;*/
+    overflow: visible;
 }
 .headInputBox{
 /*    invisible except for an underline and text*/
@@ -88,7 +89,6 @@ body{
 #def{
 /*    bottom right corner in the shape of a circle*/
     font-weight: bold;
-    position: absolute;
     background-color: #397377;
     color: #FFFAFA;
     cursor: pointer;
@@ -106,6 +106,7 @@ body{
     margin-right: 1vw;
     margin-bottom: 1.5%;
     /*run bringAttention 8 times for 0.3s*/
+    position: fixed;
 
 
 
@@ -125,6 +126,7 @@ body{
     scale: 1.05;
     background-color: #FFFAFA;
     color: #397377;
+
 }
 
 .inputBox{
@@ -160,7 +162,7 @@ ol {
     margin-block-end: 0;
     margin-block-start: 0;
     padding-inline-start: 1vw;
-
+    overflow: visible;
 }
 
 li{
@@ -173,13 +175,15 @@ li{
     padding: 0.6vw;
     overflow-wrap: break-word;
     transition: 0.2s;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.29));
 }
 
 li:hover{
     background-color: #397377;
     color: #FFFAFA;
-    transform: scaleX(1.01);
-    border-radius: 6px;
+    transform: scale(1.05);
+
+    /*border-radius: 6px;*/
 }
 
 @keyframes shakeError {
