@@ -1,3 +1,5 @@
+// on load
+
 function setMaker() {
     window.location.href = "/setmaker";
 }

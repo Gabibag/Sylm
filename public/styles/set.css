@@ -127,8 +127,9 @@ body{
     height: 3vw;
     border: none;
     transition: 0.3s;
-    filter: drop-shadow( 0 0 10px rgba(0,0,0,0.25)) invert(100%);
+    filter: drop-shadow( 0 0 10px rgba(255, 255, 255, 0.25)) invert(100%);
     fill: white;
+    z-index: 1000;
 }
 
 #backButton:hover{
@@ -167,6 +168,8 @@ li{
     text-align: center;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
     cursor: pointer;
+    overflow-wrap: break-word;
+    height: max-content;
 
 /*    hide scrollbar*/
     scrollbar-width: none;
