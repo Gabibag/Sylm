@@ -113,7 +113,6 @@
             for (let i = 0; i < terms.length; i++) {
                 pool.push([terms[i], defs[i]]);
             }
-            alert(pool);
             while (answers.length < 4) {
                 let choice = pool[Math.floor(Math.random() * pool.length)][1];
                 if (choice != d) {
