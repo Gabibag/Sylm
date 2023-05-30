@@ -130,8 +130,15 @@ body{
     background-color: #397377;
     border-radius: 10px;
     z-index: 1;
+    cursor: pointer;
+    transition: ease-out 0.3s;
 }
-#timebar{
+
+#timer:hover {
+    scale: 1.05;
+}
+
+#timebar {
     width: 100%;
     height: 100%;
     background-color: #397377;
@@ -141,8 +148,15 @@ body{
     align-items: center;
     flex-direction: column;
     z-index: 1;
+    cursor: pointer;
 }
-.selected{
+
+#timebar:hover {
+    background-color: white;
+    color: #397377;
+}
+
+.selected {
     scale: 1.07 !important;
     transition: ease-out 0.3s;
     /*border: #9cd6de inset 1px !important;*/

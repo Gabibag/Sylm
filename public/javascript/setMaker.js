@@ -1,15 +1,15 @@
-const seprater = "";
+const s = "";
 
 function submit() {
     const terms = document.getElementById("terms");
     let t = "";
     for (let v of terms.children) {
-        t += v.innerHTML + seprater;
+        t += v.innerHTML + s;
     }
     const defs = document.getElementById("defs");
     let d = "";
     for (let v of defs.children) {
-        d += v.innerHTML + seprater;
+        d += v.innerHTML + s;
     }
 
     const body = {
