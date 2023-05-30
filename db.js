@@ -23,8 +23,13 @@ module.exports = {
         }
         return sets;
     },
-    getLeaderboard: async function(setid, gameid){
-        return await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
+    getLeaderboard: async function(setid, gameid, amount, start){
+        console.log(amount +"  " + start);
+        let leaderboard = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ? ORDER BY score DESC LIMIT ?", [setid, gameid, (start + amount)]);
+        if(leaderboard.length - start > amount){
+            return leaderboard.slice(start, start + amount);
+        }
+        return leaderboard;
     },
     submitScore: async function(user, setid, gameid, score){
         if(user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0){
@@ -33,8 +38,7 @@ module.exports = {
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
     },
     getSet: async function(id){
-        let set = await this.db.get("SELECT * FROM sets WHERE id = ?", id);
-        return set;
+        return await this.db.get("SELECT * FROM sets WHERE id = ?", id);
     },
     getNewSetId: async function(){
         let id = "";
@@ -48,8 +52,7 @@ module.exports = {
         }
     },
     getSets: async function(user){
-        let sets = await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
-        return sets;
+        return await this.db.all("SELECT * FROM sets WHERE author = ? LIMIT 15;", user.username);
     },
     createSetManual: async function(name, desc, author, terms, defs){
         let id = await this.getNewSetId();
@@ -77,7 +80,7 @@ module.exports = {
     },
     getUser: async function (username) {
         console.log("Getting user");
-        user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
+        let user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
         console.log(user);
         /*if (user == null || user instanceof Promise) {
             return null;

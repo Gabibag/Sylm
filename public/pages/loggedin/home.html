@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlDeprecatedAttribute -->
 <html lang="en">
 <head>
     <link rel="stylesheet" href="styles/home.css">
@@ -13,13 +14,14 @@
 </head>
 <body>
     <div id = "topBar">
+        <h1 id = "logo">Sylm</h1>
         <div id = "home">
             <img height="50" width=50" src="images/SmallHome.svg" alt="Home" id = "HomeImgBig">
             <img height="88" width = "88" src="images/home.svg" alt="SmallHome" id = "HomeImgSmall">
         </div>
         <div id = "SearchContainer">
             <img src="images/search.svg" alt="Search" id = "SearchImg">
-            <input type="text" id = "SearchBar" onkeypress="SearchKey(event)">
+            <label for="SearchBar"></label><input type="text" id = "SearchBar" onkeypress="SearchKey(event)">
         </div>
     </div>
     <div id = "rightBar">

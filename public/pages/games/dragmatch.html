@@ -45,6 +45,9 @@
         <li id="definitions" class="itemlist"></li>
       </div>
     </div>
+    <div id="timer">
+      <span id="timerbar">20</span>
+    </div>
 
     <script>
       document.addEventListener("click", function () {
@@ -58,10 +61,15 @@
       let defs = `<!--defs-->`.split("");
       let author = "<!--author-->";
       function vaildMatch(one, two) {
+        if (one === two) {
+          return false;
+        }
+        one = one.id;
+        two = two.id;
         for (let i = 0; i < terms.length; i++) {
           if (
-            (terms[i] == one && defs[i] == two) ||
-            (terms[i] == two && defs[i] == one)
+                  (terms[i] == one && defs[i] == two) ||
+                  (terms[i] == two && defs[i] == one)
           ) {
             return true;
           }
@@ -100,12 +108,26 @@
           dlist.appendChild(li);
         }
       }
+
+
       function GameOver() {
-        console.log(document.getElementById("terms").children);
-        return (
-          document.getElementById("terms").children.length === 0 &&
-          document.getElementById("definitions").children.length === 0
-        );
+
+        //check if terms and defs are all hidden
+        let terms = document.getElementById("terms").children;
+        let defs = document.getElementById("definitions").children;
+        for (let i = 0; i < terms.length; i++) {
+          console.log(terms[i].style.opacity);
+          if (terms[i].style.opacity !== "0") {
+            return false;
+          }
+        }
+        for (let i = 0; i < defs.length; i++) {
+          if (defs[i].style.opacity !== "0") {
+            return false;
+          }
+        }
+        return true;
+
       }
 
       let lastHit;
@@ -113,49 +135,97 @@
         if (lastHit == null) {
           lastHit = this;
           this.classList.add("selected");
-        } else {
-          // lastHit.classList.remove("selected");
-          if (vaildMatch(lastHit.id, this.id)) {
-            let s = this.id;
-            let t = lastHit.id;
-            document.getElementById(t).style.scale = "0";
-            document.getElementById(s).style.scale = "0";
-            setTimeout(function () {
-              document.getElementById(t).remove();
-              document.getElementById(s).remove();
-              if (GameOver()) {
-                let time = new Date().getTime() - stime;
-                document.getElementById("endscreen").style.display = "flex";
-                document.getElementById("time").innerHTML = time / 1000;
-                let score = Math.round(1000 * (1 / (0.01 * (time / 1000 + 3))));
-                fetch("/api/submitscore/" + setId + "/dragmatch", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    score: score,
-                  }),
-                });
-              }
-            }, 250);
-          }
-          else{
-            let t = this;
-            let s = lastHit;
-            s.classList.remove("selected");
-            t.classList.remove("selected");
-            s.style.animation = "shakeError 0.5s";
-            this.style.animation = "shakeError 0.5s";
-            setTimeout(function(){
-              t.style.animation = "";
-              s.style.animation = "";
-            }, 500);
-
-          }
-            lastHit = null;
+          return;
         }
+        this.classList.add("selected");
+        let s = this;
+        let t = lastHit;
+
+        if (vaildMatch(t, s)) {
+          console.log("match");
+          console.log(t.id);
+          console.log(s.id);
+          console.log(t);
+          document.getElementById(t.id).style.transition = "1s ease-out"; //Could these have been done with animations?
+          document.getElementById(s.id).style.transition = "1s ease-out"; //yes. Did they smoothly transition between
+          document.getElementById(t.id).style.transform = "scale(1.2)";   //the two states? No.
+          document.getElementById(s.id).style.transform = "scale(1.2)";
+          document.getElementById(t.id).style.opacity = "0";
+          document.getElementById(s.id).style.opacity = "0";
+          setTimeout(() => {
+            document.getElementById(t.id).display = "none";
+            document.getElementById(s.id).display = "none";
+            document.getElementById(s.id).pointerType = "default";
+            document.getElementById(t.id).pointerType = "default";
+            document.getElementById(t.id).removeEventListener("click", clickTermOrDef);
+            document.getElementById(s.id).removeEventListener("click", clickTermOrDef);
+            if (GameOver()) {
+              //remove all elements in lists
+              let terms = document.getElementById("terms").children;
+              let defs = document.getElementById("definitions").children;
+              for (let i = 0; i < terms.length; i++) {
+                terms[i].remove();
+              }
+              for (let i = 0; i < defs.length; i++) {
+                defs[i].remove();
+              }
+
+              clearInterval(timer);
+              let time = new Date().getTime() - stime;
+              document.getElementById("endscreen").style.display = "flex";
+              document.getElementById("time").innerHTML = time / 1000;
+              let score = Math.round(1000 * (1 / (0.01 * (time / 1000 + 3))));
+              fetch("/api/submitscore/" + setId + "/dragmatch", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  score: score,
+                }),
+              });
+            }
+          }, 1000);
+
+        } else {
+          // let t = this;
+          // let s = lastHit;
+          document.getElementById(s.id).classList.remove("selected");
+          document.getElementById(t.id).classList.remove("selected");
+          document.getElementById(s.id).style.animation = "shakeError 0.7s forwards";
+          document.getElementById(t.id).style.animation = "shakeError 0.7s forwards";
+          setTimeout(function () {
+            document.getElementById(t.id).style.animation = "";
+            s.style.animation = "";
+          }, 700);
+
+        }
+
+
+        lastHit = null;
+
       }
+
+      //   display a timer in the top right
+      let timer = setInterval(function () {
+        let time = new Date().getTime() - stime;
+        document.getElementById("timerbar").innerHTML = "Score: " + Math.round(1000 * (1 / (0.01 * (time / 1000 + 3))));
+        /*if (time > 20000) {
+          document.getElementById("endscreen").style.display = "flex";
+          document.getElementById("time").innerHTML = "20";
+          let score = 0;
+          fetch("/api/submitscore/" + setId + "/dragmatch", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              score: score,
+            }),
+          });
+        }*/
+      }, 100);
+
     </script>
   </body>
 </html>

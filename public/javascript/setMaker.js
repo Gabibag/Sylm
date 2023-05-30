@@ -1,23 +1,23 @@
     const seprater = "";
     function submit() {
-    var terms = document.getElementById("terms");
-    var t = "";
-    for (let v of terms.children) {
+        const terms = document.getElementById("terms");
+        let t = "";
+        for (let v of terms.children) {
     t += v.innerHTML + seprater;
 }
-    var defs = document.getElementById("defs");
-    var d = "";
-    for (let v of defs.children) {
+        const defs = document.getElementById("defs");
+        let d = "";
+        for (let v of defs.children) {
     d += v.innerHTML + seprater;
 }
 
-    var body = {
-    terms: t,
-    defs: d,
-    name: document.getElementById("name").value,
-    description: document.getElementById("desc").value,
-};
-    fetch("/api/createset", {
+        const body = {
+            terms: t,
+            defs: d,
+            name: document.getElementById("name").value,
+            description: document.getElementById("desc").value,
+        };
+        fetch("/api/createset", {
     method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -54,8 +54,8 @@
         }
 
         // loop through the terms and defs and see if the term or def is already in the set
-        var terms = document.getElementById("terms");
-        var defs = document.getElementById("defs");
+        const terms = document.getElementById("terms");
+        const defs = document.getElementById("defs");
         for (let v of terms.children) {
             if (v.innerHTML === document.getElementById("setname").value || v.innerHTML === document.getElementById("setdef").value) {
                 //highlight the input box
@@ -69,9 +69,9 @@
             }
         }
 
-        var term = document.getElementById("setname").value;
-        var def = document.getElementById("setdef").value;
-        var li = document.createElement("li");
+        const term = document.getElementById("setname").value;
+        const def = document.getElementById("setdef").value;
+        let li = document.createElement("li");
         li.innerHTML = term;
         document.getElementById("terms").appendChild(li);
         li = document.createElement("li");

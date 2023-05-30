@@ -36,7 +36,7 @@
             <button id="restart" class = "endbuttons hidden" onclick="window.location.reload()">Restart</button>
         </div>
         </div>
-        <input type="text" id="guess" />
+        <label for="guess"></label><label for="guess"></label><input type="text" id="guess" />
 
     </div>
     <script>
@@ -70,8 +70,8 @@
             defs2 = temp;
         }
         function shuffle(array) {
-            var copy = [...array];
-            var currentIndex = copy.length,
+            const copy = [...array];
+            let currentIndex = copy.length,
                 randomIndex;
             while (0 !== currentIndex) {
                 randomIndex = Math.floor(Math.random() * currentIndex);
@@ -115,11 +115,11 @@
         const oneline = 15;
         const FONT_SIZE = 15;
         function draw(t) {
-            var textToDraw = "";
+            let textToDraw = "";
             //split by word 
-            var words = t.text.split(" ");
+            const words = t.text.split(" ");
 
-            var line = "";
+            let line = "";
             for (let v  of words) {
                 line += v + " ";
                 if(line.length > oneline) {
@@ -128,30 +128,31 @@
                 }
             }
             textToDraw += line;
-            var numlines = textToDraw.split("\n").length - 1;
-            var height = numlines * FONT_SIZE; 
+            const numlines = textToDraw.split("\n").length - 1;
+            const height = numlines * FONT_SIZE;
             ctx.textAlign = "center";
             ctx.font = FONT_SIZE + "px 'arial'";
             ctx.beginPath();
-            var textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
+            const textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
             ctx.arc(t.pos[0], t.pos[1] + height/2, textWidth + 10, 0, 2 * Math.PI);
             DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
             ctx.stroke();
         }
         function DrawMultiline(ctx, t, x, y) {
-            var lines = t.split("\n");
-            for (var i = 0; i < lines.length; i++) {
+            const lines = t.split("\n");
+            for (let i = 0; i < lines.length; i++) {
                 ctx.fillText(lines[i], x, y + (i * FONT_SIZE + 5));
             }
         }
         let toUpdate = [];
-        var tick = 0;
-        var time_between = 180;
-        var himage = new Image();
+        let tick = 0;
+        let time_between = 180;
+        const himage = new Image();
         himage.src = "/images/astro-heart.svg";
-        var vel = 3;
+        let vel = 3;
+
         function CreateNew() {
-            var newguess = {
+            const newguess = {
                 text: terms2[Math.floor(Math.random() * terms2.length)],
                 pos: [Math.random() * (canvas.width - 20) + 20, 0],
                 vel: [Math.random() * 8 - 4, vel],
@@ -174,7 +175,7 @@
             }
         }
         function drawui() {
-            for (var i = 0; i < lives; i++) {
+            for (let i = 0; i < lives; i++) {
                 ctx.drawImage(himage, 10 + (i * 40), 10, 30, 30);
             }
             ctx.textAlign = "left";
@@ -212,7 +213,7 @@
                 ctx.textAlign = "center";
                 ctx.fillText("Game Over", canvas.width / 2, (canvas.height / 2) - 120);
                 ctx.fillText('Score:' + score, canvas.width / 2, (canvas.height / 2) - 60);
-                return;
+
             }
 
         }

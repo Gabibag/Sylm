@@ -2,7 +2,7 @@ let invaildChars = ["'", '"', '`', ' ', ";", ":", ",", ".", "/", "\\", "|", "[",
 module.exports = {
     separator: "",
     espace: function (str) {
-        var r = {
+        const r = {
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;'
@@ -23,7 +23,7 @@ module.exports = {
     },
     //as a string
     getAllCookies: function (req) {
-        var cookie = req.headers.cookie;
+        const cookie = req.headers.cookie;
         return cookie.split('; ');
     },
 };

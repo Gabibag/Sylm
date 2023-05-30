@@ -25,7 +25,7 @@ app.get('/api/mysets', async function (req, res) {
 app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   let setid = req.params.setid;
   let gameid = req.params.gameid;
-  let leaderboard = await db.getLeaderboard(setid, gameid);
+  let leaderboard = await db.getLeaderboard(setid, gameid, req.body.amount, req.body.start);
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
@@ -176,7 +176,7 @@ app.get('/:page', async function (req, res) {
   if (fs.existsSync(__dirname + '/public/pages/' + p + '.html')) {
     console.log('unlogged page')
     res.sendFile(__dirname + '/public/pages/' + p + '.html');
-    return;
+
   } else if (fs.existsSync(__dirname + '/public/pages/loggedin/' + p + '.html')) {
     let b = await db.loggedIn(req)
     if (b) {

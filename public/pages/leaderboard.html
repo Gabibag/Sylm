@@ -17,15 +17,66 @@
 
     </ol>
     </div>
-<!--    go back to game by removing the text "leaderboard" and removing -->
     <script>
-        //swap 2 array indices
+        let currentIndex = 15;
+        function loadMore(amount){
+            fetch("/api/getleaderboard/" + setId + "/" + game, {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                "start":currentIndex,
+                "amount":amount
+            })
+        }).then((d) => d.json()).then((d) => {
+            bubble_sort(d)
+            var i= 0;
+            for(let v  of d){
+                i++;
+                let li = document.createElement("div");
+                let child = document.createElement("div");
+                child.innerHTML = i;
+                li.appendChild(child);
+                child = document.createElement("div");
+                child.innerHTML =  v.user;
+                li.appendChild(child);
+                child = document.createElement("div");
+                child.innerHTML = v.score;
+                li.appendChild(child);
+                li.classList.add("leaderboardItem");
+                switch (i){
+                    case 1:
+                        li.classList.add("first");
+                        break;
+                    case 2:
+                        li.classList.add("second");
+                        break;
+                    case 3:
+                        li.classList.add("third");
+                        break;
+                    default:
+                        if(i % 2 === 0)
+                            li.classList.add("even");
+                        else
+                            li.classList.add("odd");
+                        break;
+                }
+                leaderboard.appendChild(li);
+            }
+            currentIndex += amount;
+        })
+        }
+        document.addEventListener('scroll', function(e){
+            if(window.scrollY > 0){
+                loadMore(15);
+            }
+        });
         function swap(list, i1, i2){
             let temp = list[i1];
             list[i1] = list[i2];
             list[i2] = temp;
         }
-        //bubble sort
         function bubble_sort(list){
             for(let i = 0; i < list.length; i++){
                 for(let j = 0; j < list.length - i - 1; j++){
@@ -49,10 +100,17 @@
         let setname = "<!--setname-->";
         document.getElementById("title").innerHTML = UpperCaseWordStarts(game) + "leaderboard for " + setname;
         fetch("/api/getleaderboard/" + setId + "/" + game, {
-            method:"POST"
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                "start":0,
+                "amount":15
+            })
         }).then((d) => d.json()).then((d) => {
             bubble_sort(d)
-            var i= 0;
+            let i = 0;
             for(let v  of d){
                 i++;
                 let li = document.createElement("div");

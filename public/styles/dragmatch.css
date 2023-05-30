@@ -11,6 +11,7 @@
     font-size: 50px;
     text-align: center;
     left: 0;
+    z-index: 100;
 
 }
 #Start h1{
@@ -79,16 +80,15 @@ body{
 .itemlist{
     list-style: none;
     transition: ease-out 0.2s;
+    height: fit-content;
 }
-.selected{
-    background-color: #004054 !important;
-    transition: ease-out 0.3s;
-}
+
 .itemlist li:hover{
     background-color: #FFFAFA;
     scale: 1.01;
     color: #397377;
     cursor: pointer;
+
 }
 .itemlist li{
     animation: 0.7s ease-out/*cubic-bezier(.7,-0.39,.61,1.04)*/;
@@ -102,8 +102,9 @@ body{
     font-size: 20px;
     user-select: none;
     color: #FFFAFA;
-    transition: 0.5s;
+    transition: ease-out 0.3s;
     overflow-wrap: break-word;
+    z-index: 1;
 }
 #termcont{
     display: flex;
@@ -115,29 +116,84 @@ body{
     margin-top: 10%;
 }
 
+
+#timer{
+/*    top right*/
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    background-color: #397377;
+    border-radius: 10px;
+    z-index: 1;
+}
+#timebar{
+    width: 100%;
+    height: 100%;
+    background-color: #397377;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+}
+.selected{
+    scale: 1.07 !important;
+    transition: ease-out 0.3s;
+    /*border: #9cd6de inset 1px !important;*/
+
+
+}
+
+
+@keyframes fazeOut {
+    0% {
+        opacity: 1;
+        scale: 1.07;
+    }
+    100% {
+        opacity: 0;
+        scale: 2;
+    }
+}
+
+
+
+@keyframes disappearAnim {
+
+}
 @keyframes shakeError {
     0% {
         transform: translateX(0);
         background-color: #d96363;
         color: white;
     }
-    25% {
+    15% {
         transform: translateX(10px);
     }
-    50% {
+    25% {
         transform: translateX(-10px);
     }
-    75% {
+    50% {
         transform: translateX(10px);
     }
-    100% {
+    75% {
         transform: translateX(0);
         background-color: #d96363;
         color: white;
     }
+    100% {
+        transform: translateX(0);
+        background-color: #397377;
+        color: white;
+    }
 
 }
-
 /*
 @keyframes bounceScaleOut {
     0% {

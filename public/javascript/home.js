@@ -1,3 +1,5 @@
+// on load
+
 function setMaker() {
     window.location.href = "/setmaker";
 }
@@ -7,8 +9,10 @@ function SearchKey(event) {
         window.location.href = "/search/" + event.target.value;
     }
 }
-var selectedSet = null;
-var loadedSets = [];
+
+let selectedSet = null;
+let loadedSets = [];
+
 function LoadSets() {
     fetch("/api/mysets", {
         method: "GET",

@@ -4,9 +4,9 @@ const mode = "start";
 async function run() {
   await db.init();
   if (mode === "start") {
-    db.db.run('CREATE TABLE users (username TEXT, password TEXT, token TEXT);')
-    db.db.run('CREATE TABLE sets (id TEXT, name TEXT, desc TEXT, author TEXT, terms TEXT, defs TEXT);')
-    db.db.run('CREATE TABLE scores (setid TEXT, game TEXT, score INT, user TEXT);')
+    await db.db.run('CREATE TABLE users (username TEXT, password TEXT, token TEXT);')
+    await db.db.run('CREATE TABLE sets (id TEXT, name TEXT, desc TEXT, author TEXT, terms TEXT, defs TEXT);')
+    await db.db.run('CREATE TABLE scores (setid TEXT, game TEXT, score INT, user TEXT);')
     console.log("created tables")
   }
   else if (mode == 'clean'){
@@ -15,7 +15,7 @@ async function run() {
     for(let v of s){
       if((v.defs.match(//g) || []).length != (v.terms.match(//g) || []).length){
         console.log(v)
-        db.db.run('DELETE FROM sets WHERE id = ?', [v.id])
+        await db.db.run('DELETE FROM sets WHERE id = ?', [v.id])
       }
     }
   console.log("Database edited successfully")
