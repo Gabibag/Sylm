@@ -32,6 +32,9 @@ module.exports = {
         return leaderboard;
     },
     submitScore: async function(user, setid, gameid, score){
+        if(user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0){
+            return;
+        }
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
     },
     getSet: async function(id){
