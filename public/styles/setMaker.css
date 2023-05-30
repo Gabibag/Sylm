@@ -249,3 +249,17 @@ li:hover{
     }
 
 }
+#import {
+    font-weight: bold;
+    background-color: #397377;
+    color: #FFFAFA;
+    cursor: pointer;
+    transition: 0.2s;
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem) 'Titan One', cursive;
+    scale: 1;
+    width: 3vw;
+    height: 3vw;
+
+    border: none;
+    border-radius: 100px;
+}
