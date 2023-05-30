@@ -60,9 +60,8 @@ li{
     list-style: none;
     border-radius: 17px;
     margin-bottom: 10px;
-    height: 20vh;
+    min-height: 20vh;
     cursor: pointer;
-
 }
 li:nth-child(odd){
     background-color: #285053;

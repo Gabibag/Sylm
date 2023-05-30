@@ -146,7 +146,7 @@
         }
         let toUpdate = [];
         let tick = 0;
-        let time_between = 180;
+        let time_between = 120;
         const himage = new Image();
         himage.src = "/images/astro-heart.svg";
         let vel = 3;
@@ -225,7 +225,7 @@
                 for (let v of toUpdate) {
                     if (vaildMatch(guess, v.text)) {
                         score += 100;
-                        if (score % 500 == 0) {
+                        if (score % 300 == 0) {
                             time_between -= 10;
                             vel += 0.2;
                         }

@@ -26,11 +26,12 @@
     </div>
     <script>
         function swap() {
-            for (let v of mc) {
-                let temp = v[0];
-                v[0] = v[1]
-                v[1] = temp;
+            for (let i = 0; i < terms.length; i++) {
+                let temp = terms[i];
+                terms[i] = defs[i];
+                defs[i] = temp;
             }
+            initTerms();
             let b = document.getElementById("swapbutton");
             b.textContent = b.textContent == "Swap terms and defintions" ? "Swap defintions and terms" : "Swap terms and defintions";
         }
@@ -49,11 +50,17 @@
                 }
             }
         }
-        let mc = [];
-        for (let i = 0; i < terms.length; i++) {
-            mc.push([terms[i], defs[i]]);
+        function initTerms() {
+            mc = [];
+            frq = [];
+            for (let i = 0; i < terms.length; i++) {
+                mc.push([terms[i], defs[i]]);
+            }
+            alert(mc)
         }
+        let mc = [];
         let frq = [];
+        initTerms();
         let content = document.getElementById("content");
         content.addEventListener("click", v = function (e) {
             if (e.target.id != "content") {
@@ -112,6 +119,7 @@
             let answers = [d];
             let pool = []
             for (let i = 0; i < terms.length; i++) {
+                alert(terms[i] + " " + defs[i])
                 pool.push([terms[i], defs[i]]);
             }
             while (answers.length < 4) {
@@ -156,7 +164,7 @@
         }
         let score = 0;
         function pointScore(inverted) {
-            return (1 / (0.5*(inverted + 3))) * 1000;
+            return (1 / (0.5 * (inverted + 3))) * 1000;
         }
         function finish() {
             score = pointScore(score);

@@ -60,7 +60,6 @@ app.post('/Register', async function (req, res) {
     res.send("Username not acceptable");
     return;
   }
-  console.log("Registering user")
   db.addUser(username, password)
   let u = await db.getUser(username)
   res.cookie('token', u.token);
@@ -121,7 +120,6 @@ app.get('/', function (req, res) {
 
 });
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
-  console.log("leaderboard")
   let setid = req.params.setid;
   let game = req.params.game;
   try {
@@ -171,10 +169,8 @@ app.get('/sets/:setid/play/:game', async function(req, res){
 });
 
 app.get('/:page', async function (req, res) {
-  console.lo
   let p = req.params.page
   if (fs.existsSync(__dirname + '/public/pages/' + p + '.html')) {
-    console.log('unlogged page')
     res.sendFile(__dirname + '/public/pages/' + p + '.html');
 
   } else if (fs.existsSync(__dirname + '/public/pages/loggedin/' + p + '.html')) {
@@ -199,5 +195,5 @@ app.get('/images/:f', function (req, res) {
 console.log('Starting server');
 app.listen(8000, async function () {
   await db.init();
+  console.log('Server started');
 })
-console.log('Server started');

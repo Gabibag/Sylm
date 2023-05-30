@@ -11,6 +11,22 @@ fetch('/api/search/' + query, {
         start: 0,
     })
 }).then(res => res.json()).then(data => {
+    if(data.length === 0){
+        let sc = document.getElementById('searchResults');
+        sc.style.fontFamily = "'Titan One', cursive";
+        sc.innerHTML = "No results found";
+        sc.style.padding = "30px";
+        sc.style.paddingTop = "100px";
+        sc.style.fontSize = "20px";
+        sc.style.fontWeight = "bold";
+        sc.style.width = '100vw';
+        sc.style.height = '100%';
+        sc.style.color = 'white';
+        sc.style.display = 'flex';
+        sc.style.justifyContent = 'center';
+        sc.style.alignItems = 'center';
+        return;
+    }
     for(let v of data){
         let set = document.createElement('li');
         let desc = document.createElement('p');

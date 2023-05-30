@@ -4,6 +4,7 @@ let invaildChars = ["'", '"', '`', ' ', ";", ":", ",", ".", "/", "\\", "|", "[",
 const { createHash } = require('crypto');
 const { AsyncDatabase } = require("promised-sqlite3");
 async function init() {
+    console.log("database starting");
     module.exports.db = await AsyncDatabase.open("./db.sqlite");
     console.log("Database opened");
 }
@@ -17,19 +18,20 @@ module.exports = {
         if(sets.length - start > maxResults){
             return sets.slice(start, start + maxResults);
         }
-        console.log(sets.length - start);
         if(sets.length - start < maxResults){
             sets.push(...(await this.db.all("SELECT * FROM sets WHERE terms LIKE ? OR defs LIKE ? LIMIT ?", ["%" + query + "%", "%" + query + "%", maxResults - sets.length])));
         }
         return sets;
     },
     getLeaderboard: async function(setid, gameid, amount, start){
-        console.log(amount +"  " + start);
+        
         let leaderboard = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ? ORDER BY score DESC LIMIT ?", [setid, gameid, (start + amount)]);
+        
         if(leaderboard.length - start > amount){
             return leaderboard.slice(start, start + amount);
         }
-        return leaderboard;
+
+        return leaderboard.slice(start, start + amount);
     },
     submitScore: async function(user, setid, gameid, score){
         if(user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0){
@@ -68,7 +70,6 @@ module.exports = {
             cards = cards.substring(0, cards.length - 1);
         }
         let defs = util.espace(data.defs);
-        console.log(util.separator);
         if(defs.endsWith(util.separator)){
             defs = defs.substring(0, defs.length - 1);
         }
@@ -79,9 +80,8 @@ module.exports = {
         return await this.db.get('SELECT * FROM users WHERE token = ?', req.cookies['token'])
     },
     getUser: async function (username) {
-        console.log("Getting user");
         let user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
-        console.log(user);
+        
         /*if (user == null || user instanceof Promise) {
             return null;
         }*/
@@ -113,7 +113,7 @@ module.exports = {
             }
         }
         let user = await this.getUser(username);
-        console.log(user);
+        
         return user == null;
 
     },
