@@ -33,6 +33,7 @@ function submit() {
 
 function shakeError(element) {
     let originalColor = element.style.backgroundColor;
+    console.log(originalColor)
     let originalBorder = element.style.borderColor;
     element.style.borderColor = "#d96363";
     element.style.backgroundColor = "#d96363";
@@ -84,6 +85,16 @@ function addTerm() {
     document.getElementById("setdef").value = "";
     document.getElementById("setdef").style.borderColor = "#397377";
     document.getElementById("setname").style.borderColor = "#397377";
+    //remove the import button
+    document.getElementById("import").style.display = "none";
+}
+
+function importError(message) {
+    // shakeError(document.getElementById("import"));
+    document.getElementById("setname").value = message;
+    document.getElementById("setdef").value = message;
+    shakeError(document.getElementById("setdef"));
+    shakeError(document.getElementById("setname"));
 }
 
 function importFromCSVClipboard() {
@@ -93,47 +104,74 @@ function importFromCSVClipboard() {
         if (lines.length < 2) {
             shakeError(document.getElementById("import"));
         }
-        console.log(lines)
         //figure out the separator term separator
         let separator = "";
         // cycle through the first line and see if there is a comma or a tab
-        for (let i of lines[0]) {
-            console.log(i)
-            console.log(lines[0])
-            if (i.includes(",")) {
-                separator = ",";
-                console.log("separator is ,")
-            } else if (i === "\t") {
-                separator = "\t";
-                console.log("separator is tab")
-            } else if (i === ("|")) {
-                separator = "|";
-                console.log("separator is |")
-            } else if (i === (";")) {
-                separator = ";";
-                console.log("separator is ;")
-            } else if (i === (":")) {
-                separator = ":";
-                console.log("separator is :")
+        let commonSeparators = [",", "\t", "|", ";", ":", "-", "_", "/"];
+        for (let i = 0; i < lines.length; i++) {
+            for (let i of lines[0]) {
+                for (let j of commonSeparators) {
+                    if (i === j) {
+                        separator = j;
+                    }
+                }
             }
-
         }
         if (separator === "") {
             // modify the defs and terms input boxes to have their placeholder text be "separator not found"
-            document.getElementById("defs").placeholder = "separator not found";
-            document.getElementById("terms").placeholder = "separator not found";
-            setTimeout(function () {
-                document.getElementById("defs").placeholder = "Enter definition";
-                document.getElementById("terms").placeholder = "terms";
-            }, 2000);
-            shakeError(document.getElementById("import"));
+            importError("Separator not found");
             return;
         }
-        console.log("separator is " + separator)
+        // check to see if the seprator is "-". if it is, then loop through a random line and see if there is a "+, -, *, or /". if it is, redo the separator but remove the +, -, *, or /
+        let hasMath = false;
+        let mathSymbols = ["+", "-", "*", "/"];
+        if (separator === "-") {
+            for (let i of lines[0]) {
+                for (let j of mathSymbols) {
+                    if (i === j) {
+                        hasMath = true;
+                        break;
+                    }
+                }
+            }
+        }
 
+        if (hasMath) {
+            console.log("has math")
+            commonSeparators = [",", "\t", "|", ";", ":", "_", "/"];
+            for (let i = 0; i < lines.length; i++) {
+                for (let i of lines[0]) {
+                    for (let j of commonSeparators) {
+                        if (i === j) {
+                            separator = j;
+                        }
+                    }
+                }
+            }
+        }
 
+        // console.log(separator)
+
+        //go through separator and count the number of duplicates. after that, use the one with the most duplicates
+        let max = 0;
+        let maxChar = "";
+        for (let i of separator) {
+            let count = 0;
+            for (let j of separator) {
+                if (i === j) {
+                    count++;
+                }
+            }
+            if (count > max) {
+                max = count;
+                maxChar = i;
+            }
+        }
+        separator = maxChar;
+
+        let errorLines = "";
         for (let line of lines) {
-            console.log(line)
+
             const parts = line.split(separator);
             if (parts.length <= 2 && parts.length > 0) {
                 let li = document.createElement("li");
@@ -143,15 +181,46 @@ function importFromCSVClipboard() {
                 li.innerHTML = parts[1];
                 document.getElementById("defs").appendChild(li);
             } else {
-                console.log("parts length is not 2, and is instead " + parts.length)
-                shakeError(document.getElementById("import"));
-                return;
+                errorLines += line + " / ";
             }
         }
+        if (errorLines.length > 0) {
+            errorLines = errorLines.substring(0, errorLines.length - 3);
+            importError("Error on lines: " + errorLines);
+            return;
+        }
+        //remove the import button
+        document.getElementById("import").style.display = "none";
 
     });
 }
 
+function swapTermAndDef() {
+
+    const terms = document.getElementById("terms");
+    const defs = document.getElementById("defs");
+    let termsArray = [];
+    let defsArray = [];
+    if (terms.children.length !== defs.children.length || terms.children.length === 0 || defs.children.length === 0) {
+        //highlight the input box
+        shakeError(document.getElementById("swap"));
+        return;
+    }
+    for (let i = 0; i < terms.children.length; i++) {
+        termsArray.push(terms.children[i].innerHTML);
+        defsArray.push(defs.children[i].innerHTML);
+    }
+    terms.innerHTML = "";
+    defs.innerHTML = "";
+    for (let i = 0; i < termsArray.length; i++) {
+        let li = document.createElement("li");
+        li.innerHTML = defsArray[i];
+        terms.appendChild(li);
+        li = document.createElement("li");
+        li.innerHTML = termsArray[i];
+        defs.appendChild(li);
+    }
+}
 
 
 

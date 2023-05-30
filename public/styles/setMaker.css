@@ -263,3 +263,30 @@ li:hover{
     border: none;
     border-radius: 100px;
 }
+
+#swap {
+    font-weight: bold;
+    background-color: #397377;
+    color: #FFFAFA;
+    cursor: pointer;
+    transition: 0.2s;
+    font: clamp(1rem, 1vw + 0.4vh, 3.5rem) 'Titan One', cursive;
+    scale: 1;
+    width: 3vw;
+    height: 3vw;
+
+    border: none;
+    border-radius: 100px;
+    /*    bottom right*/
+    right: 3.5vw;
+    bottom: 0;
+    margin-right: 1vw;
+    margin-bottom: 1.5%;
+    /*run bringAttention 8 times for 0.3s*/
+    position: fixed;
+}
+
+#swap:hover {
+    transform: translateY(-2px);
+    scale: 1.02;
+}
