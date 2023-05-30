@@ -27,19 +27,16 @@
     margin-right: auto;
     text-align: center;
 }
-#searchInput:focus{
 
-    outline: none;
-    box-shadow: 0 0 5px rgb(0, 64, 84);
-}
 
-#searchInput::placeholder{
+#searchInput::placeholder {
     color: #4DA1A7;
     font-family: 'Titan One', cursive;
     text-align: center;
 }
-#searchInput:hover{
-    box-shadow: 0 0 2px rgb(0, 64, 84);
+
+#searchInput:focus {
+    outline: none;
 }
 
 body{
@@ -62,12 +59,19 @@ li{
     margin-bottom: 10px;
     min-height: 20vh;
     cursor: pointer;
+    overflow: scroll;
+
 }
-li:nth-child(odd){
+
+li::-webkit-scrollbar {
+    display: none;
+}
+
+li:nth-child(odd) {
     background-color: #285053;
 }
 
-li:hover{
+li:hover {
     background-color: white;
     color: #1c373a;
     scale: 1.01;

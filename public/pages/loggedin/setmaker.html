@@ -28,7 +28,7 @@
         <label for="setname"></label><input class="inputBox" id="setname" name="Term" placeholder="Enter Term"
                                             type="text"
     />
-      <label for="setdef"></label><input
+        <label for="setdef"></label><input
             class="inputBox"
             id="setdef"
             name="Definition"
@@ -36,11 +36,25 @@
             type="text"
     />
     </div>
-    <div class="listGroup">
-      <ol id="terms"></ol>
-      <ol id="defs"></ol>
-    </div>
-    <button class="button" onclick="submit()" id="def"><img src="images/rightArrow.svg" id="faceUp" alt="submit" width="100%" height="100%"></button>
+      <div class="listGroup">
+          <ol id="terms"></ol>
+          <ol id="defs"></ol>
+      </div>
+      <button class="button" id="def" onclick="submit()"><img alt="submit" height="100%" id="faceUp"
+                                                              src="images/rightArrow.svg" width="100%"></button>
+      <button class="button" id="swap" onclick="swapTermAndDef()"><img alt="swap"
+                                                                       height="100%" src="images/backArrow.svg"
+                                                                       style="transform: rotate(180deg); filter: invert(100%); position: absolute; top: 20%; left: 25%;"
+                                                                       width="50%">
+          <img alt="swap under"
+               height="100%" src="images/backArrow.svg"
+               style="filter: invert(100%); position: absolute; top: -20%; left: 25%;" width="50%">
+      </button>
+      <button class="button" id="import" onclick="importFromCSVClipboard()"><img alt="import"
+                                                                                 src="images/rightArrow.svg"
+                                                                                 style="transform: rotate(90deg)"
+                                                                                 width="100%">
+      </button>
   </div>
 
   </body>

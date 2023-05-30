@@ -59,6 +59,13 @@ function searchKey(e){
 
 //set the value of the search bar to the query after page loads
 document.addEventListener('DOMContentLoaded', function(){
+    // loop through the query and replace all %20 with a space
+    for (let i = 0; i < query.length; i++) {
+        if (query[i] === '%' && query[i + 1] === '2' && query[i + 2] === '0') {
+            query = query.substring(0, i) + ' ' + query.substring(i + 3, query.length);
+        }
+    }
+
     document.getElementById('searchInput').value = query;
 //     focus on the search bar
     document.getElementById('searchInput').focus();

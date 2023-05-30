@@ -28,11 +28,14 @@
         <div class="game" id="studyGame">
             <div class="gameName">Study</div>
             <div class="gameDescription">The classic studying experience!</div>
-            <div class="gameButton" id ="study">Play</div>
-    </div>
+            <div class="gameButton" id="study">Play</div>
+        </div>
 
-    <button id="backButton" onclick="window.location.href = '/home'"><img alt="back" height="100%"
-                                                                          src="/images/backArrow.svg" width="100%"></button>
+        <button id="backButton" onclick="window.location.href = '/home'"><img alt="back" height="100%"
+                                                                              src="/images/backArrow.svg" width="100%">
+        </button>
+        <button id="export" onclick="exportAsCSV()"><img alt="back" height="100%" src="/images/rightArrow.svg"
+                                                         style="transform: rotate(270deg)" width="100%"></button>
     </div>
     <div id="termList">
         <h2>Terms</h2>
@@ -114,6 +117,46 @@
             event.target.style.animation = ""
         }, 200)
 
+    }
+
+    function exportAsCSV() {
+        //copy all terms and defs to clipboard separated by commas and newlines
+        let seps = [" , ", " - ", " _ ", " | "]
+        //cycle through and if the separator is in the term or def, remove it from the list
+        let terms = [];
+        for (let term of document.getElementsByClassName("termItem")) {
+            terms.push(term.innerHTML)
+        }
+        let defs = [];
+        for (let def of document.getElementsByClassName("defItem")) {
+            defs.push(def.innerHTML)
+        }
+        for (let sep of seps) {
+            for (let term of terms) {
+                if (term.includes(sep)) {
+                    seps.splice(seps.indexOf(sep), 1)
+                    console.log(seps)
+                }
+            }
+            for (let def of defs) {
+                if (def.includes(sep)) {
+                    seps.splice(seps.indexOf(sep), 1)
+                }
+            }
+        }
+        let csv = ""
+        for (let i = 0; i < terms.length; i++) {
+            csv += terms[i] + seps[0] + termDefDict[terms[i]] + "\n"
+        }
+        console.log(csv)
+        console.log(terms)
+
+        navigator.clipboard.writeText(csv)
+        // turn the export button into a checkmark
+        document.getElementById("export").innerHTML = "<img alt=\"back\" height=\"100%\" style=\"transition:1s ;\" src=\"/images/checkmark.svg\" width=\"100%\">"
+        setTimeout(() => {
+            document.getElementById("export").innerHTML = "<img alt=\"back\" height=\"100%\" style=\"transform: rotate(270deg)\" src=\"/images/rightArrow.svg\" width=\"100%\">"
+        }, 1000)
     }
 </script>
 </html>
