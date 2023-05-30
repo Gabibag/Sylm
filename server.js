@@ -25,7 +25,7 @@ app.get('/api/mysets', async function (req, res) {
 app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   let setid = req.params.setid;
   let gameid = req.params.gameid;
-  let leaderboard = await db.getLeaderboard(setid, gameid);
+  let leaderboard = await db.getLeaderboard(setid, gameid, req.body.amount, req.body.start);
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){

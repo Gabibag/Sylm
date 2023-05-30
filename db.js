@@ -23,8 +23,13 @@ module.exports = {
         }
         return sets;
     },
-    getLeaderboard: async function(setid, gameid){
-        return await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ?", [setid, gameid]);
+    getLeaderboard: async function(setid, gameid, amount, start){
+        console.log(amount +"  " + start);
+        let leaderboard = await this.db.all("SELECT * FROM scores WHERE setid = ? AND game = ? ORDER BY score DESC LIMIT ?", [setid, gameid, (start + amount)]);
+        if(leaderboard.length - start > amount){
+            return leaderboard.slice(start, start + amount);
+        }
+        return leaderboard;
     },
     submitScore: async function(user, setid, gameid, score){
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
