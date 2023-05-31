@@ -34,8 +34,9 @@
         <button id="backButton" onclick="window.location.href = '/home'"><img alt="back" height="100%"
                                                                               src="/images/backArrow.svg" width="100%">
         </button>
-        <button id="export" onclick="exportAsCSV()"><img alt="back" height="100%" src="/images/rightArrow.svg"
-                                                         style="transform: rotate(270deg)" width="100%"></button>
+        <button id="export" onclick="exportAsCSV()">Export</button>
+        <!--<img alt="back" height="100%" src="/images/rightArrow.svg"
+                                                         style="transform: rotate(270deg)" width="100%">-->
     </div>
     <div id="termList">
         <h2>Terms</h2>
@@ -187,9 +188,9 @@
 
         navigator.clipboard.writeText(csv)
         // turn the export button into a checkmark
-        document.getElementById("export").innerHTML = "<img alt=\"back\" height=\"100%\" style=\"transition:1s ;\" src=\"/images/checkmark.svg\" width=\"100%\">"
+        document.getElementById("export").innerHTML = "<img alt=\"back\" height=\"100%\" style=\"transition:1s ; padding:1px;\" src=\"/images/checkmark.svg\" width=\"50%\" >"
         setTimeout(() => {
-            document.getElementById("export").innerHTML = "<img alt=\"back\" height=\"100%\" style=\"transform: rotate(270deg)\" src=\"/images/rightArrow.svg\" width=\"100%\">"
+            document.getElementById("export").innerHTML = "Export"
         }, 1000)
     }
 </script>

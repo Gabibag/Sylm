@@ -6,9 +6,13 @@ async function run() {
   if (mode === "start") {
     await db.db.run('CREATE TABLE users (username TEXT, password TEXT, token TEXT);')
     await db.db.run('CREATE TABLE sets (id TEXT, name TEXT, desc TEXT, author TEXT, terms TEXT, defs TEXT);')
-    await db.db.run('CREATE TABLE games (gameNAmes TEXT, isAllowed INT);')
+    await db.db.run('CREATE TABLE games (gameNames TEXT, isAllowed INT);')
     await db.db.run('CREATE TABLE scores (setid TEXT, game TEXT, score INT, user TEXT);')
     console.log("created tables")
+    //fill games with default games
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("astronomerrush", 1)', ["match", 1])
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("study", 1)', ["match", 1])
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("dragmatch", 1)', ["match", 1])
   } else if (mode === 'clean') {
     let s = await db.db.all('SELECT * FROM sets');
     console.log(s)

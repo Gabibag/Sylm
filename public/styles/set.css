@@ -141,15 +141,17 @@ body{
     bottom: 3vh;
     right: 2vw;
     background-color: #1c373a;
-    border-radius: 50%;
+    border-radius: 16px;
     /*padding: 1vw 2.5vw;*/
-    width: 3vw;
+    width: 5vw;
     height: 3vw;
     border: none;
     transition: 0.3s;
     /*filter: drop-shadow( 0 0 10px rgba(255, 255, 255, 0.25)) invert(100%);*/
     fill: white;
     z-index: 1000;
+    font: 1.5vh "Titan One", cursive;
+    color: white;
 }
 
 #export:hover {
