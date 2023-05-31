@@ -39,13 +39,15 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
   let userScore = leaderboard.find((e) => e.user === user.username);
   if (userScore !== undefined) {
     if (userScore.score > score) {
-      console.log("Score not submitted")
+      console.log("Score not submitted, higher score already exists: " + score + "(user: " + user.username + ")");
       return;
     } else {
       await db.changeScore(user, setid, gameid, score);
+      console.log("Score updated: " + userScore.score + " -> " + score + "(user: " + user.username + ")");
       return;
     }
   }
+  console.log("Score submitted: " + score + "(user: " + user.username + ")");
   await db.submitScore(user, setid, gameid, score);
 });
 app.post('/api/createset',async function(req, res){
