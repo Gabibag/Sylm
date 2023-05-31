@@ -219,7 +219,7 @@ app.get('/images/:f', function (req, res) {
 //#endregion
 //#endregion
 console.log('Starting server');
-app.listen(3070, async function () {
+app.listen(8000, async function () {
   await db.init();
   console.log('Server started');
 })

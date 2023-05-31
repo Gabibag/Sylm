@@ -10,9 +10,9 @@ async function run() {
     await db.db.run('CREATE TABLE scores (setid TEXT, game TEXT, score INT, user TEXT);')
     console.log("created tables")
     //fill games with default games
-    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("astronomerrush", 1)', ["match", 1])
-    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("study", 1)', ["match", 1])
-    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES ("dragmatch", 1)', ["match", 1])
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["astronomersrush", 1])
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["match", 1])
+    await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["dragmatch", 1])
   } else if (mode === 'clean') {
     let s = await db.db.all('SELECT * FROM sets');
     console.log(s)
