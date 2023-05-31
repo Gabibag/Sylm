@@ -167,8 +167,12 @@ app.get('/sets/:setid/play/:game', async function (req, res) {
   let setid = req.params.setid;
   let game = req.params.game;
   let disallowedGames = await db.getGames()
-  if (disallowedGames[game] !== 1) {
-    return res.sendFile(__dirname + '/public/pages/503.html')
+  let gameDict = {}
+  for (let g of disallowedGames) {
+    gameDict[g.gameNames] = g.isAllowed
+  }
+  if (gameDict[game] === 0) {
+    return res.sendFile(__dirname + '/public/pages/403.html')
   }
   try {
 

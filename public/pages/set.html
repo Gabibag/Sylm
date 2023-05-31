@@ -65,15 +65,22 @@
         for (let i of data) {
             if (i.isAllowed === 0) {
                 document.getElementById(i.gameNames).classList.add("desaturate")
+                document.getElementById(i.gameNames).parentElement.classList.add("desaturate")
                 //remove event listener
             }
         }
+        console.log(disallowedGames.length)
+        console.log(disallowedGames[0])
+        let gameDict = {}
+        for (let g of disallowedGames) {
+            gameDict[g.gameNames] = g.isAllowed
+        }
+        console.log(gameDict)
         for (let i = 0; i < document.getElementsByClassName("gameButton").length; i++) { //add event listeners to all game buttons
             let game = document.getElementsByClassName("gameButton")[i]
-            console.log(game.id + ", " + game)
+            // console.log(game.id + ", " + game)
             // see if the game is allowed
-            console.log(disallowedGames.isAllowed)
-            if (disallowedGames === 1) {
+            if (gameDict[game.id] === 1) {
                 game.addEventListener("click", () => {
                     window.location.href = window.location.href + "/play/" + game.id
                 })

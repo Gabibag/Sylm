@@ -241,10 +241,10 @@ h2{
 
 .desaturate:hover {
     transform: none;
-    color: #FFFAFA;
-    background-color: #004054;
+    color: unset;
+    /*background-color:;*/
+    filter: hue-rotate(0deg) saturate(0%);
 }
-
 @keyframes flipTerm {
     /*    make a flip animation by scaling down the X axis and scaling it back up*/
     0% {
