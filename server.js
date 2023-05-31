@@ -33,7 +33,7 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let score = req.body.score;
-  let user = await db.getUserFromReq(req);
+  let user = await db.getUserFromReq(req)
   await db.submitScore(user, setid, gameid, score);
 });
 app.post('/api/createset',async function(req, res){
@@ -193,7 +193,7 @@ app.get('/images/:f', function (req, res) {
 //#endregion
 //#endregion
 console.log('Starting server');
-app.listen(8000, async function () {
+app.listen(3070, async function () {
   await db.init();
   console.log('Server started');
 })
