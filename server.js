@@ -180,7 +180,7 @@ app.get('/:page', async function (req, res) {
     }
     else {
       //TODO mention the error within the url
-      res.redirect('/Login')
+      res.redirect('/login?error=NotLoggedIn')
     }
   }
   else {
