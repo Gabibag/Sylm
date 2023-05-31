@@ -153,10 +153,14 @@
           tElement.style.opacity = "0";
           sElement.style.opacity = "0";
           setTimeout(() => {
+            tElement.style.transition = "0";
+            sElement.style.transition = "0";
             tElement.display = "none";
             sElement.display = "none";
             tElement.pointerType = "default";
             sElement.pointerType = "default";
+            tElement.style.scale = "0";
+            sElement.style.scale = "0";
             tElement.removeEventListener("click", clickTermOrDef);
             sElement.removeEventListener("click", clickTermOrDef);
 

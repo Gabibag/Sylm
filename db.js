@@ -8,7 +8,7 @@ async function init() {
     module.exports.db = await AsyncDatabase.open("./db.sqlite");
     console.log("Database opened");
 }
-const vaildChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+const vaildChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_"
 const util = require('./util.js');
 module.exports = {
     init: init,
