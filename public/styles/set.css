@@ -137,25 +137,37 @@ body{
 }
 
 #export {
-    position: fixed;
     bottom: 3vh;
     right: 2vw;
-    background-color: #1c373a;
-    border-radius: 16px;
-    /*padding: 1vw 2.5vw;*/
-    width: 5vw;
-    height: 3vw;
+}
+
+#leaderboard {
+    bottom: 3vh;
+    right: 100px;
+    height: fit-content;
+    /*padding: 12px;*/
+}
+
+.bottomButton {
     border: none;
     transition: 0.3s;
+    position: fixed;
     /*filter: drop-shadow( 0 0 10px rgba(255, 255, 255, 0.25)) invert(100%);*/
     fill: white;
     z-index: 1000;
     font: 1.5vh "Titan One", cursive;
     color: white;
+    background-color: #1c373a;
+    border-radius: 16px;
+    width: fit-content;
+    height: fit-content;
+    padding: 12px;
+    /*padding: 1vw 2.5vw;*/
 }
 
-#export:hover {
+.bottomButton:hover {
     transform: translateY(-3px);
+    cursor: pointer;
 }
 
 ol {

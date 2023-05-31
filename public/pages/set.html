@@ -34,7 +34,8 @@
         <button id="backButton" onclick="window.location.href = '/home'"><img alt="back" height="100%"
                                                                               src="/images/backArrow.svg" width="100%">
         </button>
-        <button id="export" onclick="exportAsCSV()">Export</button>
+        <button class="bottomButton" id="export" onclick="exportAsCSV()">Export</button>
+        <button class="bottomButton" id="leaderboard" onclick="goToLeaderBoard()">Match Leader Board</button>
         <!--<img alt="back" height="100%" src="/images/rightArrow.svg"
                                                          style="transform: rotate(270deg)" width="100%">-->
     </div>
@@ -45,6 +46,12 @@
     </div>
 </body>
 <script>
+    function goToLeaderBoard() {
+        let locations = window.location.href.split("/")
+        console.log(locations[locations.length - 2])
+        window.location.href = "/sets/" + locations[4] + "/dragmatch/leaderboard";
+    }
+
     let name = "<!--name-->"
     let description = "<!--desc-->"
     let terms = "<!--data-->"
