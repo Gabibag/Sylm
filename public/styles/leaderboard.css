@@ -57,7 +57,8 @@ body {
     cursor: pointer;
     transform: scaleX(1.02);
 }
-#leaderboard{
+
+#leaderboard {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -65,4 +66,36 @@ body {
     grid-template-columns: 1fr;
     width: 80%;
     row-gap: 0.5vh;
+}
+
+#backToSets {
+    bottom: 3vh;
+    left: 3vw;
+    height: 3vw;
+    width: 3vw;
+    background: #1c373a;
+    border-radius: 100%;
+    /*padding: 12px;*/
+}
+
+.button {
+    border: none;
+    transition: 0.3s;
+    position: fixed;
+    /*filter: drop-shadow( 0 0 10px rgba(255, 255, 255, 0.25)) invert(100%);*/
+    fill: white;
+    z-index: 1000;
+    font: 1.5vh "Titan One", cursive;
+    color: white;
+    background-color: #1c373a;
+    border-radius: 16px;
+    width: fit-content;
+    height: fit-content;
+    padding: 12px;
+    /*padding: 1vw 2.5vw;*/
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    cursor: pointer;
 }

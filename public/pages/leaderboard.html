@@ -9,25 +9,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slym - Leaderboard</title>
     <link rel="stylesheet" href="/styles/leaderboard.css">
+    <link href="images/icon.svg" rel="icon">
 </head>
 <body>
-    <h1 id = "title"></h1>
-    <div id = "boardContainer">
-    <ol id = "leaderboard">
+<h1 id="title"></h1>
+<div id="boardContainer">
+    <ol id="leaderboard">
 
     </ol>
-    </div>
-    <script>
-        let currentIndex = 15;
-        function loadMore(amount){
-            fetch("/api/getleaderboard/" + setId + "/" + game, {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
+</div>
+<button class="button" id="backToSets" onclick="backToSet()"><img alt="back" height="100%"
+                                                                  src="/images/backArrow.svg" style="filter: invert(100%)"
+                                                                  width="100%"></button>
+<script>
+    function backToSet() {
+        let locations = window.location.href.split("/");
+        //     remove last 2 indexes
+        locations.pop();
+        locations.pop();
+        window.location.href = locations.join("/");
+    }
+
+    let currentIndex = 15;
+
+    function loadMore(amount) {
+        fetch("/api/getleaderboard/" + setId + "/" + game, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "start":currentIndex,
-                "amount":amount
+                "start": currentIndex,
+                "amount": amount
             })
         }).then((d) => d.json()).then((d) => {
             

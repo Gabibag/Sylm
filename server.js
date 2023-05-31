@@ -26,6 +26,18 @@ app.post('/api/getleaderboard/:setid/:gameid', async function(req, res){
   let setid = req.params.setid;
   let gameid = req.params.gameid;
   let leaderboard = await db.getLeaderboard(setid, gameid, req.body.amount, req.body.start);
+  //only displays the highest score per user
+  let users = [];
+  for (let i = 0; i < leaderboard.length; i++) {
+    if (users.includes(leaderboard[i].user)) {
+      leaderboard.splice(i, 1);
+      i--;
+    } else {
+      users.push(leaderboard[i].user);
+    }
+  }
+
+
   res.send(JSON.stringify(leaderboard));
 });
 app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
@@ -34,19 +46,6 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
   let gameid = req.params.gameid;
   let score = req.body.score;
   let user = await db.getUserFromReq(req);
-  //look through the scoreborde and see if the user has a score
-  let leaderboard = await db.getLeaderboard(setid, gameid, 1, 0);
-  let userScore = leaderboard.find((e) => e.user === user.username);
-  if (userScore !== undefined) {
-    if (userScore.score > score) {
-      console.log("Score not submitted, higher score already exists: " + score + "(user: " + user.username + ")");
-      return;
-    } else {
-      await db.changeScore(user, setid, gameid, score);
-      console.log("Score updated: " + userScore.score + " -> " + score + "(user: " + user.username + ")");
-      return;
-    }
-  }
   console.log("Score submitted: " + score + "(user: " + user.username + ")");
   await db.submitScore(user, setid, gameid, score);
 });
