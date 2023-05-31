@@ -33,21 +33,27 @@ module.exports = {
 
         return leaderboard.slice(start, start + amount);
     },
-    submitScore: async function(user, setid, gameid, score){
-        if(user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0){
+    submitScore: async function (user, setid, gameid, score) {
+        if (user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0) {
             return;
         }
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
     },
-    getSet: async function(id){
+    changeScore: async function (user, setid, gameid, score) {
+        if (user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0) {
+            return;
+        }
+        await this.db.run('UPDATE scores SET score = ? WHERE setid = ? AND game = ? AND user = ?', [score, setid, gameid, user.username]);
+    },
+    getSet: async function (id) {
         return await this.db.get("SELECT * FROM sets WHERE id = ?", id);
     },
-    getNewSetId: async function(){
+    getNewSetId: async function () {
         let id = "";
-        for(let i = 0; i < 9; i++){
+        for (let i = 0; i < 9; i++) {
             id += vaildChars[Math.floor(Math.random() * vaildChars.length)];
         }
-        if((await this.db.get("SELECT * FROM sets WHERE id = ?", id)) == null){
+        if ((await this.db.get("SELECT * FROM sets WHERE id = ?", id)) == null) {
             return id;
         }else{
             return this.getNewSetId();
@@ -113,9 +119,12 @@ module.exports = {
             }
         }
         let user = await this.getUser(username);
-        
+
         return user == null;
 
+    },
+    getGames: async function () {
+        return await this.db.all("SELECT * FROM games;");
     },
     addUser: function (username, password) {
         let token = Hash(username + password);

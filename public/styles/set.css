@@ -234,8 +234,19 @@ h2{
     text-overflow: ellipsis;
 }
 
+.desaturate {
+    filter: saturate(0%);
+    cursor: not-allowed;
+}
+
+.desaturate:hover {
+    transform: none;
+    color: #FFFAFA;
+    background-color: #004054;
+}
+
 @keyframes flipTerm {
-/*    make a flip animation by scaling down the X axis and scaling it back up*/
+    /*    make a flip animation by scaling down the X axis and scaling it back up*/
     0% {
         transform: scaleX(1) translateY(-3px);
     }

@@ -1,6 +1,18 @@
 const s = "";
 
 function submit() {
+    //check if the total length of charecters is more than 5000
+    let total = 0;
+    for (let v of document.getElementById("terms").children) {
+        total += v.innerHTML.length;
+    }
+    for (let v of document.getElementById("defs").children) {
+        total += v.innerHTML.length;
+    }
+    if (total > 5000) {
+        shakeError(document.getElementById("def"));
+        return;
+    }
     const terms = document.getElementById("terms");
     let t = "";
     for (let v of terms.children) {
@@ -32,29 +44,35 @@ function submit() {
 }
 
 function shakeError(element) {
-    let originalColor = element.style.backgroundColor;
-    console.log(originalColor)
-    let originalBorder = element.style.borderColor;
-    element.style.borderColor = "#d96363";
-    element.style.backgroundColor = "#d96363";
-    element.style.animation = "shakeError 0.5s";
+
     setTimeout(function () {
-        element.style.animation = "none";
-        element.style.borderColor = originalBorder;
-        element.style.backgroundColor = originalColor;
-    }, 500);
+
+        element.style.animation = "shakeError 0.5s";
+        setTimeout(function () {
+            element.style.animation = "none";
+
+        }, 500);
+    }, 1);
 }
 
 function addTerm() {
-    if (document.getElementById("setname").value === "") {
+    if (document.getElementById("setname").value.trim() === "") {
         //highlight the input box
         shakeError(document.getElementById("setname"));
 
     }
-    if (document.getElementById("setdef").value === "") {
+    if (document.getElementById("setdef").value.trim() === "") {
         //highlight the input box
         shakeError(document.getElementById("setdef"));
         return
+    }
+    // check if term or def is too long
+    if (document.getElementById("setname").value.length > 400) {
+        shakeError(document.getElementById("setname"));
+    }
+    if (document.getElementById("setdef").value.length > 400) {
+        shakeError(document.getElementById("setdef"));
+        return;
     }
 
     // loop through the terms and defs and see if the term or def is already in the set
@@ -93,8 +111,8 @@ function importError(message) {
     // shakeError(document.getElementById("import"));
     document.getElementById("setname").value = message;
     document.getElementById("setdef").value = message;
-    shakeError(document.getElementById("setdef"));
-    shakeError(document.getElementById("setname"));
+    /*shakeError(document.getElementById("setdef"));
+    shakeError(document.getElementById("setname"));*/
 }
 
 function importFromCSVClipboard() {
@@ -120,6 +138,7 @@ function importFromCSVClipboard() {
         if (separator === "") {
             // modify the defs and terms input boxes to have their placeholder text be "separator not found"
             importError("Separator not found");
+            shakeError(document.getElementById("import"));
             return;
         }
         // check to see if the seprator is "-". if it is, then loop through a random line and see if there is a "+, -, *, or /". if it is, redo the separator but remove the +, -, *, or /

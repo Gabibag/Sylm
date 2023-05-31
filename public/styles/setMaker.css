@@ -163,19 +163,26 @@ ol {
     margin-block-start: 0;
     padding-inline-start: 1vw;
     overflow: visible;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10vw, 1fr));
+    grid-gap: 1vw;
+    height: content-box;
+
 }
 
-li{
+li {
     margin-bottom: 10px;
     background-color: #1c373a;
     color: white;
     border-radius: 8px;
     width: 12vw;
+    height: fit-content;
     text-align: center;
     padding: 0.6vw;
     overflow-wrap: break-word;
     transition: 0.2s;
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.29));
+    alignment: center;
 }
 
 li:hover{
@@ -187,13 +194,11 @@ li:hover{
 }
 
 @keyframes shakeError {
-    0% {
-        transform: translateX(0);
+
+
+    25% {
         background-color: #d96363;
         color: white;
-
-    }
-    25% {
         transform: translateX(10px);
     }
     50% {
@@ -201,12 +206,10 @@ li:hover{
     }
     75% {
         transform: translateX(10px);
-    }
-    100% {
-        transform: translateX(0);
         background-color: #d96363;
         color: white;
     }
+
 
 }
 @keyframes bounceUp {
@@ -257,11 +260,16 @@ li:hover{
     transition: 0.2s;
     font: clamp(1rem, 1vw + 0.4vh, 3.5rem) 'Titan One', cursive;
     scale: 1;
-    width: 3vw;
+    width: fit-content;
     height: 3vw;
-
     border: none;
-    border-radius: 100px;
+    border-radius: 18px;
+    padding: 10px;
+}
+
+#import:hover {
+    transform: translateY(-2px);
+    /*scale: 1.02;*/
 }
 
 #swap {
@@ -290,3 +298,4 @@ li:hover{
     transform: translateY(-2px);
     scale: 1.02;
 }
+

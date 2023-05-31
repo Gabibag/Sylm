@@ -52,26 +52,49 @@
 
     document.getElementById("name").innerHTML = name
     document.getElementById("description").innerHTML = description
-
-    for (let game of document.getElementsByClassName("gameButton")) { //add event listeners to all game buttons
-        game.addEventListener("click", () => {
-            window.location.href = window.location.href + "/play/" + game.id
-        })
-    }
-    let termDefDict = {}
-    //   in termsAndDefs, add all the terms and defentitions of the set
-    console.log(window.location.pathname.split('/')[2])
-    fetch('/api/getset/' + window.location.pathname.split('/')[2], {
+    let disallowedGames = []
+    fetch('/api/availableGames/', {
         method: 'POST',
         headers: {
             accept: 'application/json',
             'content-type': 'application/json'
         },
-        body: JSON.stringify({
-            amount: 10,
-            start: 0,
-        })
+        body: JSON.stringify({})
     }).then(res => res.json()).then(data => {
+        disallowedGames = data
+        for (let i of data) {
+            if (i.isAllowed === 0) {
+                document.getElementById(i.gameNames).classList.add("desaturate")
+                //remove event listener
+            }
+        }
+        for (let i = 0; i < document.getElementsByClassName("gameButton").length; i++) { //add event listeners to all game buttons
+            let game = document.getElementsByClassName("gameButton")[i]
+            console.log(game.id + ", " + game)
+            // see if the game is allowed
+            console.log(disallowedGames.isAllowed)
+            if (disallowedGames === 1) {
+                game.addEventListener("click", () => {
+                    window.location.href = window.location.href + "/play/" + game.id
+                })
+            }
+        }
+    })
+    let termDefDict = {}
+    //   in termsAndDefs, add all the terms and defentitions of the set
+    console.log(window.location.pathname.split('/')[2])
+    fetch('/api/getset/' + window.location.pathname.split('/')[2],
+        {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                amount: 10,
+                start: 0,
+            })
+        }).then(res => res.json()).then(data => {
         console.log(data)
         for (let j = 0; j < data.terms.split("").length; j++) {
             let li = document.createElement("li")
@@ -84,11 +107,15 @@
             li.classList.add("termItem")
             document.getElementById("termsAndDefs").appendChild(li)
         }
+
         for (let li of document.getElementsByClassName("termItem")) {
             // console.log(li)
             li.addEventListener("click", flipTerm)
+
+
         }
     })
+
 
     function flipTerm(event) {
 //         show a flip animation and replace the text with corresponding def. runs when an li is clicked

@@ -34,6 +34,18 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
   let gameid = req.params.gameid;
   let score = req.body.score;
   let user = await db.getUserFromReq(req);
+  //look through the scoreborde and see if the user has a score
+  let leaderboard = await db.getLeaderboard(setid, gameid, 1, 0);
+  let userScore = leaderboard.find((e) => e.user === user.username);
+  if (userScore !== undefined) {
+    if (userScore.score > score) {
+      console.log("Score not submitted")
+      return;
+    } else {
+      await db.changeScore(user, setid, gameid, score);
+      return;
+    }
+  }
   await db.submitScore(user, setid, gameid, score);
 });
 app.post('/api/createset',async function(req, res){
@@ -64,6 +76,11 @@ app.post('/Register', async function (req, res) {
   let u = await db.getUser(username)
   res.cookie('token', u.token);
   res.send("Register success")
+});
+app.post('/api/availableGames', async function (req, res) {
+  //check db for games
+  res.send(JSON.stringify(await db.getGames()));
+
 });
 app.post('/login', async function (req, res) {
   let username = req.body.username
@@ -119,22 +136,23 @@ app.get('/', function (req, res) {
   }
 
 });
+
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
   let setid = req.params.setid;
   let game = req.params.game;
   try {
     let set = await db.getSet(setid);
-  let file = fs.readFileSync(__dirname + '/public/pages/leaderboard.html', 'utf8')
-  file = file.replace('<!--setid-->', setid);
-  file = file.replace('<!--game-->', game);
-  file = file.replace("<!--setname-->", set.name)
-  res.setHeader('content-type', 'text/html');
-  res.send(file);
+    let file = fs.readFileSync(__dirname + '/public/pages/leaderboard.html', 'utf8')
+    file = file.replace('<!--setid-->', setid),
+        file = file.replace('<!--game-->', game);
+    file = file.replace("<!--setname-->", set.name)
+    res.setHeader('content-type', 'text/html');
+    res.send(file);
 
-} catch (error) {
-  console.log(error)
- res.sendFile(__dirname + '/public/pages/404.html') 
-}
+  } catch (error) {
+    console.log(error)
+    res.sendFile(__dirname + '/public/pages/404.html')
+  }
 });
 app.get('/styles/:f', function (req, res) {
   res.setHeader('content-type', "text/css")
@@ -145,27 +163,31 @@ app.get('/javascript/:f', function (req, res) {
   res.sendFile(__dirname + '/public/javascript/' + req.params.f);
 
 });
-app.get('/sets/:setid/play/:game', async function(req, res){
+app.get('/sets/:setid/play/:game', async function (req, res) {
   let setid = req.params.setid;
   let game = req.params.game;
-  try {
-    
-  let file = fs.readFileSync(__dirname + '/public/pages/games/' +game + '.html', 'utf8')
-  let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
-  if(set === undefined){
-    return res.sendFile("public/pages/404.html", {root: __dirname})
+  let disallowedGames = await db.getGames()
+  if (disallowedGames[game] !== 1) {
+    return res.sendFile(__dirname + '/public/pages/503.html')
   }
-  file = file.replace('<!--name-->', set.name);
-  file = file.replace('<!--desc-->', set.desc);
-  file = file.replace('<!--author-->', set.author);
-  file = file.replace('<!--terms-->', set.terms);
-  file = file.replace("<!--defs-->", set.defs);
-  file = file.replace('<!--id-->', set.id);
-  res.send(file);
+  try {
 
-} catch (error) {
- res.sendFile(__dirname + '/public/pages/404.html')   
-}
+    let file = fs.readFileSync(__dirname + '/public/pages/games/' + game + '.html', 'utf8')
+    let set = await db.db.get('SELECT * FROM sets WHERE id = ?', setid);
+    if (set === undefined) {
+      return res.sendFile("public/pages/404.html", {root: __dirname})
+    }
+    file = file.replace('<!--name-->', set.name);
+    file = file.replace('<!--desc-->', set.desc);
+    file = file.replace('<!--author-->', set.author);
+    file = file.replace('<!--terms-->', set.terms);
+    file = file.replace("<!--defs-->", set.defs);
+    file = file.replace('<!--id-->', set.id);
+    res.send(file);
+
+  } catch (error) {
+    res.sendFile(__dirname + '/public/pages/404.html')
+  }
 });
 
 app.get('/:page', async function (req, res) {
@@ -182,8 +204,7 @@ app.get('/:page', async function (req, res) {
       //TODO mention the error within the url
       res.redirect('/Login')
     }
-  }
-  else {
+  } else {
     res.sendFile(__dirname + '/public/pages/404.html');
   }
 });
@@ -193,7 +214,7 @@ app.get('/images/:f', function (req, res) {
 //#endregion
 //#endregion
 console.log('Starting server');
-app.listen(8000, async function () {
+app.listen(3070, async function () {
   await db.init();
   console.log('Server started');
 })
