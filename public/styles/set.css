@@ -109,6 +109,7 @@
     background-color: #FFFAFA;
     color: #004054;
     transform: scaleX(1.05);
+    cursor: pointer;
 }
 
 body{

@@ -242,3 +242,7 @@ app.listen(8000, async function () {
   await db.init();
   console.log("Server started");
 });
+
+app.on("unhandledRejection", function (err) {
+  console.log(err);
+});
