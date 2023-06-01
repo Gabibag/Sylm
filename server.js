@@ -51,7 +51,7 @@ app.post("/api/submitscore/:setid/:gameid", async function (req, res) {
   let gameid = req.params.gameid;
   let score = req.body.score;
   let user = await db.getUserFromReq(req);
-  if (useanticheat) {
+  if (useanticheat && gameid == "dragmatch") {
     let checkagainst = req.body.scoreid;
     console.log("checkagainst: " + checkagainst);
     console.log("score: " + score);
