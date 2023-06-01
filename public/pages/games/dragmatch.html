@@ -60,6 +60,14 @@
       let description = `<!--desc-->`;
       let terms = `<!--terms-->`.split("");
       let defs = `<!--defs-->`.split("");
+      const max_terms = 20;
+      if (terms.length > max_terms) {
+        while(terms.length > max_terms) {
+          let index = Math.floor(Math.random() * terms.length);
+          terms.splice(index, 1);
+          defs.splice(index, 1);
+        }
+      }
       let author = "<!--author-->";
       function vaildMatch(one, two) {
         if (one === two) {
