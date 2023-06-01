@@ -127,16 +127,7 @@ app.get('/Logout', function (req, res) {
   res.clearCookie('token')
   res.redirect('/')
 });
-app.get('/', function (req, res) {
-  // check if logged in
-  let token = req.cookies.token
-  if (token === undefined) {
-    res.sendFile(__dirname + '/public/pages/index.html')
-  } else {
-    res.redirect('/home')
-  }
 
-});
 
 app.get('/sets/:setid/:game/leaderboard', async function(req, res){
   let setid = req.params.setid;
@@ -215,6 +206,14 @@ app.get('/:page', async function (req, res) {
 });
 app.get('/images/:f', function (req, res) {
   res.sendFile(__dirname + '/public/images/' + req.params.f);
+});
+app.get('/', function (req, res) {
+  if(db.loggedIn(req) ){
+    res.sendFile(__dirname + '/public/pages/index.html')
+  } else {
+    res.redirect('/home')
+  }
+
 });
 //#endregion
 //#endregion

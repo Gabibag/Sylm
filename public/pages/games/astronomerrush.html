@@ -19,7 +19,6 @@
     </div>
     <div id="secondbar">
         <div id="swap">
-
             <button id="swaper" onclick="Swap()">
                 swap terms and definitions
             </button>
@@ -38,7 +37,6 @@
         </div>
         </div>
         <label for="guess"></label><label for="guess"></label><input type="text" id="guess" />
-
     </div>
     <script>
         let dpi = window.devicePixelRatio;
@@ -117,7 +115,7 @@
         const FONT_SIZE = 15;
         function draw(t) {
             let textToDraw = "";
-            //split by word 
+            //split by word
             const words = t.text.split(" ");
 
             let line = "";
@@ -243,7 +241,7 @@
             beginInterval()
         }
         function beginInterval() {
-            GameTick();            
+            GameTick();
             if (lives > 0) {
 
                 requestAnimationFrame(beginInterval);
@@ -251,5 +249,4 @@
         }
     </script>
 </body>
-
 </html>
