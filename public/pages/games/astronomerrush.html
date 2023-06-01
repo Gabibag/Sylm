@@ -18,21 +18,25 @@
         <h1 id="title">Astronomer Rush</h1>
     </div>
     <div id="game">
-        <div id = "gamecont">
-            <div id = 'canvascont'>
+        <div id="gamecont">
+            <div id='canvascont'>
                 <button id="swaper" onclick="Swap()">Swap terms and definitions</button>
-        <canvas id="gamedraw">
-            
-        </canvas>
-    </div>
-        <div id = "endbuttoncont">
-            <button id="leaderboard" class = "endbuttons hidden" onclick="window.location.href = '/sets/' + setId + '/astronomerrush/leaderboard'">Leaderboard </button>
-            <button id="restart" class = "endbuttons hidden" onclick="window.location.reload()">Restart</button>
+                <canvas id="gamedraw">
+
+                </canvas>
+                <label for="guess"></label><label for="guess"></label><input id="guess" placeholder="Type Here!"
+                                                                             type="text"/>
+            </div>
+            <div id="endbuttoncont">
+                <button class="endbuttons hidden" id="leaderboard"
+                        onclick="window.location.href = '/sets/' + setId + '/astronomerrush/leaderboard'">Leaderboard
+                </button>
+                <button class="endbuttons hidden" id="restart" onclick="window.location.reload()">Restart</button>
+            </div>
         </div>
-        </div>
-        <label for="guess"></label><label for="guess"></label><input type="text" id="guess" />
     </div>
     <script>
+
         
         //TODO heart cropping
         //TODO resize issues
@@ -232,24 +236,53 @@
         }
         let score = 0;
         let lives = 3;
+        let inBox = document.getElementById('guess');
         function Typed(event) {
             if (event.key == "Enter") {
+
                 let guess = this.value;
+                let found = false;
                 for (let v of toUpdate) {
                     if (vaildMatch(guess, v.text)) {
+                        event.preventDefault();
+                        inBox.style.animation = "bounceUp 0.2s";
+                        setTimeout(function () {
+                            inBox.style.animation = "";
+                        }, 300);
+                        inBox.focus();
+                        found = true;
+
                         score += 100;
                         if (score % 600 == 0) {
                             time_between -= 20;
                             vel += 0.02;
                         }
-                        if(score % 1000 == 0) {
+                        if (score % 1000 == 0) {
                             num_spawn++;
                         }
                         toUpdate.splice(toUpdate.indexOf(v), 1);
                         //todo score
                     }
                 }
+                if (!found) {
+                    inBox.style.animation = "shake 0.5s ease-out";
+                    setTimeout(function () {
+                        inBox.style.animation = "";
+                    }, 500);
+                    inBox.focus();
+                }
                 this.value = "";
+            } else if (event.key === " ") {
+                //make the inputbox bounce up once using css animation
+                inBox.style.animation = "bounceUp 0.2s";
+                setTimeout(function () {
+                    inBox.style.animation = "";
+                }, 300);
+            } else {
+                inBox.style.animation = "bounceLittleUp 0.1s";
+                setTimeout(function () {
+                    inBox.style.animation = "";
+                }, 100);
             }
         }
         function addEvents() {
