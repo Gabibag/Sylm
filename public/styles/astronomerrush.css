@@ -3,7 +3,18 @@ body{
     padding: 0;
     margin: 0;
 }
+.endbuttons:hover{
+    background-color: #4DA1A7;
+}
+#swaper:hover{
+    background-color: #4DA1A7;
+}
 #swaper{
+    font-family: 'Titan One', cursive;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border: none;
     background-color: #2B5E62;
     color: white;
@@ -44,20 +55,45 @@ body{
 
 }
 #guess{
-    padding: 0px;
-    height: 5vw;
+    text-align: center;
+    padding: 0;
+    /*height: 1vw;*/
     width: 80%;
+    /*top: 95vw;*/
+    transform: translateX(13%) translateY(-132%);
+    height: 4vh;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-family: "Titan One", cursive;
+    background-color: #9cd6de;
+    color: #1c373a;
 }
-#gamecont{
-    height: 100vh;
-    width: 100%;
+
+#guess::placeholder {
+    color: #333f41;
+    font-family: "Titan One", cursive;
+}
+
+#gamecont {
+    height: fit-content;
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
 }
 .endbuttons{
-    
+    background-color: #2B5E62;
+    padding-left: 20px;
+    padding-right:20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    margin-left: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Titan One', cursive;
 }
 .hidden{
     display: none;
@@ -65,11 +101,12 @@ body{
 #endbuttoncont{
     position: absolute;
 }
-#gamedraw{
+#gamedraw {
+    overflow: visible;
     border-radius: 30px;
     background-color: #2B5E62;
     height: 85vh;
-    width: 100%;
+    width: 90vw;
     display: flex;
     padding-bottom: 0px;
     justify-content: center;
@@ -79,19 +116,51 @@ body{
     -ms-border-radius: 30px;
     -o-border-radius: 30px;
 }
-#game{
+#game {
     height: 92.5%;
     width: 95%;
-    padding: 2.5%;
+    padding: 1% 2.5% 2.5%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
 }
-#homebutton{
+
+#homebutton {
     cursor: pointer;
     position: absolute;
-    top:25px;
+    top: 25px;
     left: 15px;
+}
+
+@keyframes bounceUp {
+
+    50% {
+        transform: translateY(-136%) translateX(13%);
+    }
+
+}
+
+@keyframes bounceLittleUp {
+
+    50% {
+        transform: translateY(-134%) translateX(13%);
+    }
+}
+
+@keyframes shake {
+    25% {
+        background-color: #d96363;
+        color: white;
+        transform: translateX(16%) translateY(-133%);
+    }
+    50% {
+        transform: translateX(10%) translateY(-133%);
+    }
+    75% {
+        transform: translateX(16%) translateY(-133%);
+        background-color: #d96363;
+        color: white;
+    }
 }

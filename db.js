@@ -34,10 +34,27 @@ module.exports = {
         return leaderboard.slice(start, start + amount);
     },
     submitScore: async function (user, setid, gameid, score) {
-        if (user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0) {
+        if (score > 301000) {
+            console.log("Score not submitted, too high: " + score + "(user: " + user.username + ") flagging user as cheater");
+            if (!user.username.includes("cheater")) {
+                await this.db.run('UPDATE users SET username = ? WHERE password = ? AND token = ?', [user.username + " [cheater]", user.password, user.token]);
+            }
+            return;
+        }
+        if (user.username.includes("cheater") && score > 28000) {
+            console.log("Score not submitted, user suspected of cheating: " + score + "(user: " + user.username + ")");
+            return;
+        }
+        if (setid == null || gameid == null || score == null || score < 0) {
             return;
         }
         await this.db.run('INSERT INTO scores VALUES (?, ?, ?, ?)', [setid, gameid, score, user.username]);
+    },
+    setUserName: async function (user, name) {
+        if (user == null || name == null) {
+            return;
+        }
+        await this.db.run('UPDATE users SET name = ? WHERE username = ?', [name, user.username]);
     },
     changeScore: async function (user, setid, gameid, score) {
         if (user == null || setid == null || gameid == null || score == null || score > 3010000000 || score < 0) {
@@ -118,7 +135,10 @@ module.exports = {
                 return false;
             }
         }
-        let user = await this.getUser(username);
+        if (username.toLowerCase().includes("cheater")) {
+            return false;
+        }
+        let user = await this.getUser(username.toLowerCase());
 
         return user == null;
 

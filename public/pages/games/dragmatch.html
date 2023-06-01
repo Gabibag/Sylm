@@ -51,6 +51,37 @@
     </div>
 
     <script>
+      function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+      let getScoreID = function () {
+        return "dragmatch" + setId;
+      };
+      function stringToNum (str) {
+        let num = 0;
+        for (let i = 0; i < str.length; i++) {
+          num += str.charCodeAt(i);
+        }
+        return num;
+      }
+      async function initValues()  {
+        getScoreID = function () {
+          return  Math.round(1000 * (1 / (0.01 * (scoreTimer / 1000 + 3)))) * stringToNum(getCookie("token"));
+        };
+      };
+      initValues();
       document.addEventListener("click", function () {
         document.getElementById("Start").style.display = "none";
         BeginGame();
@@ -60,6 +91,14 @@
       let description = `<!--desc-->`;
       let terms = `<!--terms-->`.split("");
       let defs = `<!--defs-->`.split("");
+      const max_terms = 20;
+      if (terms.length > max_terms) {
+        while(terms.length > max_terms) {
+          let index = Math.floor(Math.random() * terms.length);
+          terms.splice(index, 1);
+          defs.splice(index, 1);
+        }
+      }
       let author = "<!--author-->";
       function vaildMatch(one, two) {
         if (one === two) {
@@ -133,7 +172,7 @@
       }
 
       let lastHit;
-      function clickTermOrDef() {
+      async function clickTermOrDef() {
         if (lastHit == null) {
           lastHit = this;
           this.classList.add("selected");
@@ -152,7 +191,7 @@
           sElement.style.transform = "scale(1.2)";
           tElement.style.opacity = "0";
           sElement.style.opacity = "0";
-          setTimeout(() => {
+          setTimeout(async () => {
             tElement.style.transition = "0";
             sElement.style.transition = "0";
             tElement.display = "none";
@@ -173,6 +212,7 @@
               document.getElementById("definitions").innerHTML = "";
               document.getElementById("endscreen").style.display = "flex";
               document.getElementById("time").innerHTML = time / 1000;
+              let scoreid = await getScoreID();
               let score = Math.round(1000 * (1 / (0.01 * (scoreTimer / 1000 + 3))));
               fetch("/api/submitscore/" + setId + "/dragmatch", {
                 method: "POST",
@@ -180,6 +220,7 @@
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                  scoreid:  scoreid,
                   score: score,
                 }),
               });

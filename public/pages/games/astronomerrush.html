@@ -17,30 +17,29 @@
     <div id="topbar">
         <h1 id="title">Astronomer Rush</h1>
     </div>
-    <div id="secondbar">
-        <div id="swap">
-
-            <button id="swaper" onclick="Swap()">
-                swap terms and definitions
-            </button>
-        </div>
-    </div>
-    <div id="homebutton" onclick="window.location.href = '/home'">
-        <img src="/images/duohome.svg" width="40px" height="40px" alt="Home" id="home" />
-    </div>
     <div id="game">
-        <div id = "gamecont">
-        <canvas id="gamedraw">
-        </canvas>
-        <div id = "endbuttoncont">
-            <button id="leaderboard" class = "endbuttons hidden" onclick="window.location.href = '/sets/' + setId + '/astronomerrush/leaderboard'">Leaderboard </button>
-            <button id="restart" class = "endbuttons hidden" onclick="window.location.reload()">Restart</button>
-        </div>
-        </div>
-        <label for="guess"></label><label for="guess"></label><input type="text" id="guess" />
+        <div id="gamecont">
+            <div id='canvascont'>
+                <button id="swaper" onclick="Swap()">Swap terms and definitions</button>
+                <canvas id="gamedraw">
 
+                </canvas>
+                <label for="guess"></label><label for="guess"></label><input id="guess" placeholder="Type Here!"
+                                                                             type="text"/>
+            </div>
+            <div id="endbuttoncont">
+                <button class="endbuttons hidden" id="leaderboard"
+                        onclick="window.location.href = '/sets/' + setId + '/astronomerrush/leaderboard'">Leaderboard
+                </button>
+                <button class="endbuttons hidden" id="restart" onclick="window.location.reload()">Restart</button>
+            </div>
+        </div>
     </div>
     <script>
+
+        
+        //TODO heart cropping
+        //TODO resize issues
         let dpi = window.devicePixelRatio;
         let setId = "<!--id-->";
         let name = "<!--name-->";
@@ -60,12 +59,7 @@
         }
         function Swap() {
             let swap = document.getElementById("swaper");
-            if (swap.style.backgroundColor == "rgb(49, 133, 139)") {
-                swap.style.backgroundColor = "#2B5E62";
-            }
-            else {
-                swap.style.backgroundColor = "#31858B";
-            }
+            swap.innerText =  (swap.innerText == "Swap terms and definitions") ? "Swap definitions and terms": "Swap terms and definitions"
             let temp = terms2;
             terms2 = defs2;
             defs2 = temp;
@@ -117,7 +111,7 @@
         const FONT_SIZE = 15;
         function draw(t) {
             let textToDraw = "";
-            //split by word 
+            //split by word
             const words = t.text.split(" ");
 
             let line = "";
@@ -135,9 +129,14 @@
             ctx.font = FONT_SIZE + "px 'arial'";
             ctx.beginPath();
             const textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
+            t.width = textWidth;
+            t.height = height;
+            ctx.fillStyle = "#d96363";
             ctx.arc(t.pos[0], t.pos[1] + height/2, textWidth + 10, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = "black";
             DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
-            ctx.stroke();
+            //ctx.stroke();
         }
         function DrawMultiline(ctx, t, x, y) {
             const lines = t.split("\n");
@@ -145,20 +144,23 @@
                 ctx.fillText(lines[i], x, y + (i * FONT_SIZE + 5));
             }
         }
+        let time_between = 60 * 5;
         let toUpdate = [];
-        let tick = 0;
-        let time_between = 120;
+        let tick = time_between - 1;
         const himage = new Image();
         himage.src = "/images/astro-heart.svg";
-        let vel = 3;
-
+        let vel = 0.05;
+        let num_spawn = 2;
         function CreateNew() {
+            for(let i = 0; i < num_spawn; i++){
             const newguess = {
                 text: terms2[Math.floor(Math.random() * terms2.length)],
                 pos: [Math.random() * (canvas.width - 20) + 20, 0],
-                vel: [Math.random() * 8 - 4, vel],
+                vel: [Math.random() / 10, vel],
             };
             toUpdate.push(newguess);
+            draw(newguess);
+        }
         }
         function GameOver() {
             fetch('/api/submitscore/' + setId + '/astronomerrush', {
@@ -175,9 +177,10 @@
                 v.classList.remove('hidden');
             }
         }
+        let hearwidth = himage.width;
         function drawui() {
             for (let i = 0; i < lives; i++) {
-                ctx.drawImage(himage, 10 + (i * 40), 10, 30, 30);
+                ctx.drawImage(himage, 10 + (i *30) + 5, 10, 30, 30);
             }
             ctx.textAlign = "left";
             ctx.font = "20px 'arial'";
@@ -186,14 +189,17 @@
         }
         function GameTick() {
             tick++;
+            var height = canvas.height;
+            var width = canvas.width;
             if (tick % time_between == 0) {
                 CreateNew();
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             for (let v of toUpdate) {
-                v.pos[1] += v.vel[1];
-                v.pos[0] += v.vel[0];
+                v.pos[1] += v.vel[1] * height / 60;
+                v.pos[0] += v.vel[0] * width / 60;
+                v.rot += v.rotvel;
                 if (v.pos[1] > canvas.height) {
                     toUpdate.splice(toUpdate.indexOf(v), 1);
                     lives--;
@@ -201,7 +207,17 @@
                 if(v.pos[0] > canvas.width || v.pos[0] < 0) {
                     v.vel[0] *= -1;
                 }
-                v.rot += v.rotvel;
+                //check every after
+                for(let v2 of toUpdate) {
+                    if(Math.abs(v2.pos[0] - v.pos[0]) > v.width + v2.width){
+                        continue;
+                    }
+                    if(Math.abs(v2.pos[1] - v.pos[1]) > v.height + v2.height) {
+                        continue;
+                    }
+                    v.vel[0] *= -1;
+                    v2.vel[0] *= -1;
+                }
                 draw(v);
             }
             ctx.restore();
@@ -220,36 +236,69 @@
         }
         let score = 0;
         let lives = 3;
+        let inBox = document.getElementById('guess');
         function Typed(event) {
             if (event.key == "Enter") {
+
                 let guess = this.value;
+                let found = false;
                 for (let v of toUpdate) {
                     if (vaildMatch(guess, v.text)) {
+                        event.preventDefault();
+                        inBox.style.animation = "bounceUp 0.2s";
+                        setTimeout(function () {
+                            inBox.style.animation = "";
+                        }, 300);
+                        inBox.focus();
+                        found = true;
+
                         score += 100;
-                        if (score % 300 == 0) {
-                            time_between -= 10;
-                            vel += 0.2;
+                        if (score % 600 == 0) {
+                            time_between -= 20;
+                            vel += 0.02;
+                        }
+                        if (score % 1000 == 0) {
+                            num_spawn++;
                         }
                         toUpdate.splice(toUpdate.indexOf(v), 1);
                         //todo score
                     }
                 }
+                if (!found) {
+                    inBox.style.animation = "shake 0.5s ease-out";
+                    setTimeout(function () {
+                        inBox.style.animation = "";
+                    }, 500);
+                    inBox.focus();
+                }
                 this.value = "";
+            } else if (event.key === " ") {
+                //make the inputbox bounce up once using css animation
+                inBox.style.animation = "bounceUp 0.2s";
+                setTimeout(function () {
+                    inBox.style.animation = "";
+                }, 300);
+            } else {
+                inBox.style.animation = "bounceLittleUp 0.1s";
+                setTimeout(function () {
+                    inBox.style.animation = "";
+                }, 100);
             }
         }
         function addEvents() {
+            canvas.scrollIntoView();
+            document.getElementById('swaper').classList.add('hidden');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             guess.addEventListener("keydown", Typed);
+            guess.focus();
             beginInterval()
         }
         function beginInterval() {
-            GameTick();            
+            GameTick();
             if (lives > 0) {
-
                 requestAnimationFrame(beginInterval);
             }
         }
     </script>
 </body>
-
 </html>
