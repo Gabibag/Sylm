@@ -38,11 +38,16 @@ body {
 .even{
     background-color: #2f5d5d;
 }
-.odd{
+.odd {
 
     background-color: #397377;
 }
-.leaderboardItem{
+
+.cheater {
+    background-color: #d96363;
+}
+
+.leaderboardItem {
     border-radius: 20px;
     float: left;
     width: 100%;

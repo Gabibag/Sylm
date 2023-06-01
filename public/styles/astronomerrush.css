@@ -56,19 +56,28 @@ body{
 }
 #guess{
     text-align: center;
-    padding: 0px;
-    height: 1vw;
+    padding: 0;
+    /*height: 1vw;*/
     width: 80%;
-    top: 95vw;
-    transform: translate(0, -50%);
-    -webkit-transform: translate(0, -50%);
-    -moz-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    -o-transform: translate(0, -50%);
+    /*top: 95vw;*/
+    transform: translateX(13%) translateY(-132%);
+    height: 4vh;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-family: "Titan One", cursive;
+    background-color: #9cd6de;
+    color: #1c373a;
 }
-#gamecont{
-    height: 95vh;
-    width: 100%;
+
+#guess::placeholder {
+    color: #333f41;
+    font-family: "Titan One", cursive;
+}
+
+#gamecont {
+    height: fit-content;
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,12 +101,12 @@ body{
 #endbuttoncont{
     position: absolute;
 }
-#gamedraw{
+#gamedraw {
     overflow: visible;
     border-radius: 30px;
     background-color: #2B5E62;
-    height: 100vh;
-    width: 100%;
+    height: 85vh;
+    width: 90vw;
     display: flex;
     padding-bottom: 0px;
     justify-content: center;
@@ -107,19 +116,51 @@ body{
     -ms-border-radius: 30px;
     -o-border-radius: 30px;
 }
-#game{
+#game {
     height: 92.5%;
     width: 95%;
-    padding: 2.5%;
+    padding: 1% 2.5% 2.5%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
 }
-#homebutton{
+
+#homebutton {
     cursor: pointer;
     position: absolute;
-    top:25px;
+    top: 25px;
     left: 15px;
+}
+
+@keyframes bounceUp {
+
+    50% {
+        transform: translateY(-136%) translateX(13%);
+    }
+
+}
+
+@keyframes bounceLittleUp {
+
+    50% {
+        transform: translateY(-134%) translateX(13%);
+    }
+}
+
+@keyframes shake {
+    25% {
+        background-color: #d96363;
+        color: white;
+        transform: translateX(16%) translateY(-133%);
+    }
+    50% {
+        transform: translateX(10%) translateY(-133%);
+    }
+    75% {
+        transform: translateX(16%) translateY(-133%);
+        background-color: #d96363;
+        color: white;
+    }
 }

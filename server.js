@@ -63,7 +63,11 @@ app.post("/api/submitscore/:setid/:gameid", async function (req, res) {
       return;
     }
   }
+  if (score <= 0) {
+    console.log("Score not submitted, too low: " + score + "(user: " + user.username + ")");
+  }
   console.log("Score submitted: " + score + "(user: " + user.username + ")");
+
   await db.submitScore(user, setid, gameid, score);
 });
 app.post("/api/createset", async function (req, res) {

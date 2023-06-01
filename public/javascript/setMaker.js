@@ -117,7 +117,7 @@ function importError(message) {
 
 function importFromCSVClipboard() {
     navigator.clipboard.readText().then(text => {
-        const lines = text.split("\n");
+        const lines = text.trim().split("\n");
         //     check to see if clipboard is valid and is actually in csv format
         if (lines.length < 2) {
             shakeError(document.getElementById("import"));
@@ -192,7 +192,10 @@ function importFromCSVClipboard() {
         for (let line of lines) {
 
             const parts = line.split(separator);
-            if (parts.length <= 2 && parts.length > 0) {
+
+            if ((parts.length <= 2 && parts.length > 0) || (
+                    parts[0] === undefined || parts[1] === undefined) ||
+                (parts[1].trim() !== "" || parts[0].trim() !== "")) {
                 let li = document.createElement("li");
                 li.innerHTML = parts[0];
                 document.getElementById("terms").appendChild(li);
