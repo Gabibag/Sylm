@@ -3,7 +3,18 @@ body{
     padding: 0;
     margin: 0;
 }
+.endbuttons:hover{
+    background-color: #4DA1A7;
+}
+#swaper:hover{
+    background-color: #4DA1A7;
+}
 #swaper{
+    font-family: 'Titan One', cursive;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border: none;
     background-color: #2B5E62;
     color: white;
@@ -44,12 +55,19 @@ body{
 
 }
 #guess{
+    text-align: center;
     padding: 0px;
-    height: 5vw;
+    height: 1vw;
     width: 80%;
+    top: 95vw;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
 }
 #gamecont{
-    height: 100vh;
+    height: 95vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -57,7 +75,16 @@ body{
     flex-direction: row;
 }
 .endbuttons{
-    
+    background-color: #2B5E62;
+    padding-left: 20px;
+    padding-right:20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    margin-left: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Titan One', cursive;
 }
 .hidden{
     display: none;
@@ -66,9 +93,10 @@ body{
     position: absolute;
 }
 #gamedraw{
+    overflow: visible;
     border-radius: 30px;
     background-color: #2B5E62;
-    height: 85vh;
+    height: 100vh;
     width: 100%;
     display: flex;
     padding-bottom: 0px;

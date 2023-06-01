@@ -197,7 +197,6 @@ app.get('/:page', async function (req, res) {
       res.sendFile(__dirname + '/public/pages/loggedin/' + p + '.html');
     }
     else {
-      //TODO mention the error within the url
       res.redirect('/login?error=NotLoggedIn')
     }
   } else {
