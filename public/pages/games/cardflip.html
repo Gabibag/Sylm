@@ -65,6 +65,14 @@
     let terms = `<!--terms-->`.split("");
     let defs = `<!--defs-->`.split("");
     let author = "<!--author-->";
+    const max_terms = 12;
+    if (terms.length > max_terms) {
+        while(terms.length > max_terms) {
+            let index = Math.floor(Math.random() * terms.length);
+            terms.splice(index, 1);
+            defs.splice(index, 1);
+        }
+    }
 
     function validMatch(one, two) {
         if (one === two) {
