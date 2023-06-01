@@ -9,7 +9,7 @@ function submit() {
     for (let v of document.getElementById("defs").children) {
         total += v.innerHTML.length;
     }
-    if (total > 5000) {
+    if (total > 100000) {
         shakeError(document.getElementById("def"));
         return;
     }
