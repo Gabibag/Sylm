@@ -127,9 +127,12 @@
             const textWidth = ctx.measureText(textToDraw.split("\n")[0]).width / 2;
             t.width = textWidth;
             t.height = height;
+            ctx.fillStyle = "#d96363";
             ctx.arc(t.pos[0], t.pos[1] + height/2, textWidth + 10, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = "black";
             DrawMultiline(ctx, textToDraw, t.pos[0], t.pos[1]);
-            ctx.stroke();
+            //ctx.stroke();
         }
         function DrawMultiline(ctx, t, x, y) {
             const lines = t.split("\n");
@@ -137,9 +140,9 @@
                 ctx.fillText(lines[i], x, y + (i * FONT_SIZE + 5));
             }
         }
-        let toUpdate = [];
-        let tick = 0;
         let time_between = 60 * 5;
+        let toUpdate = [];
+        let tick = time_between - 1;
         const himage = new Image();
         himage.src = "/images/astro-heart.svg";
         let vel = 0.05;
@@ -192,10 +195,7 @@
             for (let v of toUpdate) {
                 v.pos[1] += v.vel[1] * height / 60;
                 v.pos[0] += v.vel[0] * width / 60;
-                
-
                 v.rot += v.rotvel;
-
                 if (v.pos[1] > canvas.height) {
                     toUpdate.splice(toUpdate.indexOf(v), 1);
                     lives--;
@@ -257,12 +257,12 @@
             document.getElementById('swaper').classList.add('hidden');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             guess.addEventListener("keydown", Typed);
+            guess.focus();
             beginInterval()
         }
         function beginInterval() {
             GameTick();
             if (lives > 0) {
-
                 requestAnimationFrame(beginInterval);
             }
         }

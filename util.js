@@ -12,6 +12,13 @@ module.exports = {
         }
         );
     },
+    strToNum : function(str) {
+        let num = 0;
+        for (let i = 0; i < str.length; i++) {
+          num += str.charCodeAt(i);
+        }
+        return num;
+    },
     getAllCookieDict: function (req) {
         let cookies = this.getAllCookies(req);
         let cookieObj = {};
