@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Match the Cards!</title>
+    <link rel="stylesheet" href="/styles/cardflip.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
+
+    </style>
+    <link href="images/icon.svg" rel="icon">
+
+</head>
+<body>
+<div id="endscreen">
+    <div id="endcard">
+        <h1 id="title">Match the Cards!</h1>
+        <h2 id="endscreentext">
+            You finished in <span id="time">0</span> seconds! &#10;&#13;
+        </h2>
+        <div id="endbuttons">
+            <button
+                    id="leaderboard"
+                    onclick="window.location = '/sets/'+ setId+ '/cardflip/leaderboard'"
+            >
+                Leaderboard
+            </button>
+            <button id="set" onclick="window.location = '/sets/' + setId">
+                Back to Set
+            </button>
+            <button id="retry" onclick="location.reload()">Retry</button>
+        </div>
+    </div>
+</div>
+<div id="Start">
+    <div id="midstart">
+        <h1 class="heading">Match the Cards!</h1>
+        <p id="description">Choose the correct pairs!</p>
+        <p>Click anywhere to start</p>
+    </div>
+</div>
+<div id="game">
+    <h1 class="heading">Match the Cards!</h1>
+    <ul id="cardlist" class="itemlist"></ul>
+</div>
+<div id="termcont">
+    <ul id="terms" class="itemlist"></ul>
+    <ul id="definitions" class="itemlist"></ul>
+</div>
+<div id="timer">
+    <span id="timerbar">20</span>
+</div>
+
+<script>
+    document.addEventListener("click", function () {
+        document.getElementById("Start").style.display = "none";
+        BeginGame();
+    });
+
+    let setId = "<!--id-->";
+    let name = `<!--name--> `;
+    let description = `<!--desc-->`;
+    let terms = `<!--terms-->`.split("");
+    let defs = `<!--defs-->`.split("");
+    let author = "<!--author-->";
+
+    function validMatch(one, two) {
+        if (one === two) {
+            return false;
+        }
+        one = one.id;
+        two = two.id;
+        for (let i = 0; i < terms.length; i++) {
+            if (
+                (terms[i] === one && defs[i] === two) ||
+                (terms[i] === two && defs[i] === one)
+            ) {
+                return true;
+            }
+        }
+    }
+
+    function shuffle(list) {
+        for (let i = 0; i < list.length; i++) {
+            let rand = Math.floor(Math.random() * list.length);
+            let temp = list[i];
+            list[i] = list[rand];
+            list[rand] = temp;
+        }
+    }
+
+    let stime = null;
+    let scoreTimer = null;
+
+    function flipCard(card) {
+        card.classList.add("flipped");
+    }
+
+    function BeginGame() {
+        if (stime) {
+            return;
+        }
+        stime = new Date().getTime();
+        scoreTimer = new Date().getTime();
+
+        let mixedCards = [...terms, ...defs];
+        shuffle(mixedCards);
+
+        let cardList = document.getElementById("cardlist");
+
+        for (let i = 0; i < mixedCards.length; i++) {
+            let li = document.createElement("li");
+            li.addEventListener("click", clickTermOrDef);
+            li.innerHTML = '<span class="card-text">' + mixedCards[i] + '</span>';
+            li.id = mixedCards[i];
+            cardList.appendChild(li);
+        }
+    }
+
+    function GameOver() {
+        let terms = document.getElementById("cardlist").children;
+        for (let i = 0; i < terms.length; i++) {
+            if (
+                terms[i].style.transform !== "scale(0)" &&
+                terms[i].style.opacity !== "0"
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    let lastHit;
+
+    function flipCard(card) {
+        card.classList.add("flipped");
+        card.querySelector(".card-text").style.display = "block";
+    }
+
+    function clickTermOrDef() {
+        if (lastHit == null) {
+            lastHit = this;
+            this.classList.add("selected");
+            flipCard(this);
+            return;
+        }
+
+        this.classList.add("selected");
+        let s = this;
+        let t = lastHit;
+
+        let tElement = document.getElementById(t.id);
+        let sElement = document.getElementById(s.id);
+
+        flipCard(s);
+
+        if (validMatch(t, s)) {
+            tElement.style.transition = "1s ease-out";
+            sElement.style.transition = "1s ease-out";
+            tElement.style.transform = "scale(1.2)";
+            sElement.style.transform = "scale(1.2)";
+            tElement.style.opacity = "0";
+            sElement.style.opacity = "0";
+            setTimeout(() => {
+                tElement.style.transition = "0";
+                sElement.style.transition = "0";
+                tElement.style.display = "none";
+                sElement.style.display = "none";
+                tElement.style.transform = "scale(0)";
+                sElement.style.transform = "scale(0)";
+                tElement.removeEventListener("click", clickTermOrDef);
+                sElement.removeEventListener("click", clickTermOrDef);
+
+                if (GameOver()) {
+                    scoreTimer = new Date().getTime() - scoreTimer;
+                    clearInterval(timer);
+                    let time = new Date().getTime() - stime;
+                    document.getElementById("cardlist").innerHTML = "";
+                    document.getElementById("endscreen").style.display = "flex";
+                    document.getElementById("time").innerHTML = time / 1000;
+                    let score = Math.round(1000 * (1 / (0.01 * (scoreTimer / 1000 + 3))));
+
+                    fetch("/api/submitscore/" + setId + "/matchcard", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            score: score,
+                        }),
+                    });
+                }
+            }, 1000);
+        } else {
+            sElement.classList.remove("selected");
+            tElement.classList.remove("selected");
+            sElement.style.animation = "shakeError 0.7s forwards";
+            tElement.style.animation = "shakeError 0.7s forwards";
+            setTimeout(function () {
+                tElement.style.animation = "";
+                sElement.style.animation = "";
+                tElement.classList.remove("flipped");
+                sElement.classList.remove("flipped");
+                tElement.querySelector(".card-text").style.display = "none";
+                sElement.querySelector(".card-text").style.display = "none";
+            }, 2000);
+            scoreTimer -= 500;
+        }
+
+        lastHit = null;
+    }
+
+
+
+    let timer = setInterval(function () {
+        let time = new Date().getTime() - scoreTimer;
+        document.getElementById("timerbar").innerHTML = "Score: " + Math.round(1000 * (1 / (0.01 * (time / 1000 + 3))));
+
+    }, 100);
+
+</script>
+</body>
+</html>
