@@ -46,7 +46,11 @@ app.post('/api/submitscore/:setid/:gameid' , async function(req, res){
   let gameid = req.params.gameid;
   let score = req.body.score;
   let user = await db.getUserFromReq(req);
+  if (score <= 0) {
+    console.log("Score not submitted, too low: " + score + "(user: " + user.username + ")");
+  }
   console.log("Score submitted: " + score + "(user: " + user.username + ")");
+
   await db.submitScore(user, setid, gameid, score);
 });
 app.post('/api/createset',async function(req, res){

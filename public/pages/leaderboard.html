@@ -70,11 +70,14 @@
                         li.classList.add("third");
                         break;
                     default:
-                        if(currentIndex % 2 === 0)
+                        if (currentIndex % 2 === 0)
                             li.classList.add("even");
                         else
                             li.classList.add("odd");
                         break;
+                }
+                if (li.innerText.includes("cheater")) {
+                    li.classList.add("cheater");
                 }
                 leaderboard.appendChild(li);
             }
@@ -148,12 +151,16 @@
                         li.classList.add("third");
                         break;
                     default:
-                        if(i % 2 === 0)
+                        if (i % 2 === 0)
                             li.classList.add("even");
                         else
                             li.classList.add("odd");
                         break;
                 }
+                if (li.innerText.includes("cheater")) {
+                    li.classList.add("cheater");
+                }
+                leaderboard.appendChild(li);
                 leaderboard.appendChild(li);
             }
         })
