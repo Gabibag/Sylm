@@ -102,9 +102,9 @@
     let stime = null;
     let scoreTimer = null;
 
-    function flipCard(card) {
+    /*function flipCard(card) {
         card.classList.add("flipped");
-    }
+    }*/
 
     function BeginGame() {
         if (stime) {
@@ -151,6 +151,7 @@
         if (lastHit == null) {
             lastHit = this;
             this.classList.add("selected");
+            console.log(this);
             flipCard(this);
             return;
         }
