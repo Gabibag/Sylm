@@ -94,7 +94,7 @@
             let game = document.getElementsByClassName("gameButton")[i]
             // console.log(game.id + ", " + game)
             // see if the game is allowed
-            if (gameDict[game.id] === 1) {
+            if (gameDict[game.id] !== 0) {
                 game.addEventListener("click", () => {
                     window.location.href = window.location.href + "/play/" + game.id
                 })

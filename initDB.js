@@ -13,6 +13,7 @@ async function run() {
     await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["astronomerrush", 1])
     await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["study", 1])
     await db.db.run('INSERT INTO games (gameNames, isAllowed) VALUES (?, ?)', ["dragmatch", 1])
+    console.log("database ready")
   } else if (mode === 'clean') {
     let s = await db.db.all('SELECT * FROM sets');
     console.log(s)
